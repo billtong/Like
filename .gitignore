@@ -1,0 +1,8 @@
+# produced by make
+bin/*
+lib/pt/*
+cmd/ptc
+*.def
+*.sst
+*.out
+*.o
