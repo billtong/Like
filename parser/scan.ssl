@@ -146,14 +146,9 @@ Scan :
             | lTab:
             | ';':
                 .pSemicolon
-            | '(':
-                [
-                    | '*':
-                        @AlternateComment
-                    | *:
-                        .pLeftParen
-                ]
-            | ')':
+            | '(': % pt comment option removed from here
+                .pLeftParen
+            | ')': 
                 .pRightParen
             | '[':
                 .pLeftBracket
@@ -209,8 +204,16 @@ Scan :
                     | *:
                         .pGreater
                 ]
-            | '{':
-                @Comment
+            | '/':  % Added to look for like comments of type /* */ or //
+                [
+                    | '*':
+                        @Comment
+                    | '/':
+                        @SingleLineComment
+                    | *:
+                        ?
+                        #eIllegalChar
+                ]
             | '*':
                 .pStar
             | lNewPage:
@@ -274,12 +277,17 @@ StringLiteral :
                 oBufferSave
         ]};
 
+% Updated to look for Like /* */ comments instead of PT {} comments
 Comment :
         % Discard the contents of a comment
 
         {[
-            | '}':
-                >
+            | '*':
+                [
+                    | '/':
+                        >
+                    | *:
+                ]
             | lNewLine:
                 .pNewLine
             | lEndFile:         % comment must be closed before EOF
@@ -290,16 +298,12 @@ Comment :
                 ?
         ]};
 
-AlternateComment :
+% Added to check for Like // comments
+SingleLineComment :
         {[
-            | '*':
-                [
-                    | ')':
-                        >
-                    | *:
-                ]
             | lNewLine:
                 .pNewLine
+                >
             | lEndFile:
                 #eCommentEOF
                 .pEndFile
