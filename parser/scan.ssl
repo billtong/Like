@@ -27,7 +27,7 @@ Input :
         lSemicolon      ';'
         lQuote
         lBackslash
-        lForwardslash   '/'
+        lSlash          '/'
         lLeftAngle      '<'
         lRightAngle     '>'
         lLeftParen      '('
@@ -91,6 +91,7 @@ Output :
         %   These tokens simply represent themselves.
         pNewLine
         pEndFile
+        pSlash
         pPlus
         pMinus
         pStar
@@ -212,8 +213,7 @@ Scan :
                     | '/':
                         @SingleLineComment
                     | *:
-                        ?
-                        #eIllegalChar
+                        .pSlash
                 ]
             | '*':
                 .pStar

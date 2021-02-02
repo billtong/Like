@@ -58,6 +58,7 @@ Input :
         %   These tokens simply represent themselves.
         pNewLine
         pEndFile
+        pSlash                  '/'
         pPlus                   '+'
         pMinus                  '-'
         pStar                   '*'
