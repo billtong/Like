@@ -27,6 +27,7 @@ Input :
         lSemicolon      ';'
         lQuote
         lBackslash
+        lForwardslash   '/'
         lLeftAngle      '<'
         lRightAngle     '>'
         lLeftParen      '('
