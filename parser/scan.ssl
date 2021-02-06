@@ -27,7 +27,7 @@ Input :
         lSemicolon      ';'
         lQuote
         lBackslash
-	lSlash		'/'
+	    lSlash		    '/'
         lLeftAngle      '<'
         lRightAngle     '>'
         lLeftParen      '('
@@ -36,7 +36,9 @@ Input :
         lRightBracket   ']'
         lLeftBrace      '{'
         lRightBrace     '}'
-	lHash		'#'
+	    lHash		    '#'
+        lPercent        '%'
+        lBar            '|'
         lBlank
         lIllegal
         lNewLine
@@ -92,7 +94,7 @@ Output :
         %   These tokens simply represent themselves.
         pNewLine
         pEndFile
-	pSlash
+	    pSlash
         pPlus
         pMinus
         pStar
@@ -112,7 +114,9 @@ Output :
         pLeftBracket
         pRightBracket
         pDotDot
-	pHash
+	    pHash
+        pPercent
+        pHBar
         lastSyntaxToken = pDotDot;
 
 Error :
@@ -163,8 +167,12 @@ Scan :
                 .pLeftBracket
             | ']':
                 .pRightBracket
-	    | '#':
-		.pHash
+	        | '#':
+		        .pHash
+            | '%':
+                .pPercent
+            | '|':
+                .pBar
             | ',':
                 .pComma
             | ':':

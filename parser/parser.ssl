@@ -58,7 +58,7 @@ Input :
         %   These tokens simply represent themselves.
         pNewLine
         pEndFile
-	pSlash			'/'
+	    pSlash			        '/'
         pPlus                   '+'
         pMinus                  '-'
         pStar                   '*'
@@ -78,7 +78,9 @@ Input :
         pLeftBracket            '['
         pRightBracket           ']'
         pDotDot                 '..'
-	pHash			'#'
+	    pHash			        '#'
+        pPercent                '%'
+        pBar                    '|'
         lastSyntaxToken = pDotDot;
 
 Output :

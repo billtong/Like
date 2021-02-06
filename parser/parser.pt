@@ -908,7 +908,7 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
             charClassMap[ord(blank)] := lBlank;
             charClassMap[ord(quote)] := lQuote;
             charClassMap[ord(backslash)] := lBackslash;
-	    charClassMap[ord('/')] := lSlash;
+	        charClassMap[ord('/')] := lSlash;
             charClassMap[ord(carriagereturn)] := lCarriageReturn;
             charClassMap[ord('(')] := lLeftParen;
             charClassMap[ord(')')] := lRightParen;
@@ -926,7 +926,9 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
             charClassMap[ord(']')] := lRightBracket;
             charClassMap[ord('{')] := lLeftBrace;
             charClassMap[ord('}')] := lRightBrace;
-	    charClassMap[ord('#')] := lHash;
+	        charClassMap[ord('#')] := lHash;
+            charClassMap[ord('%')] := lPercent;
+            charClassMap[ord('|')] := lBar;
 
 
             { Initialize the scan ssl table }
