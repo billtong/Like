@@ -78,9 +78,16 @@ Input :
         pLeftBracket            '['
         pRightBracket           ']'
         pDotDot                 '..'
-	    pHash			        '#'
+	pHash		        '#'
         pPercent                '%'
         pBar                    '|'
+	pBarBar			'||'
+	pPlusEqual		'+='
+	pMinusEquals		'-='
+	pStarEquals		'*='
+	pSlashEquals		'/='
+	pPercentEquals		'%='
+	pEqualEquals		'=='
         lastSyntaxToken = pDotDot;
 
 Output :

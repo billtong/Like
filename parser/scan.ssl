@@ -27,7 +27,7 @@ Input :
         lSemicolon      ';'
         lQuote
         lBackslash
-	    lSlash		    '/'
+        lSlash	        '/'
         lLeftAngle      '<'
         lRightAngle     '>'
         lLeftParen      '('
@@ -36,7 +36,7 @@ Input :
         lRightBracket   ']'
         lLeftBrace      '{'
         lRightBrace     '}'
-	    lHash		    '#'
+        lHash	        '#'
         lPercent        '%'
         lBar            '|'
         lBlank
@@ -114,9 +114,16 @@ Output :
         pLeftBracket
         pRightBracket
         pDotDot
-	    pHash
+        pHash
         pPercent
-        pHBar
+        pBar
+	pBarBar
+	pPlusEquals
+	pMinusEquals
+	pStarEquals
+	pSlashEquals
+	pPercentEquals
+	pEqualEquals
         lastSyntaxToken = pDotDot;
 
 Error :
@@ -167,12 +174,22 @@ Scan :
                 .pLeftBracket
             | ']':
                 .pRightBracket
-	        | '#':
-		        .pHash
+	    | '#':
+		.pHash
             | '%':
-                .pPercent
+		[
+		   | '=':
+			.pPercentEquals
+		   | *:
+                	.pPercent
+		]
             | '|':
-                .pBar
+		[
+		    | '|':
+			.pBarBar
+		    | *:
+			.pBar
+		]
             | ',':
                 .pComma
             | ':':
@@ -193,13 +210,28 @@ Scan :
                     | *:
                 ]
             | '=':
-                .pEquals
+		[
+                    | '=':
+                        .pEqualEquals
+                    | *:
+                        .pEquals
+                ]
             | '+':
-                .pPlus
+		[
+                    | '=':
+                        .pPlusEquals
+                    | *:
+                        .pPlus
+                ]
             | lQuote:
                 @StringLiteral
             | '-':
-                .pMinus
+                [
+                    | '=':
+                        .pMinusEquals
+                    | *:
+                        .pMinus
+                ]
             | '.':
                 [
                     | '.':
@@ -226,9 +258,19 @@ Scan :
             | '{':
                 @Comment
 	    | '/':
-		.pSlash
+		[
+                    | '=':
+                        .pSlashEquals
+                    | *:
+                        .pSlash
+                ]
             | '*':
-                .pStar
+		[
+                    | '=':
+                        .pStarEquals
+                    | *:
+                        .pStar
+                ]
             | lNewPage:
             | lEndFile:
                 .pEndFile
