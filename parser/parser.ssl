@@ -78,6 +78,7 @@ Input :
         pLeftBracket            '['
         pRightBracket           ']'
         pDotDot                 '..'
+	pHash			'#'
         lastSyntaxToken = pDotDot;
 
 Output :

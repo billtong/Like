@@ -36,6 +36,7 @@ Input :
         lRightBracket   ']'
         lLeftBrace      '{'
         lRightBrace     '}'
+	lHash		'#'
         lBlank
         lIllegal
         lNewLine
@@ -111,6 +112,7 @@ Output :
         pLeftBracket
         pRightBracket
         pDotDot
+	pHash
         lastSyntaxToken = pDotDot;
 
 Error :
@@ -161,6 +163,8 @@ Scan :
                 .pLeftBracket
             | ']':
                 .pRightBracket
+	    | '#':
+		.pHash
             | ',':
                 .pComma
             | ':':
