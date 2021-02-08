@@ -920,7 +920,7 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
 
             charClassMap[ord(tab)] := lTab;
             charClassMap[ord(blank)] := lBlank;
-            charClassMap[ord(quote)] := lQuote;
+            charClassMap[ord('"')] := lQuote;        {was single quote}
             charClassMap[ord(backslash)] := lBackslash;
 	    charClassMap[ord('/')] := lSlash;
             charClassMap[ord(carriagereturn)] := lCarriageReturn;
