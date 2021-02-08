@@ -25,8 +25,9 @@ Input :
         lDot            '.'
         lComma          ','
         lSemicolon      ';'
-        lQuote
+        lQuote		
         lBackslash
+        lSlash	        '/'
         lLeftAngle      '<'
         lRightAngle     '>'
         lLeftParen      '('
@@ -35,6 +36,10 @@ Input :
         lRightBracket   ']'
         lLeftBrace      '{'
         lRightBrace     '}'
+        lHash	        '#'
+        lPercent        '%'
+        lBar            '|'
+	lBang		'!'
         lBlank
         lIllegal
         lNewLine
@@ -90,6 +95,7 @@ Output :
         %   These tokens simply represent themselves.
         pNewLine
         pEndFile
+	pSlash
         pPlus
         pMinus
         pStar
@@ -109,6 +115,17 @@ Output :
         pLeftBracket
         pRightBracket
         pDotDot
+        pHash
+        pPercent
+        pBar
+	pBang
+	pBarBar
+	pPlusEquals
+	pMinusEquals
+	pStarEquals
+	pSlashEquals
+	pPercentEquals
+	pEqualEquals
         lastSyntaxToken = pDotDot;
 
 Error :
@@ -159,6 +176,24 @@ Scan :
                 .pLeftBracket
             | ']':
                 .pRightBracket
+	    | '#':
+		.pHash
+            | '%':
+		[
+		   | '=':
+			.pPercentEquals
+		   | *:
+                	.pPercent
+		]
+            | '|':
+		[
+		    | '|':
+			.pBarBar
+		    | *:
+			.pBar
+		]
+	    | '!':
+		.pBang
             | ',':
                 .pComma
             | ':':
@@ -179,13 +214,28 @@ Scan :
                     | *:
                 ]
             | '=':
-                .pEquals
+		[
+                    | '=':
+                        .pEqualEquals
+                    | *:
+                        .pEquals
+                ]
             | '+':
-                .pPlus
+		[
+                    | '=':
+                        .pPlusEquals
+                    | *:
+                        .pPlus
+                ]
             | lQuote:
                 @StringLiteral
             | '-':
-                .pMinus
+                [
+                    | '=':
+                        .pMinusEquals
+                    | *:
+                        .pMinus
+                ]
             | '.':
                 [
                     | '.':
@@ -211,8 +261,20 @@ Scan :
                 ]
             | '{':
                 @Comment
+	    | '/':
+		[
+                    | '=':
+                        .pSlashEquals
+                    | *:
+                        .pSlash
+                ]
             | '*':
-                .pStar
+		[
+                    | '=':
+                        .pStarEquals
+                    | *:
+                        .pStar
+                ]
             | lNewPage:
             | lEndFile:
                 .pEndFile
