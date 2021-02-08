@@ -25,7 +25,7 @@ Input :
         lDot            '.'
         lComma          ','
         lSemicolon      ';'
-        lQuote
+        lQuote		
         lBackslash
         lSlash	        '/'
         lLeftAngle      '<'
@@ -39,6 +39,7 @@ Input :
         lHash	        '#'
         lPercent        '%'
         lBar            '|'
+	lBang		'!'
         lBlank
         lIllegal
         lNewLine
@@ -94,7 +95,7 @@ Output :
         %   These tokens simply represent themselves.
         pNewLine
         pEndFile
-	    pSlash
+	pSlash
         pPlus
         pMinus
         pStar
@@ -117,6 +118,7 @@ Output :
         pHash
         pPercent
         pBar
+	pBang
 	pBarBar
 	pPlusEquals
 	pMinusEquals
@@ -190,6 +192,8 @@ Scan :
 		    | *:
 			.pBar
 		]
+	    | '!':
+		.pBang
             | ',':
                 .pComma
             | ':':
