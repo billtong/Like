@@ -1,0 +1,6 @@
+Purpose: To test that the old pt comments styles (* *) and { } no 
+longer function as comments but instead output the tokens in the file
+
+Result:
+The actual output matched with the the expected output given in 
+commentOld.eOutput 

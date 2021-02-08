@@ -1,0 +1,7 @@
+Purpose: To test that the new /* */ multiline comments work. 
+Contents of the comments should be discarded and only new line tokens 
+emmitted.
+
+Result:
+The actual output matched with the the expected output given in 
+commentMutliline.eOutput 

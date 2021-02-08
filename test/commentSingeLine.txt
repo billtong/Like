@@ -1,0 +1,7 @@
+Purpose: To test that the new // single line comments work. 
+Contents of the comments should be discarded and the correct number
+of new lines should be emmitted. 
+
+Result:
+The actual output matched with the the expected output given in 
+commentSingleLine.eOutput 

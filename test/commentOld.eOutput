@@ -1,0 +1,13 @@
+.pLeftParen
+ .pStar
+  .pIdentifier
+  % Output token text 'comment'
+ .pStar
+ .pRightParen
+ .pNewLine
+ .pLeftBrace
+  .pIdentifier
+  % Output token text 'comment'
+ .pRightBrace
+ .pNewLine
+ .pEndFile
