@@ -1,4 +1,0 @@
-put("a"); 
-putln;
-get();
-getln();
