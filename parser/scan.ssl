@@ -256,15 +256,19 @@ Scan :
                 ]
             | '{':
                 @Comment
-	    | '/':
-		[
+	        | '/': 
+                [
+                    | '*':   % Added to look for like comments of type /* */ 
+                        @Comment
+                    | '/':   % Added to look for like comments of type /* */ 
+                        @SingleLineComment
                     | '=':
                         .pSlashEquals
                     | *:
                         .pSlash
                 ]
             | '*':
-		[
+		        [
                     | '=':
                         .pStarEquals
                     | *:
