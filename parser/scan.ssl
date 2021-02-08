@@ -25,7 +25,7 @@ Input :
         lDot            '.'
         lComma          ','
         lSemicolon      ';'
-        lQuote
+        lQuote		
         lBackslash
         lSlash          '/'
         lLeftAngle      '<'
@@ -36,6 +36,10 @@ Input :
         lRightBracket   ']'
         lLeftBrace      '{'
         lRightBrace     '}'
+        lHash	        '#'
+        lPercent        '%'
+        lBar            '|'
+	lBang		'!'
         lBlank
         lIllegal
         lNewLine
@@ -111,6 +115,17 @@ Output :
         pLeftBracket
         pRightBracket
         pDotDot
+        pHash
+        pPercent
+        pBar
+	pBang
+	pBarBar
+	pPlusEquals
+	pMinusEquals
+	pStarEquals
+	pSlashEquals
+	pPercentEquals
+	pEqualEquals
         lastSyntaxToken = pDotDot;
 
 Error :
@@ -156,6 +171,24 @@ Scan :
                 .pLeftBracket
             | ']':
                 .pRightBracket
+	    | '#':
+		.pHash
+            | '%':
+		[
+		   | '=':
+			.pPercentEquals
+		   | *:
+                	.pPercent
+		]
+            | '|':
+		[
+		    | '|':
+			.pBarBar
+		    | *:
+			.pBar
+		]
+	    | '!':
+		.pBang
             | ',':
                 .pComma
             | ':':
@@ -176,13 +209,28 @@ Scan :
                     | *:
                 ]
             | '=':
-                .pEquals
+		[
+                    | '=':
+                        .pEqualEquals
+                    | *:
+                        .pEquals
+                ]
             | '+':
-                .pPlus
+		[
+                    | '=':
+                        .pPlusEquals
+                    | *:
+                        .pPlus
+                ]
             | lQuote:
                 @StringLiteral
             | '-':
-                .pMinus
+                [
+                    | '=':
+                        .pMinusEquals
+                    | *:
+                        .pMinus
+                ]
             | '.':
                 [
                     | '.':
@@ -206,17 +254,22 @@ Scan :
                     | *:
                         .pGreater
                 ]
-            | '/':  % Added to look for like comments of type /* */ or //
-                [
-                    | '*':
-                        @Comment
-                    | '/':
-                        @SingleLineComment
+            | '{':
+                @Comment
+	    | '/':
+		[
+                    | '=':
+                        .pSlashEquals
                     | *:
                         .pSlash
                 ]
             | '*':
-                .pStar
+		[
+                    | '=':
+                        .pStarEquals
+                    | *:
+                        .pStar
+                ]
             | lNewPage:
             | lEndFile:
                 .pEndFile
