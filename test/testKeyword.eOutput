@@ -1,0 +1,102 @@
+  .pIdentifier (screened to pUsing)
+  .pIdentifier
+  % Output token text 'output'
+ .pSemicolon
+ .pNewLine
+  .pIdentifier (screened to pFun)
+  .pIdentifier
+  % Output token text 'q'
+  .pIdentifier
+  % Output token text 'is'
+ .pNewLine
+  .pIdentifier (screened to pEnd)
+ .pSemicolon
+ .pNewLine
+ .pNewLine
+  .pIdentifier
+  % Output token text 'pkg'
+  .pIdentifier
+  % Output token text 'stack'
+  .pIdentifier
+  % Output token text 'is'
+ .pNewLine
+  .pIdentifier (screened to pPublic)
+  .pIdentifier (screened to pVal)
+  .pIdentifier
+  % Output token text 'const'
+ .pEquals
+  .pInteger
+  % Output token text '1'
+ .pSemicolon
+ .pNewLine
+  .pIdentifier (screened to pVar)
+  .pIdentifier
+  % Output token text 'str'
+ .pColon
+  .pIdentifier
+  % Output token text 'like'
+ #eIllegalChar
+ #eIllegalChar
+ .pSemicolon
+ .pNewLine
+  .pIdentifier (screened to pEnd)
+ .pSemicolon
+ .pNewLine
+ .pNewLine
+  .pIdentifier (screened to pIf)
+ .pLeftParen
+  .pIdentifier
+  % Output token text 'str'
+ .pEqualEquals
+ #eIllegalChar
+  .pIdentifier
+  % Output token text 'a'
+ #eIllegalChar
+ .pRightParen
+ .pNewLine
+  .pIdentifier (screened to pElseIf)
+ .pLeftParen
+  .pIdentifier
+  % Output token text 'str'
+ .pEqualEquals
+ #eIllegalChar
+ #eIllegalChar
+ .pRightParen
+ .pNewLine
+  .pIdentifier (screened to pEnd)
+ .pSemicolon
+ .pNewLine
+ .pNewLine
+  .pIdentifier (screened to pChoose)
+  .pIdentifier
+  % Output token text 'str'
+  .pIdentifier (screened to pOf)
+ .pNewLine
+  .pIdentifier
+  % Output token text 'when'
+ #eIllegalChar
+ #eIllegalChar
+  .pIdentifier (screened to pThen)
+ .pNewLine
+  .pIdentifier (screened to pElse)
+ .pNewLine
+  .pIdentifier (screened to pEnd)
+ .pSemicolon
+ .pNewLine
+ .pNewLine
+  .pIdentifier (screened to pRepeat)
+  .pIdentifier (screened to pWhile)
+ .pLeftParen
+  .pIdentifier
+  % Output token text 'str'
+ .pEqualEquals
+ #eIllegalChar
+  .pIdentifier
+  % Output token text 'b'
+ #eIllegalChar
+ .pRightParen
+ .pNewLine
+  .pIdentifier (screened to pEnd)
+ .pSemicolon
+ .pNewLine
+ .pEndFile
