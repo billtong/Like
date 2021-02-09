@@ -171,24 +171,24 @@ Scan :
                 .pLeftBracket
             | ']':
                 .pRightBracket
-	    | '#':
-		.pHash
+	        | '#':
+		        .pHash
             | '%':
-		[
-		   | '=':
-			.pPercentEquals
-		   | *:
-                	.pPercent
-		]
+                [
+                    | '=':
+                        .pPercentEquals
+                    | *:
+                        .pPercent
+                ]
             | '|':
-		[
-		    | '|':
-			.pBarBar
-		    | *:
-			.pBar
-		]
-	    | '!':
-		.pBang
+                [
+                    | '|':
+                    .pBarBar
+                    | *:
+                    .pBar
+                ]
+            | '!':
+                .pBang
             | ',':
                 .pComma
             | ':':
@@ -209,14 +209,14 @@ Scan :
                     | *:
                 ]
             | '=':
-		[
+		        [
                     | '=':
                         .pEqualEquals
                     | *:
                         .pEquals
                 ]
             | '+':
-		[
+		        [
                     | '=':
                         .pPlusEquals
                     | *:
@@ -254,13 +254,11 @@ Scan :
                     | *:
                         .pGreater
                 ]
-            | '{':
-                @Comment
 	        | '/': 
                 [
                     | '*':   % Added to look for like comments of type /* */ 
                         @Comment
-                    | '/':   % Added to look for like comments of type /* */ 
+                    | '/':   % Added to look for like comments of type // 
                         @SingleLineComment
                     | '=':
                         .pSlashEquals
