@@ -1,0 +1,7 @@
+Purpose: 
+To test that strings emit a pStringLiteral token. Strings containing just 
+characters, as well as strings containing numbers and symbols are tested.
+
+Result: 
+The actual output matched with the the expected output given in 
+stringRegular.eOutput 

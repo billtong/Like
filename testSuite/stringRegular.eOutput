@@ -1,0 +1,9 @@
+  .pStringLiteral
+  % Output token text 'This is a test for a string'
+ .pNewLine
+  .pStringLiteral
+  % Output token text 'This is is another test containing numbers 12345'
+ .pNewLine
+  .pStringLiteral
+  % Output token text 'This is is another test containing symbols *()#'
+ .pEndFile

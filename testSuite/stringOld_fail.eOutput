@@ -1,0 +1,17 @@
+ #eIllegalChar
+  .pIdentifier
+  % Output token text 'this'
+  .pIdentifier
+  % Output token text 'string'
+  .pIdentifier
+  % Output token text 'is'
+  .pIdentifier
+  % Output token text 'in'
+  .pIdentifier
+  % Output token text 'the'
+  .pIdentifier
+  % Output token text 'old'
+  .pIdentifier
+  % Output token text 'format'
+ #eIllegalChar
+ .pEndFile
