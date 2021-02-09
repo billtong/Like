@@ -1,13 +1,13 @@
-.pLeftParen
+ .pLeftParen
  .pStar
   .pIdentifier
   % Output token text 'comment'
  .pStar
  .pRightParen
  .pNewLine
- .pLeftBrace
+ #eIllegalChar
   .pIdentifier
   % Output token text 'comment'
- .pRightBrace
+ #eIllegalChar
  .pNewLine
  .pEndFile
