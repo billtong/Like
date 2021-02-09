@@ -1,0 +1,7 @@
+Purpose: 
+To test that the old string format using single quotes (')
+not longer emits a pStringLiteral token.
+
+Result: 
+The actual output matched with the the expected output given in 
+strongOld_fail.eOutput 

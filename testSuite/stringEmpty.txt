@@ -1,0 +1,6 @@
+Purpose: 
+To test that the null string "" emits a pString literal token. 
+
+Result: 
+The actual output matched with the the expected output given in 
+stringEmpty.eOutput 
