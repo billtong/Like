@@ -27,7 +27,7 @@ Input :
         lSemicolon      ';'
         lQuote		
         lBackslash
-        lSlash	        '/'
+        lSlash          '/'
         lLeftAngle      '<'
         lRightAngle     '>'
         lLeftParen      '('
@@ -95,7 +95,7 @@ Output :
         %   These tokens simply represent themselves.
         pNewLine
         pEndFile
-	pSlash
+        pSlash
         pPlus
         pMinus
         pStar
@@ -163,37 +163,32 @@ Scan :
             | lTab:
             | ';':
                 .pSemicolon
-            | '(':
-                [
-                    | '*':
-                        @AlternateComment
-                    | *:
-                        .pLeftParen
-                ]
-            | ')':
+            | '(': % pt comment option removed from here
+                .pLeftParen
+            | ')': 
                 .pRightParen
             | '[':
                 .pLeftBracket
             | ']':
                 .pRightBracket
-	    | '#':
-		.pHash
+	        | '#':
+		        .pHash
             | '%':
-		[
-		   | '=':
-			.pPercentEquals
-		   | *:
-                	.pPercent
-		]
+                [
+                    | '=':
+                        .pPercentEquals
+                    | *:
+                        .pPercent
+                ]
             | '|':
-		[
-		    | '|':
-			.pBarBar
-		    | *:
-			.pBar
-		]
-	    | '!':
-		.pBang
+                [
+                    | '|':
+                    .pBarBar
+                    | *:
+                    .pBar
+                ]
+            | '!':
+                .pBang
             | ',':
                 .pComma
             | ':':
@@ -214,14 +209,14 @@ Scan :
                     | *:
                 ]
             | '=':
-		[
+		        [
                     | '=':
                         .pEqualEquals
                     | *:
                         .pEquals
                 ]
             | '+':
-		[
+		        [
                     | '=':
                         .pPlusEquals
                     | *:
@@ -259,17 +254,19 @@ Scan :
                     | *:
                         .pGreater
                 ]
-            | '{':
-                @Comment
-	    | '/':
-		[
+	        | '/': 
+                [
+                    | '*':   % Added to look for like comments of type /* */ 
+                        @Comment
+                    | '/':   % Added to look for like comments of type // 
+                        @SingleLineComment
                     | '=':
                         .pSlashEquals
                     | *:
                         .pSlash
                 ]
             | '*':
-		[
+		        [
                     | '=':
                         .pStarEquals
                     | *:
@@ -336,12 +333,17 @@ StringLiteral :
                 oBufferSave
         ]};
 
+% Updated to look for Like /* */ comments instead of PT {} comments
 Comment :
         % Discard the contents of a comment
 
         {[
-            | '}':
-                >
+            | '*':
+                [
+                    | '/':
+                        >
+                    | *:
+                ]
             | lNewLine:
                 .pNewLine
             | lEndFile:         % comment must be closed before EOF
@@ -352,16 +354,12 @@ Comment :
                 ?
         ]};
 
-AlternateComment :
+% Added to check for Like // comments
+SingleLineComment :
         {[
-            | '*':
-                [
-                    | ')':
-                        >
-                    | *:
-                ]
             | lNewLine:
                 .pNewLine
+                >
             | lEndFile:
                 #eCommentEOF
                 .pEndFile

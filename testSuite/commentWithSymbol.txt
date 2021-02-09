@@ -1,0 +1,8 @@
+Purpose: 
+To test comments that have symbols in them such as *, ( , [ and /
+to ensure they don't cause issues. 
+
+Result: 
+The actual output matched with the the expected output given in 
+commentWithSymbol.eOutput 
+
