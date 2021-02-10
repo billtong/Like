@@ -1,0 +1,6 @@
+Token Double Bar:
+Purpose: 
+Ensure new || properly matches .pBarBar
+
+Result:
+successfully produces .pBarBar when expected.

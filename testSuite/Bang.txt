@@ -1,0 +1,6 @@
+Token Bang:
+Purpose: 
+Ensure new ! properly matches .pBang
+
+Result:
+successfully produces .pBang when expected.

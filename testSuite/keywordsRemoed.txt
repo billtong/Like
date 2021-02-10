@@ -1,0 +1,7 @@
+Purpose:
+To test all remoed keywords includes: array, begin, case, const, div, do, mod, procedure, program, type, until
+
+
+Result:
+The actual output matched with the expected output given 
+in keywordsRemoed.eOutput

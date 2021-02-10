@@ -1,0 +1,24 @@
+  .pIdentifier (screened to pChoose)
+ .pNewLine
+  .pIdentifier (screened to pElseIf)
+ .pNewLine
+  .pIdentifier (screened to pFun)
+ .pNewLine
+  .pIdentifier
+  % Output token text 'is'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'like'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'pkg'
+ .pNewLine
+  .pIdentifier (screened to pPublic)
+ .pNewLine
+  .pIdentifier (screened to pUsing)
+ .pNewLine
+  .pIdentifier (screened to pVal)
+ .pNewLine
+  .pIdentifier
+  % Output token text 'when'
+ .pEndFile

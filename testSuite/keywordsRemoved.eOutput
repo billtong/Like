@@ -1,0 +1,33 @@
+  .pIdentifier
+  % Output token text 'array'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'begin'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'case'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'const'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'div'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'do'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'mod'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'procedure'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'program'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'type'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'until'
+ .pEndFile

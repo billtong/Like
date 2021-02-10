@@ -1,0 +1,15 @@
+ .pBang
+ .pNewLine
+ .pBang
+  .pIdentifier
+  % Output token text 'text'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'right'
+ .pBang
+ .pNewLine
+  .pIdentifier
+  % Output token text 'space'
+ .pBang
+ .pNewLine
+ .pEndFile

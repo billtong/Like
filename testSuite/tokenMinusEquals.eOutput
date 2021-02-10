@@ -1,0 +1,37 @@
+  .pIdentifier
+  % Output token text 'hi'
+ .pNewLine
+ .pMinusEquals
+ .pNewLine
+  .pIdentifier
+  % Output token text 'bonjour'
+ .pMinusEquals
+ .pNewLine
+ .pMinusEquals
+  .pIdentifier
+  % Output token text 'hello'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'sup'
+ .pMinusEquals
+ .pNewLine
+ .pMinus
+ .pMinusEquals
+ .pMinus
+ .pEquals
+ .pMinus
+  .pIdentifier
+  % Output token text 'p'
+ .pEquals
+ .pNewLine
+ .pEquals
+ .pMinusEquals
+ .pEquals
+  .pInteger
+  % Output token text '0'
+ .pEquals
+ .pNewLine
+  .pIdentifier
+  % Output token text 'done'
+ .pNewLine
+ .pEndFile

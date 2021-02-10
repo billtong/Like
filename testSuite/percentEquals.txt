@@ -1,0 +1,6 @@
+Token Percent equals:
+Purpose: 
+Ensure new %= properly matches .pPercentEquals
+
+Result:
+successfully produces .pPercentEquals when expected. 

@@ -1,0 +1,28 @@
+  .pIdentifier
+  % Output token text 'hi'
+ .pNewLine
+ .pEqualEquals
+ .pNewLine
+  .pIdentifier
+  % Output token text 'bonjour'
+ .pEqualEquals
+ .pNewLine
+ .pEqualEquals
+  .pIdentifier
+  % Output token text 'hello'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'sup'
+ .pEqualEquals
+ .pNewLine
+ .pEquals
+ .pEquals
+ .pEquals
+ .pNewLine
+ .pEquals
+ .pEquals
+ .pNewLine
+  .pIdentifier
+  % Output token text 'done'
+ .pNewLine
+ .pEndFile

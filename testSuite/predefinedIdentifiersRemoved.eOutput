@@ -1,0 +1,12 @@
+  .pIdentifier
+  % Output token text 'read'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'readin'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'write'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'writein'
+ .pEndFile

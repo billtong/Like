@@ -1,0 +1,8 @@
+Token SlashEquals:
+Purpose: 
+Ensure new /= properly matches .pSlashEquals
+
+
+Result:
+successfully produces .pSlashEquals when expected. 
+------------------------------------------------------

@@ -35,8 +35,8 @@
  .pColon
   .pIdentifier
   % Output token text 'like'
- #eIllegalChar
- #eIllegalChar
+  .pStringLiteral
+  % Output token text ''
  .pSemicolon
  .pNewLine
   .pIdentifier (screened to pEnd)
@@ -48,10 +48,8 @@
   .pIdentifier
   % Output token text 'str'
  .pEqualEquals
- #eIllegalChar
-  .pIdentifier
+  .pStringLiteral
   % Output token text 'a'
- #eIllegalChar
  .pRightParen
  .pNewLine
   .pIdentifier (screened to pElseIf)
@@ -59,8 +57,8 @@
   .pIdentifier
   % Output token text 'str'
  .pEqualEquals
- #eIllegalChar
- #eIllegalChar
+  .pStringLiteral
+  % Output token text ''
  .pRightParen
  .pNewLine
   .pIdentifier (screened to pEnd)
@@ -74,8 +72,8 @@
  .pNewLine
   .pIdentifier
   % Output token text 'when'
- #eIllegalChar
- #eIllegalChar
+  .pStringLiteral
+  % Output token text ''
   .pIdentifier (screened to pThen)
  .pNewLine
   .pIdentifier (screened to pElse)
@@ -90,10 +88,8 @@
   .pIdentifier
   % Output token text 'str'
  .pEqualEquals
- #eIllegalChar
-  .pIdentifier
+  .pStringLiteral
   % Output token text 'b'
- #eIllegalChar
  .pRightParen
  .pNewLine
   .pIdentifier (screened to pEnd)

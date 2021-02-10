@@ -1,0 +1,7 @@
+Token equals equals:
+Purpose: 
+Ensure new == properly matches .pEqualEquals
+
+Result:
+successfully produces .pEqualEquals when expected.
+--------------------------------------------------------------

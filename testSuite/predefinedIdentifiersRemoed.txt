@@ -1,0 +1,6 @@
+Purpose:
+To test all removed predefined Identifiers: read, readln, write, writeln
+
+Result:
+The actual output matched with the expected output given 
+in predefinedIdentifiersRemoed.eOutput

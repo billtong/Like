@@ -1,0 +1,6 @@
+Token PlusEquals:
+Purpose: 
+Ensure new += properly matches .pPlusEquals
+
+Result:
+successfully produces .pPlusEquals when expected. 

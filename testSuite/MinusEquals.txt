@@ -1,0 +1,6 @@
+Token Minus equals:
+Purpose: 
+Ensure new -= properly matches .pMinusEquals
+
+Result:
+successfully produces .pMinusEquals when expected.

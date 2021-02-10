@@ -1,0 +1,21 @@
+  .pIdentifier
+  % Output token text 'hi'
+ .pNewLine
+ .pHash
+ .pNewLine
+  .pIdentifier
+  % Output token text 'bonjour'
+ .pHash
+ .pNewLine
+ .pHash
+  .pIdentifier
+  % Output token text 'hello'
+ .pNewLine
+  .pIdentifier
+  % Output token text 'sup'
+ .pHash
+ .pNewLine
+  .pIdentifier
+  % Output token text 'done'
+ .pNewLine
+ .pEndFile

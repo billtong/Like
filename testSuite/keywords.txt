@@ -1,0 +1,7 @@
+Purpose:
+To test all new added keywords includes: choose, elseif, fun, is, like, pkg, public, using, val, when
+
+
+Result:
+The actual output matched with the expected output given 
+in keywords.eOutput

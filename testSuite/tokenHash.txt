@@ -1,0 +1,6 @@
+Token Hash:
+Purpose: 
+Ensure new # properly matches .pHash
+
+Result:
+successfully produces .pHash when expected.

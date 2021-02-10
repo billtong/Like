@@ -1,0 +1,7 @@
+Token star equals:
+Purpose: 
+Ensure new *= properly matches .pStarEquals
+
+Result:
+successfully produces .pStarEquals when expected. 
+-------------------------------------------------
