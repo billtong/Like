@@ -4,14 +4,11 @@
  .pNewLine
   .pIdentifier (screened to pFun)
  .pNewLine
-  .pIdentifier
-  % Output token text 'is'
+  .pIdentifier (screened to pIs)
  .pNewLine
-  .pIdentifier
-  % Output token text 'like'
+  .pIdentifier (screened to pLike)
  .pNewLine
-  .pIdentifier
-  % Output token text 'pkg'
+  .pIdentifier (screened to pPkg)
  .pNewLine
   .pIdentifier (screened to pPublic)
  .pNewLine
@@ -19,6 +16,5 @@
  .pNewLine
   .pIdentifier (screened to pVal)
  .pNewLine
-  .pIdentifier
-  % Output token text 'when'
+  .pIdentifier (screened to pWhen)
  .pEndFile
