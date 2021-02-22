@@ -1,6 +1,6 @@
   .pIdentifier (screened to pChoose)
  .pNewLine
-  .pIdentifier (screened to pElseIf)
+  .pIdentifier (screened to pElseif)
  .pNewLine
   .pIdentifier (screened to pFun)
  .pNewLine

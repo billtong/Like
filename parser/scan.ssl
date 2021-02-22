@@ -73,7 +73,7 @@ Output :
         pWhile
         pRepeat
         pIs
-        pElseIf
+        pElseif
         pWhen
         pLike
         pPkg

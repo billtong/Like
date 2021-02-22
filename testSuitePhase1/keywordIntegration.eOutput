@@ -48,7 +48,7 @@
   % Output token text 'a'
  .pRightParen
  .pNewLine
-  .pIdentifier (screened to pElseIf)
+  .pIdentifier (screened to pElseif)
  .pLeftParen
   .pIdentifier
   % Output token text 'str'
