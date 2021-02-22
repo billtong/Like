@@ -21,11 +21,11 @@ if
 choose
 while
 repeat
-is		
+is
 elseif
-when	
-like	
-pkg		
+when
+like
+pkg
 public
 % End of keywords
 
