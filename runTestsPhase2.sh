@@ -4,7 +4,7 @@ counterPass=0
 counterMissed=0
 counter=0
 
-for i in testSuite/*.pt; do
+for i in testSuitePhase2/*.pt; do
 	echo "Conducting test on" $i
 	outFile=$(echo $i | sed s/pt$/eOutput/)
 
@@ -16,7 +16,7 @@ for i in testSuite/*.pt; do
 		continue
 	fi
 
-	ssltrace "ptc -o1 -t1 -L lib/pt $i" lib/pt/scan.def -e | diff $outFile -
+	ssltrace "ptc -o2 -t2 -L lib/pt $i" lib/pt/parser.def -e | diff $outFile -
 
 	if [[ $? -ne 0 ]]; then
 		echo "FAILED"
