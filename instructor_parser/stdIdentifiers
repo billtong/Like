@@ -1,37 +1,39 @@
-% Keywords and predeclared identifiers of PT Pascal 
-% Version 5.0 - 10 Dec 2020
+% Keywords and predeclared identifiers of PT Pascal    Ver. 4.1
+%   The total number of keywords and predeclared identifiers in this file
+%   must be the same as the value of numberStdIdentifiers in parser.pt
 
 % Language keywords 
 %   These must be in the exact same order as the keyword token definitions 
 %   in the Output section of scan.ssl and the Input section of parser.ssl
 
-or
-and
-not
-then
-else
-of
-end
-file
 using
+public
 val
 var
-fun
-if
-choose
-while
-repeat
-is
-elseif
-when
+file
 like
+fun
+is
 pkg
-public
+if
+then
+elseif
+else
+end
+repeat
+while
+choose
+of
+when
+and
+or
+not
+
 % End of keywords
 
 % Predeclared identifiers
-%   These must be in the exact same order as the PredeclaredId 
-%   type definition in semantic.ssl.  
+%   These must be in the exact same order as the PredeclaredId type definition
+%   in semantic.ssl.  
 
 % Predeclared type names
 integer
@@ -46,10 +48,10 @@ false
 % Predeclared procedures and functions
 reset
 rewrite
-write
-writeln
-read
-readln
+put
+putln
+get
+getln
 chr
 ord
 eoln
