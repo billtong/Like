@@ -3,8 +3,7 @@
   % Output token text 'this'
   .pIdentifier
   % Output token text 'string'
-  .pIdentifier
-  % Output token text 'is'
+  .pIdentifier (screened to pIs)
   .pIdentifier
   % Output token text 'in'
   .pIdentifier
