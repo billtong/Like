@@ -17,31 +17,30 @@ Input :
         % Keywords must be first both here and in stdIdentifiers,
         % and they must appear in the exact same order
 
-        pDiv                    'div'
-        firstKeywordToken = pDiv
-        pMod                    'mod'
         pOr                     'or'
+        firstKeywordToken = pOr
         pAnd                    'and'
         pNot                    'not'
         pThen                   'then'
         pElse                   'else'
         pOf                     'of'
         pEnd                    'end'
-        pUntil                  'until'
-        pDo                     'do'
-        pArray                  'array'
         pFile                   'file'
-        pProgram                'program'
-        pConst                  'const'
+        pUsing                  'using'
+        pVal                    'val'
         pVar                    'var'
-        pType                   'type'
-        pProcedure              'procedure'
-        pBegin                  'begin'
+        pFun                    'fun'
         pIf                     'if'
-        pCase                   'case'
+        pChoose                 'choose'
         pWhile                  'while'
         pRepeat                 'repeat'
-        lastKeywordToken = pRepeat 
+        pIs                     'is'
+        pElseif                 'elseif'
+        pWhen                   'when'
+        pLike                   'like'
+        pPkg                    'pkg'
+        pPublic                 'public'
+        lastKeywordToken = pPublic 
 
         % Scanner tokens -
         %   These are the tokens actually recognized by the Scanner itself.
@@ -78,16 +77,17 @@ Input :
         pLeftBracket            '['
         pRightBracket           ']'
         pDotDot                 '..'
-	pHash		        '#'
+	    pHash		            '#'
         pPercent                '%'
         pBar                    '|'
-	pBarBar			'||'
-	pPlusEqual		'+='
-	pMinusEquals		'-='
-	pStarEquals		'*='
-	pSlashEquals		'/='
-	pPercentEquals		'%='
-	pEqualEquals		'=='
+	    pBang                   '!'
+        pBarBar		        	'||'
+	    pPlusEqual	         	'+='
+	    pMinusEquals	     	'-='
+	    pStarEquals		        '*='
+	    pSlashEquals	     	'/='
+	    pPercentEquals	    	'%='
+	    pEqualEquals	    	'=='
         lastSyntaxToken = pDotDot;
 
 Output :
@@ -102,7 +102,7 @@ Output :
         sParmBegin
         sParmEnd
         sConst
-        sType
+        sLike
         sVar
         sProcedure
         sBegin
@@ -143,6 +143,14 @@ Output :
         sAnd
         sNot
         sNewLine
+        sPackage
+        sPublic
+        sConcatenate
+        sRepeatString
+        sSubstring
+        sLength
+        sInitialValue
+        sCaseElse
         sEndOfFile
         lastSemanticToken = sEndOfFile;
 

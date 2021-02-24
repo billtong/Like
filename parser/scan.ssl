@@ -118,14 +118,14 @@ Output :
         pHash
         pPercent
         pBar
-	pBang
-	pBarBar
-	pPlusEquals
-	pMinusEquals
-	pStarEquals
-	pSlashEquals
-	pPercentEquals
-	pEqualEquals
+        pBang
+        pBarBar
+        pPlusEquals
+        pMinusEquals
+        pStarEquals
+        pSlashEquals
+        pPercentEquals
+        pEqualEquals
         lastSyntaxToken = pDotDot;
 
 Error :
