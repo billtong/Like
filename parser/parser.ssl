@@ -344,10 +344,7 @@ ProcedureHeading :
         .sParmEnd;
 
 Statement :
-        [
-            | *:
-               @Block
-        ];
+	@Block;
 
 AssignmentOrCallStmt :
         [
@@ -464,7 +461,7 @@ WhileStmt :
         .sWhileStmt
         @Expression
         .sExpnEnd
-        'do'
+        'repeat'
         @Statement;
 
 RepeatStmt :
@@ -473,7 +470,7 @@ RepeatStmt :
             @Statement
             [
                 | ';':
-                | 'until':
+                | 'while':
                     .sRepeatEnd
                     >
             ]
