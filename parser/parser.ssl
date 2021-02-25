@@ -158,7 +158,7 @@ Output :
 rules
 
 Program :
-        'program'  .sProgram
+   %     'program'  .sProgram
         % program name
         pIdentifier
         % program parameters
@@ -181,26 +181,26 @@ Block :
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
         {[
-            | 'const':
-                .sConst
-                @ConstantDefinitions
-            | 'type':
-                .sType
-                @TypeDefinitions
+          %  | 'const':
+          %      .sConst
+          %      @ConstantDefinitions
+         %   | 'type':
+          %      .sType
+          %      @TypeDefinitions
             | 'var':
                 .sVar
                 @VariableDeclarations
-            | 'procedure':
-                .sProcedure
-                % procedure name
-                pIdentifier  .sIdentifier
-                @ProcedureHeading
-                @Block  ';'
+       %     | 'procedure':
+        %        .sProcedure
+        %        % procedure name
+        %        pIdentifier  .sIdentifier
+         %       @ProcedureHeading
+         %       @Block  ';'
             | *:
                 >
-        ]}
-        'begin'
-        @BeginStmt;
+        ]};
+     %   'begin'
+      %  @BeginStmt;
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
@@ -251,10 +251,10 @@ TypeDefinitions :
 
 TypeBody :
         [
-            | 'array':
-                .sArray
-                '['  @SimpleType  ']'
-                'of'  @SimpleType
+      %      | 'array':
+        %        .sArray
+        %        '['  @SimpleType  ']'
+         %       'of'  @SimpleType
             | 'file':
                 .sFile
                 'of'  @SimpleType
@@ -335,14 +335,14 @@ Statement :
         [
             | pIdentifier:
                 @AssignmentOrCallStmt
-            | 'begin':
-                @BeginStmt
+         %   | 'begin':
+         %       @BeginStmt
             | 'if':
                 @IfStmt
             | 'while':
                 @WhileStmt
-            | 'case':
-                @CaseStmt
+      %      | 'case':
+       %         @CaseStmt
             | 'repeat':
                 @RepeatStmt
             | *:
@@ -463,19 +463,20 @@ CaseAlternative :
 WhileStmt :
         .sWhileStmt
         @Expression
-        .sExpnEnd
-        'do'
-        @Statement;
+        .sExpnEnd; %moved semi colon here for make to work
+    %    'do'
+    %    @Statement;
 
 RepeatStmt :
         .sRepeatStmt
         {
             @Statement
             [
-                | ';':
-                | 'until':
-                    .sRepeatEnd
-                    >
+               | ';':
+                    > %added exit condition for make to work
+           %    | 'until':
+             %       .sRepeatEnd
+             %       >
             ]
         }
         @Expression
@@ -524,10 +525,10 @@ Term :
         {[
             | '*':
                 @Factor  .sMultiply
-            | 'div':
-                @Factor  .sDivide
-            | 'mod':
-                @Factor  .sModulus
+      %      | 'div':
+       %         @Factor  .sDivide
+        %    | 'mod':
+        %        @Factor  .sModulus
             | 'and':
                 .sInfixAnd  @Factor  .sAnd
             | *:
