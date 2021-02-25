@@ -190,6 +190,10 @@ Block :
                 @IfStmt
             | 'while':
 	 	@WhileStmt
+	    | 'choose':
+		@CaseStmt
+	    | 'repeat':
+	        @RepeatStmt
             | 'const':
                 .sConst
                 @ConstantDefinitions
@@ -341,20 +345,8 @@ ProcedureHeading :
 
 Statement :
         [
-            | pIdentifier:
-                @AssignmentOrCallStmt
-            | 'begin':
-                @BeginStmt
-            | 'if':
-                @IfStmt
-            | 'while':
-                @WhileStmt
-            | 'case':
-                @CaseStmt
-            | 'repeat':
-                @RepeatStmt
             | *:
-                .sNullStmt
+               @Block
         ];
 
 AssignmentOrCallStmt :
@@ -563,14 +555,6 @@ Factor :
 
 IdentifierExtension :
         % Handle subscripts and function actual parameter lists
-        [
-            | '[':
-                .sSubscript
-                @Expression  ']'
-                .sExpnEnd
-            | '(':
-                .sParmBegin
-                @Expression  ')'
                 .sExpnEnd
                 .sParmEnd
             | *:
