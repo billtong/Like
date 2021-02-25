@@ -180,7 +180,16 @@ Block :
         % appear only in the order consts, types, vars, procedures.
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
-        {[
+	.sBegin
+        {[  
+	    | pIdentifier:
+	        @AssignmentOrCallStmt
+	    | 'using':
+                @BeginStmt
+            | 'if':
+                @IfStmt
+            | 'while':
+	 	@WhileStmt
             | 'const':
                 .sConst
                 @ConstantDefinitions
@@ -197,10 +206,9 @@ Block :
                 @ProcedureHeading
                 @Block  ';'
             | *:
-                >
+               .sNullStmt
         ]}
-        'begin'
-        @BeginStmt;
+        .sEnd
 
 ConstantDefinitions :
         % Accept one or more named constant definitions

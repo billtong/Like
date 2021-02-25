@@ -157,7 +157,7 @@ program ScannerParser(output, stdIdentifiers, scanSsl, parseSsl, source, parseSt
         pSlashEquals = 55;
         pPercentEquals = 56;
         pEqualEquals = 57;
-        lastSyntaxToken = 46;
+        lastSyntaxToken = 57;
 
         { Input/Output Tokens }
 
