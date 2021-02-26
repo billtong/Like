@@ -57,7 +57,7 @@ Input :
         %   These tokens simply represent themselves.
         pNewLine
         pEndFile
-	    pSlash			        '/'
+        pSlash                  '/'
         pPlus                   '+'
         pMinus                  '-'
         pStar                   '*'
@@ -77,18 +77,18 @@ Input :
         pLeftBracket            '['
         pRightBracket           ']'
         pDotDot                 '..'
-	    pHash		            '#'
+        pHash                   '#'
         pPercent                '%'
         pBar                    '|'
-	    pBang                   '!'
-        pBarBar		        	'||'
-	    pPlusEqual	         	'+='
-	    pMinusEquals	     	'-='
-	    pStarEquals		        '*='
-	    pSlashEquals	     	'/='
-	    pPercentEquals	    	'%='
-	    pEqualEquals	    	'=='
-        lastSyntaxToken = pDotDot;
+        pBang                   '!'
+        pBarBar                 '||'
+        pPlusEquals             '+='
+        pMinusEquals            '-='
+        pStarEquals             '*='
+        pSlashEquals            '/='
+        pPercentEquals          '%='
+        pEqualEquals            '=='
+        lastSyntaxToken = pEqualEquals;
 
 Output :
         sIdentifier 

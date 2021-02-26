@@ -126,7 +126,7 @@ Output :
         pSlashEquals
         pPercentEquals
         pEqualEquals
-        lastSyntaxToken = pDotDot;
+        lastSyntaxToken = pEqualEquals;
 
 Error :
         eIllegalChar = 5
