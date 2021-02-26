@@ -80,14 +80,13 @@ Input :
 	    pHash		            '#'
         pPercent                '%'
         pBar                    '|'
-	    pBang                   '!'
-        pBarBar		        	'||'
-	    pPlusEqual	         	'+='
-	    pMinusEquals	     	'-='
+	    pBarBar			        '||'
+	    pPlusEqual		        '+='
+	    pMinusEquals		    '-='
 	    pStarEquals		        '*='
-	    pSlashEquals	     	'/='
-	    pPercentEquals	    	'%='
-	    pEqualEquals	    	'=='
+	    pSlashEquals		    '/='
+	    pPercentEquals		    '%='
+	    pEqualEquals		    '=='
         lastSyntaxToken = pDotDot;
 
 Output :
@@ -351,6 +350,21 @@ Statement :
 
 AssignmentOrCallStmt :
         [
+            | '+=':
+                .sAssignmentStmt
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sAdd
+                .sExpnEnd
+         %   | '-=':
+        %        .sAssignmentStmt
+        %    | '*=':
+        %        .sAssignmentStmt
+        %    | '/=':
+        %        .sAssignmentStmt
+        %    | '%=':
+         %       .sAssignmentStmt
             | ':=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
