@@ -180,13 +180,26 @@ Block :
         % appear only in the order consts, types, vars, procedures.
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
-        {[
-          %  | 'const':
-          %      .sConst
-          %      @ConstantDefinitions
-         %   | 'type':
-          %      .sType
-          %      @TypeDefinitions
+	.sBegin
+        {[  
+	    | pIdentifier:
+	        @AssignmentOrCallStmt
+	    | 'using':
+                @BeginStmt
+            | 'if':
+                @IfStmt
+            | 'while':
+	 	@WhileStmt
+	    | 'choose':
+		@CaseStmt
+	    | 'repeat':
+	        @RepeatStmt
+            | 'const':
+                .sConst
+                @ConstantDefinitions
+            | 'type':
+                .sType
+                @TypeDefinitions
             | 'var':
                 .sVar
                 @VariableDeclarations
@@ -197,10 +210,9 @@ Block :
          %       @ProcedureHeading
          %       @Block  ';'
             | *:
-                >
-        ]};
-     %   'begin'
-      %  @BeginStmt;
+               .sNullStmt
+        ]}
+        .sEnd
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
@@ -332,22 +344,7 @@ ProcedureHeading :
         .sParmEnd;
 
 Statement :
-        [
-            | pIdentifier:
-                @AssignmentOrCallStmt
-         %   | 'begin':
-         %       @BeginStmt
-            | 'if':
-                @IfStmt
-            | 'while':
-                @WhileStmt
-      %      | 'case':
-       %         @CaseStmt
-            | 'repeat':
-                @RepeatStmt
-            | *:
-                .sNullStmt
-        ];
+	@Block;
 
 AssignmentOrCallStmt :
         [
@@ -463,20 +460,19 @@ CaseAlternative :
 WhileStmt :
         .sWhileStmt
         @Expression
-        .sExpnEnd; %moved semi colon here for make to work
-    %    'do'
-    %    @Statement;
+        .sExpnEnd
+        'repeat'
+        @Statement;
 
 RepeatStmt :
         .sRepeatStmt
         {
             @Statement
             [
-               | ';':
-                    > %added exit condition for make to work
-           %    | 'until':
-             %       .sRepeatEnd
-             %       >
+                | ';':
+                | 'while':
+                    .sRepeatEnd
+                    >
             ]
         }
         @Expression
@@ -556,14 +552,6 @@ Factor :
 
 IdentifierExtension :
         % Handle subscripts and function actual parameter lists
-        [
-            | '[':
-                .sSubscript
-                @Expression  ']'
-                .sExpnEnd
-            | '(':
-                .sParmBegin
-                @Expression  ')'
                 .sExpnEnd
                 .sParmEnd
             | *:

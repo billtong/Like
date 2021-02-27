@@ -188,7 +188,13 @@ Scan :
                     .pBar
                 ]
             | '!':
-                .pBang
+		[
+		    | '=':
+			.pNotEqual
+		    | '*':
+			#eIllegalChar
+		]
+                
             | ',':
                 .pComma
             | ':':
