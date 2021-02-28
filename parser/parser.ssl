@@ -312,6 +312,37 @@ Statement :
 
 AssignmentOrCallStmt :
         [
+            | '+=':
+                .sAssignmentStmt
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sAdd
+                .sExpnEnd
+            | '-=':
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sSubtract
+                .sExpnEnd
+            | '*=':
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sMultiply
+                .sExpnEnd
+            | '/=':
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sDivide
+                .sExpnEnd
+            | '%=':
+                .sIdentifier
+                .sIdentifier
+                @Expression
+                .sModulus
+                .sExpnEnd
             | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
