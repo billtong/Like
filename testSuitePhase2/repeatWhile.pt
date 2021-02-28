@@ -1,0 +1,16 @@
+while i == 3 do
+	i = i + 1
+
+repeat
+	i = i + 2
+until i < 5
+
+
+repeat while i == 5
+	{ i = i + 4}
+end;
+
+
+repeat
+	{ i = i + 5 }
+while i < 7
