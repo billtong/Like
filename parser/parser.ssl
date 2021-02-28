@@ -186,8 +186,6 @@ Block :
             @BeginStmt
         | 'if':
             @IfStmt
-        | 'while':
-	 	    @WhileStmt
 	    | 'choose':
 		    @CaseStmt
 	    | 'repeat':
@@ -462,28 +460,40 @@ CaseAlternative :
         ':'  @Statement;
 
 WhileStmt :
-	% NOTE would I need to represent {}?
-	.sRepeatStmt
-        .sWhileStmt
-        @Expression
-        .sExpnEnd
-        @Statement
-	'end';
+    .sWhileStmt
+    @Expression
+    .sExpnEnd
+    ';';
 
 RepeatStmt :
-        .sRepeatStmt
-        {
-            @Statement
-            [
-                | ';':
-                | 'while':
-		    .sNot
-                    .sRepeatEnd
-                    >
-            ]
-        }
-        @Expression
-        .sExpnEnd;
+        [
+            | 'while':   % Repeat while option 
+	 	        @WhileStmt
+                {
+                    @Statement
+                    [
+                        | ';':
+                        | 'end':
+                            >
+                    ]
+                }
+            | *:  % repeat ... while option
+                .sRepeatStmt
+                {
+                    @Statement
+                    [
+                        | ';':
+                        | 'while':
+                            .sRepeatEnd
+                            >
+                    ]
+                }
+                @Expression
+                .sNot
+                .sExpnEnd
+        ];
+      
+       
 
 Expression :
         @SimpleExpression
