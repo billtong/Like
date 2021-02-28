@@ -418,6 +418,9 @@ IfStmt :
             | 'else':
                 .sElse
                 @Statement
+                'if' .sIfStmt
+                @Expression
+
             | *:
         ];
 
