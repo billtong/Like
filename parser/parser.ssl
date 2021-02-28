@@ -441,7 +441,9 @@ CaseStmt :
             | 'end':
                 >
         ]}
-        .sCaseEnd;
+        .sCaseEnd
+	.sCaseElse
+	@CaseAlternative;
 
 CaseAlternative :
         % A case alternative is a statement labelled by
