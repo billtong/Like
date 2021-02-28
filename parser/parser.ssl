@@ -202,7 +202,7 @@ Block :
         %    @TypeDefinitions
         | 'var':
             .sVar
-            @Declarations
+            @VariableDeclarations
        %     | 'procedure':
         %        .sProcedure
         %        % procedure name
@@ -217,15 +217,14 @@ Block :
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
-        pIdentifier  .sIdentifier
-	% QUESTION: does the = here need shifted as well?
-        '=' @ConstantValue ';'
+        @Expression
         {[
-            | pIdentifier:
-                .sIdentifier
-                '=' @ConstantValue ';'
-            | *:
-                >
+            | ','
+            pIdentifier .sIdentifier
+            '=' .sInitialValue 
+            @Expression
+            | ';'
+            >
         ]};
 
 ConstantValue :
@@ -251,17 +250,6 @@ UnsignedIntegerConstant :
                 .sInteger
         ];
 
-% removed TypeDefinitions, TypeBody, SimpleType rules
-
-Declarations :
-    pIdentifier  .sIdentifier
-    [
-        | ':':
-        | '=':
-    ];
-
-
-
 OptionallySignedIntegerConstant :
         [
             | '-':
@@ -274,16 +262,27 @@ OptionallySignedIntegerConstant :
         ];
 
 VariableDeclarations :
-        % Accept one or more variable declarations.
+        % Accept one or more constant, and like type declaration
         pIdentifier  .sIdentifier
-        ':'  @TypeBody  ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                ':'  @TypeBody  ';'
-            | *:
-                >
-        ]};
+        @ValueOrLike ';'
+
+ValueOrLike :
+    [
+        | '=':
+        @ConstantDefinitions
+        | '*':
+        @LikeClause
+    ];
+
+LikeClause :
+    [
+        |   '['
+        .sArray
+        @ConstantValue
+        ']'
+        |   '*'
+    ]
+    ':' 'like' .sLike @ConstantValue
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
