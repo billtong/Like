@@ -39,7 +39,7 @@ Input :
         lHash	        '#'
         lPercent        '%'
         lBar            '|'
-	lBang		'!'
+	    lBang		    '!'
         lBlank
         lIllegal
         lNewLine
@@ -188,7 +188,13 @@ Scan :
                     .pBar
                 ]
             | '!':
-                .pBang
+		[
+		    | '=':
+			.pNotEqual
+		    | '*':
+			#eIllegalChar
+		]
+                
             | ',':
                 .pComma
             | ':':
