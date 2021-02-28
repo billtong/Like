@@ -215,33 +215,6 @@ Block :
         ]}
         .sEnd;
 
-ConstantDefinitions :
-        % Accept one or more named constant definitions
-        @Expression
-        {[
-            | ','
-            pIdentifier .sIdentifier
-            '=' .sInitialValue 
-            @Expression
-            | ';'
-            >
-        ]};
-
-ConstantValue :
-        [
-            | pInteger:
-                .sInteger
-            | pIdentifier:
-                .sIdentifier
-            | '-':
-                @UnsignedIntegerConstant
-                .sNegate
-            | '+':
-                @UnsignedIntegerConstant
-            | pStringLiteral:
-                .sStringLiteral
-        ];
-
 UnsignedIntegerConstant :
         [
             | pIdentifier:
@@ -264,25 +237,51 @@ OptionallySignedIntegerConstant :
 VariableDeclarations :
         % Accept one or more constant, and like type declaration
         pIdentifier  .sIdentifier
-        @ValueOrLike ';'
+        @ValueOrLike;
 
 ValueOrLike :
     [
         | '=':
         @ConstantDefinitions
-        | '*':
+        | *:
         @LikeClause
     ];
 
+ConstantDefinitions :
+        % Accept one or more named constant definitions
+        .sInitialValue
+        @Expression
+        {[
+            | ',':
+                pIdentifier .sIdentifier '=' .sInitialValue 
+                @Expression
+            | ';':
+                >
+            | *:
+        ]};
+
+ConstantValue :
+        [
+            | pInteger:
+                .sInteger
+            | pIdentifier:
+                .sIdentifier
+            | '-':
+                @UnsignedIntegerConstant
+                .sNegate
+            | '+':
+                @UnsignedIntegerConstant
+            | pStringLiteral:
+                .sStringLiteral
+        ];
+
 LikeClause :
     [
-        |   '['
-        .sArray
-        @ConstantValue
-        ']'
-        |   '*'
+        | '[':
+            .sArray @ConstantValue ']'
+        | ':':
     ]
-    ':' 'like' .sLike @ConstantValue
+    ':' 'like' .sLike @ConstantValue ';';
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.

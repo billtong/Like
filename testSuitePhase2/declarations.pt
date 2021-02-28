@@ -1,0 +1,4 @@
+using output;
+var a = 1, b = 1, c = 1;
+var d : like 1; 
+var arr[1] : like a;
