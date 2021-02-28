@@ -462,11 +462,13 @@ CaseAlternative :
         ':'  @Statement;
 
 WhileStmt :
+	% NOTE would I need to represent {}?
+	.sRepeatStmt
         .sWhileStmt
         @Expression
         .sExpnEnd
-        'repeat'
-        @Statement;
+        @Statement
+	'end';
 
 RepeatStmt :
         .sRepeatStmt
@@ -475,6 +477,7 @@ RepeatStmt :
             [
                 | ';':
                 | 'while':
+		    .sNot
                     .sRepeatEnd
                     >
             ]
