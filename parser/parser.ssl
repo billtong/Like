@@ -162,7 +162,6 @@ Program :
         % program name
         pIdentifier
         % program parameters
-        '('
         {
             pIdentifier  .sIdentifier
             [
@@ -171,9 +170,8 @@ Program :
                     >
             ]
         }
-        ')'
         .sParmEnd
-        ';'  @Block  '.';
+        ';'  @Block;
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
