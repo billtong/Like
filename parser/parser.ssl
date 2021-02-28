@@ -213,17 +213,49 @@ Block :
         ]}
         .sEnd;
 
-ConstantDefinitions :
-        % Accept one or more named constant definitions
-        pIdentifier  .sIdentifier
-	% QUESTION: does the = here need shifted as well?
-        '=' @ConstantValue ';'
-        {[
+UnsignedIntegerConstant :
+        [
             | pIdentifier:
                 .sIdentifier
-                '=' @ConstantValue ';'
+            | pInteger:
+                .sInteger
+        ];
+
+OptionallySignedIntegerConstant :
+        [
+            | '-':
+                @UnsignedIntegerConstant
+                .sNegate
+            | '+':
+                @UnsignedIntegerConstant
             | *:
+                @UnsignedIntegerConstant
+        ];
+
+VariableDeclarations :
+        % Accept one or more constant, and like type declaration
+        pIdentifier  .sIdentifier
+        @ValueOrLike;
+
+ValueOrLike :
+    [
+        | '=':
+        @ConstantDefinitions
+        | *:
+        @LikeClause
+    ];
+
+ConstantDefinitions :
+        % Accept one or more named constant definitions
+        .sInitialValue
+        @Expression
+        {[
+            | ',':
+                pIdentifier .sIdentifier '=' .sInitialValue 
+                @Expression
+            | ';':
                 >
+            | *:
         ]};
 
 ConstantValue :
@@ -241,80 +273,13 @@ ConstantValue :
                 .sStringLiteral
         ];
 
-UnsignedIntegerConstant :
-        [
-            | pIdentifier:
-                .sIdentifier
-            | pInteger:
-                .sInteger
-        ];
-
-TypeDefinitions :
-        % Accept one or more named type definitions.
-        pIdentifier  .sIdentifier
-	% QUESTION does the equal here need shifted?
-        '='  @TypeBody  ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                '='  @TypeBody  ';'
-            | *:
-                >
-        ]};
-
-TypeBody :
-        [
-      %      | 'array':
-        %        .sArray
-        %        '['  @SimpleType  ']'
-         %       'of'  @SimpleType
-            | 'file':
-                .sFile
-                'of'  @SimpleType
-            | *:
-                @SimpleType
-        ];
-
-SimpleType :
-        % A simple type is a named type (possibly predefined)
-        % or a subrange type specification
-        [
-            | pIdentifier:
-                .sIdentifier
-                [
-                    | '..':
-                        .sRange         %% this may be unnecessary
-                        @OptionallySignedIntegerConstant
-                    | *:
-                ]
-            | *:
-                @OptionallySignedIntegerConstant
-                '..'  .sRange
-                @OptionallySignedIntegerConstant
-        ];
-
-OptionallySignedIntegerConstant :
-        [
-            | '-':
-                @UnsignedIntegerConstant
-                .sNegate
-            | '+':
-                @UnsignedIntegerConstant
-            | *:
-                @UnsignedIntegerConstant
-        ];
-
-VariableDeclarations :
-        % Accept one or more variable declarations.
-        pIdentifier  .sIdentifier
-        ':'  @TypeBody  ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                ':'  @TypeBody  ';'
-            | *:
-                >
-        ]};
+LikeClause :
+    [
+        | '[':
+            .sArray @ConstantValue ']'
+        | ':':
+    ]
+    ':' 'like' .sLike @ConstantValue ';';
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
