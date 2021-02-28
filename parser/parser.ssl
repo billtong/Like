@@ -202,7 +202,7 @@ Block :
         %    @TypeDefinitions
         | 'var':
             .sVar
-            @VariableDeclarations
+            @Declarations
        %     | 'procedure':
         %        .sProcedure
         %        % procedure name
@@ -251,49 +251,16 @@ UnsignedIntegerConstant :
                 .sInteger
         ];
 
-TypeDefinitions :
-        % Accept one or more named type definitions.
-        pIdentifier  .sIdentifier
-	% QUESTION does the equal here need shifted?
-        '='  @TypeBody  ';'
-        {[
-            | pIdentifier:
-                .sIdentifier
-                '='  @TypeBody  ';'
-            | *:
-                >
-        ]};
+% removed TypeDefinitions, TypeBody, SimpleType rules
 
-TypeBody :
-        [
-      %      | 'array':
-        %        .sArray
-        %        '['  @SimpleType  ']'
-         %       'of'  @SimpleType
-            | 'file':
-                .sFile
-                'of'  @SimpleType
-            | *:
-                @SimpleType
-        ];
+Declarations :
+    pIdentifier  .sIdentifier
+    [
+        | ':':
+        | '=':
+    ];
 
-SimpleType :
-        % A simple type is a named type (possibly predefined)
-        % or a subrange type specification
-        [
-            | pIdentifier:
-                .sIdentifier
-                [
-                    | '..':
-                        .sRange         %% this may be unnecessary
-                        @OptionallySignedIntegerConstant
-                    | *:
-                ]
-            | *:
-                @OptionallySignedIntegerConstant
-                '..'  .sRange
-                @OptionallySignedIntegerConstant
-        ];
+
 
 OptionallySignedIntegerConstant :
         [
