@@ -67,7 +67,7 @@ Input :
         pSemicolon              ';'
         pColon                  ':'
         pEquals                 '='
-        pNotEqual               '<>'
+        pNotEqual               '!='
         pLess                   '<'
         pLessEqual              '<='
         pGreaterEqual           '>='
@@ -218,6 +218,7 @@ Block :
 ConstantDefinitions :
         % Accept one or more named constant definitions
         pIdentifier  .sIdentifier
+	% QUESTION: does the = here need shifted as well?
         '=' @ConstantValue ';'
         {[
             | pIdentifier:
@@ -253,6 +254,7 @@ UnsignedIntegerConstant :
 TypeDefinitions :
         % Accept one or more named type definitions.
         pIdentifier  .sIdentifier
+	% QUESTION does the equal here need shifted?
         '='  @TypeBody  ';'
         {[
             | pIdentifier:
@@ -349,7 +351,7 @@ Statement :
 
 AssignmentOrCallStmt :
         [
-            | ':=':
+            | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
@@ -360,7 +362,7 @@ AssignmentOrCallStmt :
                 .sSubscript
                 @Expression
                 .sExpnEnd
-                ']'  ':='
+                ']'  '='
                 @Expression
                 .sExpnEnd
             | *:
@@ -482,9 +484,9 @@ RepeatStmt :
 Expression :
         @SimpleExpression
         [
-            | '=':
+            | '==':
                 @SimpleExpression  .sEq
-            | '<>':
+            | '!=':
                 @SimpleExpression  .sNE
             | '<':
                 @SimpleExpression  .sLT
@@ -522,10 +524,10 @@ Term :
         {[
             | '*':
                 @Factor  .sMultiply
-      %      | 'div':
-       %         @Factor  .sDivide
-        %    | 'mod':
-        %        @Factor  .sModulus
+            | '/':
+                @Factor  .sDivide
+            | '%':
+                @Factor  .sModulus
             | 'and':
                 .sInfixAnd  @Factor  .sAnd
             | *:
