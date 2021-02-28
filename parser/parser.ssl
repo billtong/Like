@@ -543,10 +543,10 @@ Term :
             | '/':
                 @Factor
                 [
-                    | ':'
+                    | ':':
                     @Factor
                     .sSubstring
-                    | *
+                    | *:
                     .sDivide
                 ]
             | '%':
