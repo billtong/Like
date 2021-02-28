@@ -185,24 +185,24 @@ Block :
 	    | pIdentifier:
 	        @AssignmentOrCallStmt
 	    | 'using':
-                @BeginStmt
-            | 'if':
-                @IfStmt
-            | 'while':
-	 	@WhileStmt
+            @BeginStmt
+        | 'if':
+            @IfStmt
+        | 'while':
+	 	    @WhileStmt
 	    | 'choose':
-		@CaseStmt
+		    @CaseStmt
 	    | 'repeat':
 	        @RepeatStmt
-            | 'const':
-                .sConst
-                @ConstantDefinitions
-            | 'type':
-                .sType
-                @TypeDefinitions
-            | 'var':
-                .sVar
-                @VariableDeclarations
+        %| 'const':
+        %    .sConst
+        %    @ConstantDefinitions
+        %| 'type':
+        %    .sType
+        %    @TypeDefinitions
+        | 'var':
+            .sVar
+            @VariableDeclarations
        %     | 'procedure':
         %        .sProcedure
         %        % procedure name
@@ -211,8 +211,9 @@ Block :
          %       @Block  ';'
             | *:
                .sNullStmt
+               >
         ]}
-        .sEnd
+        .sEnd;
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
@@ -552,9 +553,9 @@ Factor :
 
 IdentifierExtension :
         % Handle subscripts and function actual parameter lists
-                .sExpnEnd
-                .sParmEnd
-            | *:
-        ];
+            .sExpnEnd
+            .sParmEnd;
+
+    
 
 end
