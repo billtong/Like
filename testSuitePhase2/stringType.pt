@@ -1,2 +1,5 @@
 using output;
-var a : 1;
+var a = "cacatenate" | "cacatenate";
+var b = "repeat" || 2;
+var c = "substring" / 1 : 2;
+var d = # "length";
