@@ -39,7 +39,7 @@ Input :
         lHash	        '#'
         lPercent        '%'
         lBar            '|'
-	lBang		'!'
+	    lBang		    '!'
         lBlank
         lIllegal
         lNewLine
