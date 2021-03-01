@@ -223,17 +223,18 @@ Block :
                 @CaseStmt
             | 'repeat':
                 @RepeatStmt
+            | 'public': % public in front of var and fun 
+                [
+                    | 'var':
+                        @PublicVariableDeclarations
+                    | 'fun':
+                        @PublicRoutines
+                    | *:
+                ]
             | 'var':
-                .sVar
                 @VariableDeclarations
             | 'fun':
-                .sProcedure
-                % procedure name
-                pIdentifier  .sIdentifier
-                @ProcedureHeading
-                @Block 
-                'end'
-                ';'
+                @Routines
             | *:
                 .sNullStmt
                 >
@@ -269,17 +270,25 @@ OptionallySignedIntegerConstant :
 
 VariableDeclarations :
         % Accept one or more constant, and like type declaration
+        .sVar
         pIdentifier  .sIdentifier
         @ValueOrLike;
 
+PublicVariableDeclarations :
+        % a clone of variable declarations with a sPublic emit
+        .sVar
+        pIdentifier  .sIdentifier
+        .sPublic
+        @ValueOrLike;
+
 ValueOrLike :
-    [
-        | '=':
-        @ConstantDefinitions
-        | *:
-        @LikeClause 
-        ';'
-    ];
+        [
+            | '=':
+            @ConstantDefinitions
+            | *:
+            @LikeClause 
+            ';'
+        ];
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
@@ -310,15 +319,40 @@ ConstantValue :
         ];
 
 LikeClause :
-    [
-        | '[':
-            .sArray @ConstantValue ']'
-        | *:
-    ]
-    ':'
-    'like' 
-    .sLike 
-    @ConstantValue;
+        [
+            | '[':
+                .sArray @ConstantValue ']'
+            | *:
+        ]
+        ':'
+        %an optional file keyword
+        [
+            | 'file':
+                .sFile
+            | *:
+        ]
+        'like' .sLike 
+        @ConstantValue;
+
+Routines :
+        .sProcedure
+        % procedure name
+        pIdentifier  .sIdentifier
+        @ProcedureHeading
+        @Block 
+        'end'
+        ';';
+
+PublicRoutines :
+        % a clone of Routines rules, with a sPublic token emit  
+        .sProcedure
+        % procedure name
+        pIdentifier  .sIdentifier
+        .sPublic
+        @ProcedureHeading
+        @Block 
+        'end'
+        ';';
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
