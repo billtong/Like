@@ -223,17 +223,18 @@ Block :
                 @CaseStmt
             | 'repeat':
                 @RepeatStmt
-            | 'var':
-                .sVar
+            | 'public': % Added to check for public 
+                [
+                    | 'var':
+                        @PublicVariableDeclarations
+                    | 'fun':
+                        @PublicRoutines
+                    | *:
+                ]
+            | 'var':    % Added to check for var
                 @VariableDeclarations
-            | 'fun':
-                .sProcedure
-                % procedure name
-                pIdentifier  .sIdentifier
-                @ProcedureHeading
-                @Block 
-                'end'
-                ';'
+            | 'fun':    % Added to check for fun
+                @Routines
             | *:
                 .sNullStmt
                 >
@@ -269,17 +270,27 @@ OptionallySignedIntegerConstant :
 
 VariableDeclarations :
         % Accept one or more constant, and like type declaration
+        .sVar
         pIdentifier  .sIdentifier
         @ValueOrLike;
 
+PublicVariableDeclarations :
+        % a clone of variable declarations with a sPublic emit
+        .sVar
+        pIdentifier  .sIdentifier
+        .sPublic
+        @ValueOrLike;
+
 ValueOrLike :
-    [
-        | '=':
-        @ConstantDefinitions
-        | *:
-        @LikeClause 
-        ';'
-    ];
+        % variable declarations uses either an inital value 
+        % or a like clause to specify the variable's type
+        [
+            | '=':
+            @ConstantDefinitions
+            | *:
+            @LikeClause 
+            ';'
+        ];
 
 ConstantDefinitions :
         % Accept one or more named constant definitions
@@ -310,15 +321,45 @@ ConstantValue :
         ];
 
 LikeClause :
-    [
-        | '[':
-            .sArray @ConstantValue ']'
-        | *:
-    ]
-    ':'
-    'like' 
-    .sLike 
-    @ConstantValue;
+        % allows for an array bound
+        % followed by a colon, optionsal file keyword
+        % and a variable or constant
+        [
+            | '[':
+                .sArray @ConstantValue ']'
+            | *:
+        ]
+        ':'
+        %an optional file keyword
+        [
+            | 'file':
+                .sFile
+            | *:
+        ]
+        'like' .sLike 
+        @ConstantValue;
+
+Routines :
+        % parsing of fun routine
+        % end with 'end' ';'
+        .sProcedure
+        % procedure name
+        pIdentifier  .sIdentifier
+        @ProcedureHeading
+        @Block 
+        'end'
+        ';';
+
+PublicRoutines :
+        % a clone of Routines rules, with a sPublic token emit  
+        .sProcedure
+        % procedure name
+        pIdentifier  .sIdentifier
+        .sPublic
+        @ProcedureHeading
+        @Block 
+        'end'
+        ';';
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
@@ -566,9 +607,9 @@ SimpleExpression :
                 @Term  .sSubtract
             | 'or':
                 .sInfixOr  @Term  .sOr
-            | '|':
+            | '|':  % Added for string concatenate operation
                 @Term   .sConcatenate
-            | '||':
+            | '||': % Added for string repeat operation
                 @Term   .sRepeatString
             | *:
                 >
@@ -579,7 +620,7 @@ Term :
         {[
             | '*':
                 @Factor  .sMultiply
-            | '/':
+            | '/':  % Added for substring operation
                 @Factor
                 [
                     | ':':
@@ -608,7 +649,7 @@ Factor :
             | 'not':
                 @Factor
                 .sNot
-            | '#':
+            | '#':  % Added for string length operation
                 @Factor
                 .sLength
             | pStringLiteral:
