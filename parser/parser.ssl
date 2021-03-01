@@ -17,6 +17,10 @@ Input :
         % Keywords must be first both here and in stdIdentifiers,
         % and they must appear in the exact same order
 
+        % -------- Removed tokens --------- 
+        % pDiv                    'div'
+        % pMod                    'mod'
+        % ---------------------------------
         pOr                     'or'
         firstKeywordToken = pOr
         pAnd                    'and'
@@ -25,21 +29,38 @@ Input :
         pElse                   'else'
         pOf                     'of'
         pEnd                    'end'
+        % -------- Removed tokens --------- 
+        % pUntil                  'until'
+        % pDo                     'do'
+        % pArray                  'array'
+        % ---------------------------------
         pFile                   'file'
-        pUsing                  'using'
-        pVal                    'val'
+        % -------- Removed tokens --------- 
+        % pProgram                'program'
+        % pConst                  'const'
+        % ---------------------------------
+        pUsing                  'using'    % Added Token
+        pVal                    'val'      % Added Token
         pVar                    'var'
-        pFun                    'fun'
+        % -------- Removed tokens --------- 
+        % pType                   'type'
+        % pProcedure              'procedure'
+        % pBegin                  'begin'
+        % ---------------------------------
+        pFun                    'fun'      % Added Token
         pIf                     'if'
-        pChoose                 'choose'
+        % -------- Removed tokens --------- 
+        % pBegin                  'begin'
+        % ---------------------------------
+        pChoose                 'choose'   % Added Token
         pWhile                  'while'
         pRepeat                 'repeat'
-        pIs                     'is'
-        pElseif                 'elseif'
-        pWhen                   'when'
-        pLike                   'like'
-        pPkg                    'pkg'
-        pPublic                 'public'
+        pIs                     'is'       % Added Token
+        pElseif                 'elseif'   % Added Token
+        pWhen                   'when'     % Added Token
+        pLike                   'like'     % Added Token
+        pPkg                    'pkg'      % Added Token
+        pPublic                 'public'   % Added Token
         lastKeywordToken = pPublic 
 
         % Scanner tokens -
