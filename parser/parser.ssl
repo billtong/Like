@@ -18,8 +18,8 @@ Input :
         % and they must appear in the exact same order
 
         % -------- Removed tokens --------- 
-        % pDiv                    'div'
-        % pMod                    'mod'
+        % pDiv                    'div' (replaced by pSlash)
+        % pMod                    'mod' (replaced by pPercent)
         % ---------------------------------
         pOr                     'or'
         firstKeywordToken = pOr
@@ -49,7 +49,7 @@ Input :
         % ---------------------------------
         pFun                    'fun'      % Added Token
         pIf                     'if'
-        % -------- Removed tokens --------- 
+        % -------- Removed token  --------- 
         % pBegin                  'begin'
         % ---------------------------------
         pChoose                 'choose'   % Added Token
@@ -78,15 +78,18 @@ Input :
         %   These tokens simply represent themselves.
         pNewLine
         pEndFile
-        pSlash                  '/'
+        pSlash                  '/'   % Added Token (replaced pDiv)
         pPlus                   '+'
         pMinus                  '-'
         pStar                   '*'
+        % -------- Removed token  --------- 
+        % pDot                    '.'
+        % ---------------------------------
         pComma                  ','
         pSemicolon              ';'
         pColon                  ':'
         pEquals                 '='
-        pNotEqual               '!='
+        pNotEqual               '!='  % Symbol changed from '<>' to '!='
         pLess                   '<'
         pLessEqual              '<='
         pGreaterEqual           '>='
@@ -95,8 +98,13 @@ Input :
         pRightParen             ')'
         pLeftBracket            '['
         pRightBracket           ']'
-        pHash                   '#'
-        pPercent                '%'
+        % -------- Removed token  --------- 
+        % pDotDot                 '..'
+        % ---------------------------------
+
+        % -------- Added tokens ----------- 
+        pHash                   '#'  
+        pPercent                '%'   % Replaced pMod
         pBar                    '|'
         pBang                   '!'
         pBarBar                 '||'
@@ -106,7 +114,8 @@ Input :
         pSlashEquals            '/='
         pPercentEquals          '%='
         pEqualEquals            '=='
-        lastSyntaxToken = pEqualEquals;
+        % ---------------------------------
+        lastSyntaxToken = pEqualEquals; % Last token is updated to pEqualEquals
 
 Output :
         sIdentifier 
