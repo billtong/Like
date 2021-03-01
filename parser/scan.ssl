@@ -99,8 +99,6 @@ Output :
         pPlus
         pMinus
         pStar
-        pColonEquals
-        pDot
         pComma
         pSemicolon
         pColon
@@ -114,7 +112,6 @@ Output :
         pRightParen
         pLeftBracket
         pRightBracket
-        pDotDot
         pHash
         pPercent
         pBar
@@ -198,12 +195,7 @@ Scan :
             | ',':
                 .pComma
             | ':':
-                [
-                    | '=':
-                        .pColonEquals
-                    | *:
-                        .pColon
-                ]
+                .pColon
             | lDigit:
                 oBufferSave
                 @Integer
@@ -236,13 +228,6 @@ Scan :
                         .pMinusEquals
                     | *:
                         .pMinus
-                ]
-            | '.':
-                [
-                    | '.':
-                        .pDotDot
-                    | *:
-                        .pDot
                 ]
             | '<':
                 [
