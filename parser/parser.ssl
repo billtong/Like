@@ -50,7 +50,7 @@ Input :
         pFun                    'fun'      % Added Token
         pIf                     'if'
         % -------- Removed token  --------- 
-        % pBegin                  'begin'
+        % pCase                   'case'
         % ---------------------------------
         pChoose                 'choose'   % Added Token
         pWhile                  'while'
@@ -129,7 +129,7 @@ Output :
         sParmBegin
         sParmEnd
         sConst
-        sLike
+        sLike    % Changed from sType to sLike 
         sVar
         sProcedure
         sBegin
@@ -170,6 +170,7 @@ Output :
         sAnd
         sNot
         sNewLine
+        % --------- Added tokens ---------- 
         sPackage
         sPublic
         sConcatenate
@@ -178,6 +179,7 @@ Output :
         sLength
         sInitialValue
         sCaseElse
+        % ---------------------------------
         sEndOfFile
         lastSemanticToken = sEndOfFile;
 
