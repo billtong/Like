@@ -202,6 +202,8 @@ Block :
 	        @AssignmentOrCallStmt
 	    | 'using':
             @BeginStmt
+        | 'pkg':
+            @Package
         | 'if':
             @IfStmt
 	    | 'choose':
@@ -228,6 +230,13 @@ Block :
                >
         ]}
         .sEnd;
+
+Package :
+    .sPackage
+    pIdentifier 
+    .sIdentifier
+    'is'
+    @Statement;
 
 UnsignedIntegerConstant :
         [
