@@ -1,0 +1,3 @@
+using output;
+
+var i = 5 div 4;

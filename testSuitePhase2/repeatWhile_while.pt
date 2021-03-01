@@ -1,0 +1,7 @@
+using output;
+
+val x = 5;
+
+repeat while (x > 0)
+	x = x - 1;
+end;
