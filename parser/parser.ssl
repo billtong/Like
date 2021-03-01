@@ -206,40 +206,35 @@ Program :
 Block :
         % Strictly speaking, standard Pascal requires that declarations
         % appear only in the order consts, types, vars, procedures.
+        % appear only in the order consts, types, vars, fun.
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
 	.sBegin
         {[  
-	    | pIdentifier:
-	        @AssignmentOrCallStmt
-	    | 'using':
-            @BeginStmt
-        | 'pkg':
-            @Package
-        | 'if':
-            @IfStmt
-	    | 'choose':
-		    @CaseStmt
-	    | 'repeat':
-	        @RepeatStmt
-        %| 'const':
-        %    .sConst
-        %    @ConstantDefinitions
-        %| 'type':
-        %    .sType
-        %    @TypeDefinitions
-        | 'var':
-            .sVar
-            @VariableDeclarations
-       %     | 'procedure':
-        %        .sProcedure
-        %        % procedure name
-        %        pIdentifier  .sIdentifier
-         %       @ProcedureHeading
-         %       @Block  ';'
+            | pIdentifier:
+                @AssignmentOrCallStmt
+            | 'using':
+                @BeginStmt
+            | 'pkg':
+                @Package
+            | 'if':
+                @IfStmt
+            | 'choose':
+                @CaseStmt
+            | 'repeat':
+                @RepeatStmt
+            | 'var':
+                .sVar
+                @VariableDeclarations
+            | 'fun':
+                .sProcedure
+                % procedure name
+                pIdentifier  .sIdentifier
+                @ProcedureHeading
+                @Block
             | *:
-               .sNullStmt
-               >
+                .sNullStmt
+                >
         ]}
         .sEnd;
 
@@ -279,7 +274,8 @@ ValueOrLike :
         | '=':
         @ConstantDefinitions
         | *:
-        @LikeClause
+        @LikeClause 
+        ';'
     ];
 
 ConstantDefinitions :
@@ -316,7 +312,10 @@ LikeClause :
             .sArray @ConstantValue ']'
         | ':':
     ]
-    ':' 'like' .sLike @ConstantValue ';';
+    ':' 
+    'like' 
+    .sLike 
+    @ConstantValue;
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
@@ -331,11 +330,10 @@ ProcedureHeading :
                         | *:
                             pIdentifier  .sIdentifier
                     ]
-                    ':'
-                    % type identifier
+                    @LikeClause % use like clause instead of type names for parameter types
                     pIdentifier  .sIdentifier
                     [
-                        | ';':
+                        | ',': % use commas sparate formal parameters
                         | *:
                             >
                     ]
@@ -343,7 +341,7 @@ ProcedureHeading :
                 ')'
             | *:
         ]
-        ';'
+        'is'
         .sParmEnd;
 
 Statement :
