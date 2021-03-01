@@ -231,7 +231,9 @@ Block :
                 % procedure name
                 pIdentifier  .sIdentifier
                 @ProcedureHeading
-                @Block
+                @Block 
+                'end'
+                ';'
             | *:
                 .sNullStmt
                 >
@@ -310,9 +312,9 @@ LikeClause :
     [
         | '[':
             .sArray @ConstantValue ']'
-        | ':':
+        | *:
     ]
-    ':' 
+    ':'
     'like' 
     .sLike 
     @ConstantValue;
@@ -325,13 +327,12 @@ ProcedureHeading :
                     % formal parameter identifier
                     [
                         | 'var':
-                            pIdentifier  .sIdentifier
                             .sVar
+                            pIdentifier  .sIdentifier
                         | *:
                             pIdentifier  .sIdentifier
                     ]
                     @LikeClause % use like clause instead of type names for parameter types
-                    pIdentifier  .sIdentifier
                     [
                         | ',': % use commas sparate formal parameters
                         | *:

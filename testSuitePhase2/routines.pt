@@ -1,0 +1,9 @@
+using output;
+fun F is
+end;
+fun F(a:like 1) is
+end;
+fun F(var a:like 1) is
+end;
+fun F(a:like 1, b:like 1) is
+end;
