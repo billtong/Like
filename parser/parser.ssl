@@ -99,6 +99,7 @@ Input :
         pLeftBracket            '['
         pRightBracket           ']'
         % -------- Removed token  --------- 
+        % pColonEquals            ':='
         % pDotDot                 '..'
         % ---------------------------------
 
