@@ -351,9 +351,12 @@ Statement :
 
 AssignmentOrCallStmt :
         [
+            % --------------------------------------------------------
+            % The following section was added for the parsing of like short form 
+            % assignment statements +=, -=, *=, /= and %= 
             | '+=':
                 .sAssignmentStmt
-                .sIdentifier
+                .sIdentifier   % identifier accepted in the Statement rule
                 .sIdentifier
                 @Expression
                 .sAdd
@@ -382,6 +385,7 @@ AssignmentOrCallStmt :
                 @Expression
                 .sModulus
                 .sExpnEnd
+            % ------- End of code added for shortform expressions -------
             | '=':
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
