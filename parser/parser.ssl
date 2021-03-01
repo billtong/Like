@@ -214,7 +214,7 @@ Block :
 	        @AssignmentOrCallStmt
 	    | 'using':
             @BeginStmt
-        | 'pkg':
+        | 'pkg': % Added to check for packages
             @Package
         | 'if':
             @IfStmt
@@ -243,6 +243,7 @@ Block :
         ]}
         .sEnd;
 
+% New rule added for parsing of packages
 Package :
     .sPackage
     pIdentifier 
