@@ -1,0 +1,8 @@
+/*
+Purpose: Checking the base case of packages using an empty package.
+Result: The result matches with the expected output in packageBaseCase.eOutput
+*/
+using output;
+
+pkg empty is
+end;

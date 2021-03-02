@@ -191,7 +191,7 @@ Program :
        'using'  .sProgram
         % removed program name as no name in Like
         % program parameters
-    % removed brackets around parameters
+        % removed brackets around parameters
         {
             pIdentifier  .sIdentifier
             [
@@ -386,8 +386,8 @@ ProcedureHeading :
                     % formal parameter identifier
                     [
                         | 'var':
-                            .sVar
                             pIdentifier  .sIdentifier
+                            .sVar
                         | *:
                             pIdentifier  .sIdentifier
                     ]
