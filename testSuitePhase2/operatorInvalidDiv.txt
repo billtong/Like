@@ -1,0 +1,5 @@
+Purpose: 
+To test that the "div" no longer works as the division operator.
+
+Result: 
+The output shows it is not processed as the division operator

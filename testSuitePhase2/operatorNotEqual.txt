@@ -1,0 +1,5 @@
+Purpose: 
+To test that the "!=" works as the not equal operator.
+
+Result: 
+The output matches what is expected when using not equal

@@ -1,0 +1,5 @@
+Purpose: 
+To test that the "=" no longer works as the equality operator.
+
+Result: 
+The output shows it is not processed as the equality operator
