@@ -316,6 +316,7 @@ ValueClause :
                 pIdentifier .sIdentifier '=' .sInitialValue 
                 @Expression
             | ';':
+                .sExpnEnd
                 >
             | *:
         ]};
