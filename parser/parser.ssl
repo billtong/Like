@@ -401,8 +401,8 @@ ProcedureHeading :
                 ')'
             | *:
         ]
-        'is'
-        .sParmEnd;
+        .sParmEnd  % switched .sParmEnd to be emitted before reading the 'is' token else new line characters are displayed before .sParmEnd instead of after 
+        'is';
 
 Statement :
     @Block;
