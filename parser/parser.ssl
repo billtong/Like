@@ -232,6 +232,8 @@ Block :
                         @PublicRoutines
                     | *:
                 ]
+            | 'val':    % Add to check for val
+                @ConstantDefinitions
             | 'var':    % Added to check for var
                 @VariableDeclarations
             | 'fun':    % Added to check for fun
@@ -250,6 +252,19 @@ Package :
     .sIdentifier
     'is'
     @Statement;
+
+ConstantDefinitions :	
+        % Accept one or more named constant definitions
+        .sConst
+        pIdentifier  .sIdentifier
+        '=' @ConstantValue
+        {[	
+            | ',':
+                pIdentifier .sIdentifier
+                '=' @ConstantValue	
+            | ';':
+            >
+        ]};
 
 UnsignedIntegerConstant :
         [
@@ -288,24 +303,17 @@ ValueOrLike :
         % or a like clause to specify the variable's type
         [
             | '=':
-            @ConstantDefinitions
+            @ValueClause
             | *:
             @LikeClause 
             ';'
         ];
 
-ConstantDefinitions :
+ValueClause :
         % Accept one or more named constant definitions
         .sInitialValue
-        @Expression
-        {[
-            | ',':
-                pIdentifier .sIdentifier '=' .sInitialValue 
-                @Expression
-            | ';':
-                >
-            | *:
-        ]};
+        @Expression 
+        ';' .sExpnEnd;
 
 ConstantValue :
         [
