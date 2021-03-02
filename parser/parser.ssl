@@ -526,28 +526,22 @@ CaseStmt :
         'of'
         @CaseAlternative
         {[
-            | ';':
-                % since case alternatives cannot be null, allow
-                % for the common situation of an extra semicolon
-                % at the end of the list of case alternatives.
-                [
-                    | 'end':
-                        >
-                    | *:
-                        @CaseAlternative
-                ]
-            | 'end':
+            | 'else':
                 >
+	    | *:
+		@CaseAlternative
         ]}
         .sCaseEnd
         % added in an else for case statements
-    .sCaseElse
-    @CaseAlternative;
+	.sCaseElse
+	@Statement
+	'end';
 
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
 
+	'when' % add the when token to case statement
         {
             @OptionallySignedIntegerConstant
             [
@@ -556,8 +550,9 @@ CaseAlternative :
                     >
             ]
         }
+	'then' % add the then token to case statement
         .sLabelEnd
-        ':'  @Statement;
+        @Statement;
 
 % switched to be the single line conditional, not containing the body
 % this is because while is used in 2 cases, so RepeatStmt handles body as required
