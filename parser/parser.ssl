@@ -238,7 +238,7 @@ Block :
                 @VariableDeclarations
             | 'fun':    % Added to check for fun
                 @Routines
-            | ';'       % Added to check for just ";", meaning Null statements
+            | ';':       % Added to check for just ";", meaning Null statements
                 .sNullStmt
             | *:
                 >
