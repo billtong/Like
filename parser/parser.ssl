@@ -131,6 +131,7 @@ Output :
         sParmEnd
         sConst
         sLike    % Changed from sType to sLike 
+        sVal
         sVar
         sProcedure
         sBegin
@@ -231,6 +232,8 @@ Block :
                         @PublicRoutines
                     | *:
                 ]
+            | 'val':    % Add to check for val
+                @ConstantDefinitions
             | 'var':    % Added to check for var
                 @VariableDeclarations
             | 'fun':    % Added to check for fun
@@ -247,6 +250,19 @@ Package :
     .sIdentifier
     'is'
     @Statement;
+
+ConstantDefinitions :	
+        % Accept one or more named constant definitions
+        .sVal
+        pIdentifier  .sIdentifier	
+        '=' @ConstantValue ';'	
+        {[	
+            | pIdentifier:	
+                .sIdentifier	
+                '=' @ConstantValue ';'	
+            | *:	
+                >	
+        ]};
 
 UnsignedIntegerConstant :
         [
@@ -285,13 +301,13 @@ ValueOrLike :
         % or a like clause to specify the variable's type
         [
             | '=':
-            @ConstantDefinitions
+            @ValueClause
             | *:
             @LikeClause 
             ';'
         ];
 
-ConstantDefinitions :
+ValueClause :
         % Accept one or more named constant definitions
         .sInitialValue
         @Expression
@@ -300,6 +316,7 @@ ConstantDefinitions :
                 pIdentifier .sIdentifier '=' .sInitialValue 
                 @Expression
             | ';':
+                .sExpnEnd
                 >
             | *:
         ]};

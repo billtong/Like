@@ -8,12 +8,14 @@
      .sInitialValue
          .sInteger
      % .sNewLine
+     .sExpnEnd
    .sVar
    .sIdentifier
    .sPublic
      .sInitialValue
          .sInteger
      % .sNewLine
+     .sExpnEnd
    .sVar
    .sIdentifier
      .sInitialValue
@@ -22,6 +24,7 @@
      .sInitialValue
          .sInteger
      % .sNewLine
+     .sExpnEnd
    .sVar
    .sIdentifier
      .sLike
@@ -39,5 +42,8 @@
      .sFile
      .sLike
       .sIdentifier
-  .sNullStmt
+    % .sNewLine
+   .sVal
+   .sIdentifier
+    .sInteger
   .sEnd
