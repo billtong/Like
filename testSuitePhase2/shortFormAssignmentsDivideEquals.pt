@@ -1,0 +1,13 @@
+/* 
+Purpose: Test divide equals (/=) short form assignment. The output of the form i /= {num/var}
+should be the same as i = i / {num/var}.
+
+Result: The results match with the expected output in shortFormAssignmentsDivideEquals.eOutput
+*/
+using input, output;
+
+var i = 1;
+i /= 1;
+i /= 1 / 10;
+i /= i / 10;
+i /= i * 10;
