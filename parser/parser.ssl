@@ -214,22 +214,22 @@ Block :
         {[  
             | pIdentifier:
                 @AssignmentOrCallStmt
-		        ';'		% semicolon not handled in assignment or call
+		';'		% semicolon not handled in assignment or call
             | 'using':
                 @BeginStmt
-		        ';'	% semicolon not in beginStmt
+		';'	% semicolon not in beginStmt
             | 'pkg':      % Added to check for packages
                 @Package
-		        ';'
+		';'
             | 'if':
                 @IfStmt
-		        ';'
+		';'
             | 'choose':
                 @CaseStmt
-		        ';'
+		';'
             | 'repeat':
                 @RepeatStmt
-		        ';'
+		';'
             | 'public': % Added to check for public 
                 [
                     | 'var':
@@ -238,15 +238,15 @@ Block :
                         @PublicRoutines
                     | *:
                 ]
-		        ';'
+		';'
             | 'val':    % Add to check for val
                 @ConstantDefinitions % semicolon is part of definition
             | 'var':    % Added to check for var
                 @VariableDeclarations
-		        ';'
+		';'
             | 'fun':    % Added to check for fun
                 @Routines
-		        ';'
+		';'
             | ';':       % Added to check for just ";", meaning Null statements
                 .sNullStmt
             | *:
