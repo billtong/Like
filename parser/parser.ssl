@@ -131,7 +131,6 @@ Output :
         sParmEnd
         sConst
         sLike    % Changed from sType to sLike 
-        sVal
         sVar
         sProcedure
         sBegin
@@ -253,7 +252,7 @@ Package :
 
 ConstantDefinitions :	
         % Accept one or more named constant definitions
-        .sVal
+        .sConst
         pIdentifier  .sIdentifier	
         '=' @ConstantValue ';'	
         {[	
