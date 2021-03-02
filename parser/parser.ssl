@@ -309,16 +309,8 @@ ValueOrLike :
 ValueClause :
         % Accept one or more named constant definitions
         .sInitialValue
-        @Expression
-        {[
-            | ',':
-                pIdentifier .sIdentifier '=' .sInitialValue 
-                @Expression
-            | ';':
-                .sExpnEnd
-                >
-            | *:
-        ]};
+        @Expression 
+        ';' .sExpnEnd;
 
 ConstantValue :
         [
