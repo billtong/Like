@@ -1,0 +1,5 @@
+Purpose: 
+To test that the ";" by itself results in a null statement
+
+Result: 
+The output has a null statement where required.

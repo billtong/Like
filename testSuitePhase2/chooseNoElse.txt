@@ -1,0 +1,5 @@
+Purpose: 
+To test that the choose statement without the else works as expected
+
+Result: 
+The output matches what is expected 

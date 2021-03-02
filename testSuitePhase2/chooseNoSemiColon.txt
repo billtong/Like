@@ -1,0 +1,5 @@
+Purpose: 
+To test that the choose statement if there is no semicolon at the end, it does not properly process what comes after
+
+Result: 
+The output matches choose statement as expected and does not match what comes after, which is what was expected

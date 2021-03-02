@@ -1,0 +1,5 @@
+Purpose: 
+To check that an emoty file is processed and emits nothings
+
+Result: 
+The output is nothing as it is supposed to be
