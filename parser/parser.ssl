@@ -256,8 +256,8 @@ ConstantDefinitions :
         pIdentifier  .sIdentifier
         '=' @ConstantValue
         {[	
-            | ','
-                pIdentifier: .sIdentifier
+            | ',':
+                pIdentifier .sIdentifier
                 '=' @ConstantValue	
             | ';':
             >

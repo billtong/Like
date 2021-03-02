@@ -20,9 +20,6 @@
    .sIdentifier
      .sInitialValue
          .sInteger
-     .sIdentifier
-     .sInitialValue
-         .sInteger
      % .sNewLine
      .sExpnEnd
    .sVar
@@ -43,7 +40,15 @@
      .sLike
       .sIdentifier
     % .sNewLine
-   .sVal
+   .sConst
+   .sIdentifier
+    .sInteger
+   % .sNewLine
+   .sConst
+   .sIdentifier
+    .sInteger
+   .sIdentifier
+    .sInteger
    .sIdentifier
     .sInteger
   .sEnd
