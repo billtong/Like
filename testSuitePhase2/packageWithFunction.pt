@@ -1,0 +1,21 @@
+/*
+Purpose: Testing package with a fuction inside. This uses an exert from pBust.
+Result: The result matches the expect output in packageRandomNumberGeneration.eOutput
+*/
+
+using output;
+
+// random number generation
+pkg random is
+    // random seed 
+    var seed : like 1;
+    var multiplier : like 1;
+
+    fun initialize is
+	// initialize random seed
+        seed = 13277;
+        multiplier = 17;
+    end;
+   
+    initialize;
+end;
