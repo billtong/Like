@@ -9,4 +9,6 @@ choose i of
 		var x = 6;
 	else
 		var x = 6;
-end;
+end
+
+var y = 5;
