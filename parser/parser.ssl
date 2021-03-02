@@ -189,9 +189,9 @@ rules
 
 Program :
        'using'  .sProgram
-        % program name
-        pIdentifier
+        % removed program name as no name in Like
         % program parameters
+	% removed brackets around parameters
         {
             pIdentifier  .sIdentifier
             [
