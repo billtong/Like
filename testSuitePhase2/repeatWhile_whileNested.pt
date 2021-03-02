@@ -1,0 +1,11 @@
+using output;
+
+var x = 5;
+var y = 3;
+
+repeat while (x > 0);
+	x = x - 1;
+	repeat while (y < 5);
+		y = y + 1;
+	end;
+end;
