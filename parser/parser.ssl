@@ -253,14 +253,14 @@ Package :
 ConstantDefinitions :	
         % Accept one or more named constant definitions
         .sConst
-        pIdentifier  .sIdentifier	
-        '=' @ConstantValue ';'	
+        pIdentifier  .sIdentifier
+        '=' @ConstantValue
         {[	
-            | pIdentifier:	
-                .sIdentifier	
-                '=' @ConstantValue ';'	
-            | *:	
-                >	
+            | ','
+                pIdentifier: .sIdentifier
+                '=' @ConstantValue	
+            | ';':
+            >
         ]};
 
 UnsignedIntegerConstant :
