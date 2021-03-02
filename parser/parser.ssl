@@ -236,7 +236,6 @@ Block :
             | 'fun':    % Added to check for fun
                 @Routines
             | *:
-                .sNullStmt
                 >
         ]}
         .sEnd;
