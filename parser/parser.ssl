@@ -640,7 +640,7 @@ Factor :
         [
             | pIdentifier:
                 .sIdentifier
-               % @IdentifierExtension %Commented this out for now, didn't want to remove it completely as not sure if it is needed somewhere
+                @IdentifierExtension 
             | pInteger:
                 .sInteger
             | '(':
@@ -658,10 +658,20 @@ Factor :
                 .sExpnEnd
         ];
 
-IdentifierExtension : % Question is this needed for anything? 
+IdentifierExtension : 
         % Handle subscripts and function actual parameter lists
-            .sExpnEnd
-            .sParmEnd;
+        [
+            | '[':
+                .sSubscript
+                @Expression  ']'
+                .sExpnEnd
+            | '(':
+                .sParmBegin
+                @Expression  ')'
+                .sExpnEnd
+                .sParmEnd
+            | *:
+        ];
 
     
 
