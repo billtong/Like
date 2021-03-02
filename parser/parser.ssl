@@ -420,24 +420,28 @@ AssignmentOrCallStmt :
                 .sAdd
                 .sExpnEnd
             | '-=':
+                .sAssignmentStmt
                 .sIdentifier
                 .sIdentifier
                 @Expression
                 .sSubtract
                 .sExpnEnd
             | '*=':
+                .sAssignmentStmt
                 .sIdentifier
                 .sIdentifier
                 @Expression
                 .sMultiply
                 .sExpnEnd
             | '/=':
+                .sAssignmentStmt
                 .sIdentifier
                 .sIdentifier
                 @Expression
                 .sDivide
                 .sExpnEnd
             | '%=':
+                .sAssignmentStmt
                 .sIdentifier
                 .sIdentifier
                 @Expression
