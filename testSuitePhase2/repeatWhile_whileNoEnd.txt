@@ -1,0 +1,5 @@
+Purpose: 
+To test that the repeat while ... statement fails to process what comes after if the 'end' is missing from the loop
+
+Result: 
+The output shows stopping of processing where expected

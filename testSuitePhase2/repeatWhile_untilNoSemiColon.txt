@@ -1,0 +1,5 @@
+Purpose: 
+To test that the repeat ... while statement when missing the final semicolon does not process what comes after
+
+Result: 
+The output stops processing well after the missing semicolon as expected

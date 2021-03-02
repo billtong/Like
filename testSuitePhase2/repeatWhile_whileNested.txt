@@ -1,0 +1,5 @@
+Purpose: 
+To test that the repeat while ... statement works as expected, even when there is a nested repeat while ... loop within it
+
+Result: 
+The output matches what is expected 

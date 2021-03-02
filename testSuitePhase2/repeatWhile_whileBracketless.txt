@@ -1,0 +1,5 @@
+Purpose: 
+To test that the repeat while ... statement works as expected, even if there are not brackets around the while expression
+
+Result: 
+The output matches what is expected 
