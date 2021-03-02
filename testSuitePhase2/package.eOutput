@@ -1,5 +1,29 @@
-.sPackage
-.sIdentifier
-.sBegin
- ....
-.sEnd
+ % .sNewLine
+ % .sNewLine
+ % .sNewLine
+ % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+ % .sNewLine
+  .sBegin
+   .sPackage
+   .sIdentifier
+   % .sNewLine
+     .sBegin
+      .sVar
+      .sIdentifier
+        .sInitialValue
+            .sInteger
+        .sExpnEnd
+     % .sNewLine
+      .sAssignmentStmt
+      .sIdentifier
+      .sIdentifier
+          .sInteger
+      .sAdd
+      .sExpnEnd
+     % .sNewLine
+     .sEnd
+  .sEnd

@@ -1,5 +1,10 @@
+/*
+Purpose: Simple test case for checking packages.
+Result: The results match with the expected output in package.eOutput
+*/
 using output;
 
 pkg flags is
-    i += 1
+    var i = 1;
+    i += 1;
 end;
