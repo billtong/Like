@@ -201,7 +201,7 @@ Program :
             ]
         }
         .sParmEnd
-        ';'  @Block;
+        ';'  @Block; % removed the need to end program with a "."
 
 Block :
         % Strictly speaking, standard Pascal requires that declarations
@@ -209,7 +209,8 @@ Block :
         % appear only in the order consts, types, vars, fun.
         % We allow arbitrary intermixing of these instead to preserve
         % programmer sanity.
-	.sBegin
+	.sBegin % preserve similarity with PT Pascal by emitting begin and end around each block
+        % block now handles everything statement did in PT Pascal, removing const and type as not used
         {[  
             | pIdentifier:
                 @AssignmentOrCallStmt
@@ -235,10 +236,12 @@ Block :
                 @VariableDeclarations
             | 'fun':    % Added to check for fun
                 @Routines
+            | ';':      % check for just ";", meaning nullstatment
+                .sNullStmt
             | *:
                 >
         ]}
-        .sEnd;
+        .sEnd; % preserve similarity with PT Pascal by emitting begin and end around each block
 
 % New rule added for parsing of packages
 Package :
@@ -426,7 +429,7 @@ AssignmentOrCallStmt :
                 .sModulus
                 .sExpnEnd
             % ------- End of code added for shortform expressions -------
-            | '=':
+            | '=':  % changed default assign from ":=" to just "="
                 .sAssignmentStmt
                 .sIdentifier    % identifier accepted in the Statement rule
                 @Expression
@@ -437,7 +440,7 @@ AssignmentOrCallStmt :
                 .sSubscript
                 @Expression
                 .sExpnEnd
-                ']'  '='
+                ']'  '=' % assignment for array switched from ":=" to "="
                 @Expression
                 .sExpnEnd
             | *:
@@ -522,6 +525,7 @@ CaseStmt :
                 >
         ]}
         .sCaseEnd
+    % added in an else for case statements
 	.sCaseElse
 	@CaseAlternative;
 
@@ -540,12 +544,15 @@ CaseAlternative :
         .sLabelEnd
         ':'  @Statement;
 
+% switched to be the single line conditional, not containing the body
+% this is because while is used in 2 cases, so RepeatStmt handles body as required
 WhileStmt :
     .sWhileStmt
     @Expression
     .sExpnEnd
-    ';';
+    ';'; % ends with a semi colon
 
+% changed to be capable of handling both repeat while <body> and repeat <body> while
 RepeatStmt :
         [
             | 'while':   % Repeat while option 
@@ -570,7 +577,7 @@ RepeatStmt :
                     ]
                 }
                 @Expression
-                .sNot
+                .sNot   % reverse from previous "until" used in PT Pascal
                 .sExpnEnd
         ];
       
@@ -579,8 +586,10 @@ RepeatStmt :
 Expression :
         @SimpleExpression
         [
+            % switched equality from "=" to "=="
             | '==':
                 @SimpleExpression  .sEq
+            % switched equality from "<>" to "!="
             | '!=':
                 @SimpleExpression  .sNE
             | '<':
@@ -623,8 +632,10 @@ Term :
         {[
             | '*':
                 @Factor  .sMultiply
-            | '/':  % Added for substring operation
+            % switched "div" to "/"
+            | '/':  
                 @Factor
+                % Added for substring operation
                 [
                     | ':':
                     @Factor
@@ -632,6 +643,7 @@ Term :
                     | *:
                     .sDivide
                 ]
+            % switched "mod" to "%"
             | '%':
                 @Factor  .sModulus
             | 'and':
