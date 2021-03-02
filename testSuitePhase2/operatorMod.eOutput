@@ -10,6 +10,6 @@
          .sInteger
          .sInteger
         .sModulus
-     % .sNewLine
      .sExpnEnd
+  % .sNewLine
   .sEnd

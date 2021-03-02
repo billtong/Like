@@ -7,6 +7,6 @@
    .sIdentifier
      .sInitialValue
          .sInteger
-     % .sNewLine
      .sExpnEnd
+  % .sNewLine
   .sEnd

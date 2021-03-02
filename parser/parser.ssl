@@ -214,16 +214,22 @@ Block :
         {[  
             | pIdentifier:
                 @AssignmentOrCallStmt
+		';'		% semicolon not handled in assignment or call
             | 'using':
                 @BeginStmt
+		';'	% semicolon not in beginStmt
             | 'pkg':      % Added to check for packages
                 @Package
+		';'
             | 'if':
                 @IfStmt
+		';'
             | 'choose':
                 @CaseStmt
+		';'
             | 'repeat':
                 @RepeatStmt
+		';'
             | 'public': % Added to check for public 
                 [
                     | 'var':
@@ -232,12 +238,15 @@ Block :
                         @PublicRoutines
                     | *:
                 ]
+		';'
             | 'val':    % Add to check for val
-                @ConstantDefinitions
+                @ConstantDefinitions % semicolon is part of definition
             | 'var':    % Added to check for var
                 @VariableDeclarations
+		';'
             | 'fun':    % Added to check for fun
                 @Routines
+		';'
             | ';':       % Added to check for just ";", meaning Null statements
                 .sNullStmt
             | *:
@@ -303,17 +312,16 @@ ValueOrLike :
         % or a like clause to specify the variable's type
         [
             | '=':
-            @ValueClause
+            	@ValueClause
             | *:
-            @LikeClause 
-            ';'
+            	@LikeClause 
         ];
 
 ValueClause :
         % Accept one or more named constant definitions
         .sInitialValue
         @Expression 
-        ';' .sExpnEnd;
+        .sExpnEnd;
 
 ConstantValue :
         [
@@ -357,8 +365,7 @@ Routines :
         pIdentifier  .sIdentifier
         @ProcedureHeading
         @Block 
-        'end'
-        ';';
+        'end';
 
 PublicRoutines :
         % a clone of Routines rules, with a sPublic token emit  

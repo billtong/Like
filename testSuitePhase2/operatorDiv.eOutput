@@ -10,6 +10,6 @@
          .sInteger
          .sInteger
         .sDivide
-     % .sNewLine
      .sExpnEnd
+  % .sNewLine
   .sEnd
