@@ -1,0 +1,5 @@
+Purpose: 
+To test that if there is not a using statement, it is not processed correctly
+
+Result: 
+The output matches what is expected 

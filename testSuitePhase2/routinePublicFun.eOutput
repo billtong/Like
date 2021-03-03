@@ -3,10 +3,11 @@
  .sParmEnd
  % .sNewLine
   .sBegin
-   .sVar
+   .sProcedure
    .sIdentifier
-     .sInitialValue
-         .sInteger
-     .sExpnEnd
-  % .sNewLine
+   .sPublic
+    .sParmEnd
+    % .sNewLine
+    .sBegin
+    .sEnd
   .sEnd
