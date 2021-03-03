@@ -1,0 +1,19 @@
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+  .sBegin
+   .sVar
+   .sIdentifier
+     .sArray
+      .sInteger
+     .sLike
+      .sInteger
+  % .sNewLine
+   .sVar
+   .sIdentifier
+     .sArray
+      .sInteger
+     .sLike
+      .sIdentifier
+  .sEnd
