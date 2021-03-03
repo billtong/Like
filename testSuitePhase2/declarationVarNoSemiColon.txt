@@ -1,0 +1,5 @@
+Purpose: 
+To test that the var declarations without semi-colon, should not emit sEnd token works as expected
+
+Result: 
+The output matches what is expected
