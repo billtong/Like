@@ -2,6 +2,7 @@
  .sIdentifier
  .sParmEnd
  % .sNewLine
+ % .sNewLine
   .sBegin
    .sVar
    .sIdentifier
@@ -12,7 +13,8 @@
    .sVar
    .sIdentifier
      .sInitialValue
+         % .sNewLine
+         % .sNewLine
          .sInteger
      .sExpnEnd
-  % .sNewLine
   .sEnd
