@@ -1,8 +1,0 @@
-using output;
-var a = 1;
-public var a = 1;
-var a = 1, b = 1;
-var d : like 1; 
-var arr[1] : like a;
-var a : file like output;
-val a = 1;
