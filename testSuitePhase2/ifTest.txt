@@ -1,0 +1,3 @@
+Purpose: Test if on its own
+
+Result: Result match with expected output in ifTest.eOutput
