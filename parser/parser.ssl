@@ -187,7 +187,7 @@ Output :
 rules
 
 Program :
-       'using'  .sProgram
+       'using'  .sProgram % changed using to program
         % removed program name as no name in Like
         % program parameters
         % removed brackets around parameters
@@ -215,7 +215,7 @@ Block :
             | pIdentifier:
                 @AssignmentOrCallStmt
                ';'		% semicolon not handled in assignment or call
-            | 'using':
+            | 'using':   % Added in case multiple program in a file 
                 @Program	% semicolon is part of Program
             | 'pkg':      % Added to check for packages
                 @Package
