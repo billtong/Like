@@ -231,9 +231,11 @@ Block :
                ';'
             | 'public': % Added to check for public 
                 [
-                    | 'var':
+                    | 'var':    % Added to check for var
                         @PublicVariableDeclarations
-                    | 'fun':
+                    | 'val':    % Add to check for val
+                        @PublicConstDefinitions
+                    | 'fun':    % Added to check for fun
                         @PublicRoutines
                     | *:
                 ]
@@ -260,6 +262,20 @@ Package :
     .sIdentifier
     'is'
     @Statement;
+
+PublicConstDefinitions :
+        % Accept one or more named constant definitions
+        .sConst
+        pIdentifier  .sIdentifier
+        .sPublic
+        '=' @ConstantValue
+        {[  
+            | ',':
+                pIdentifier .sIdentifier
+                '=' @ConstantValue  
+            | ';':
+            >
+        ]};
 
 ConstantDefinitions :   
         % Accept one or more named constant definitions
