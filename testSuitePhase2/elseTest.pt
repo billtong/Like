@@ -1,10 +1,5 @@
 using output;
-
 var a = 2;
 var b = 1;
-
-if a < b:
-var c = 3;
-end;
-else:
+else;
 end;
