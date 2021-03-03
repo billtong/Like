@@ -93,7 +93,7 @@ Output :
 
         % Non-compound tokens - 
         %   These tokens simply represent themselves.
-        % For Phase 2 removed pDotDot, pDot and pColonEquals which were missed in phase 1
+        % For Phase 2 removed pBand, pDotDot, pDot and pColonEquals which were missed in phase 1
         pNewLine
         pEndFile
         pSlash
@@ -116,7 +116,6 @@ Output :
         pHash
         pPercent
         pBar
-        pBang
         pBarBar
         pPlusEquals
         pMinusEquals
@@ -185,7 +184,7 @@ Scan :
                     | *:
                     .pBar
                 ]
-            | '!':
+            | '!': %For phase 2 removed pBang output that was missed in Phase 1
 		[
 		    | '=':
 			    .pNotEqual
