@@ -211,23 +211,24 @@ Block :
     .sBegin % preserve similarity with PT Pascal by emitting begin and end around each block
         % block now handles everything statement did in PT Pascal, removing const and type as not used
         {[  
+            % Added semi colons below for rules that need to end with them and do not have them handled yet
             | pIdentifier:
                 @AssignmentOrCallStmt
-		';'		% semicolon not handled in assignment or call
+               ';'		% semicolon not handled in assignment or call
             | 'using':
                 @Program	% semicolon is part of Program
             | 'pkg':      % Added to check for packages
                 @Package
-		';'
+               ';'  
             | 'if':
                 @IfStmt
-		';'
+                ';'
             | 'choose':
                 @CaseStmt
-		';'
+               ';'
             | 'repeat':
                 @RepeatStmt
-		';'
+               ';'
             | 'public': % Added to check for public 
                 [
                     | 'var':
@@ -236,15 +237,15 @@ Block :
                         @PublicRoutines
                     | *:
                 ]
-		';'
+               ';'
             | 'val':    % Add to check for val
                 @ConstantDefinitions % semicolon is part of definition
             | 'var':    % Added to check for var
                 @VariableDeclarations
-		';'
+                ';'
             | 'fun':    % Added to check for fun
                 @Routines
-		';'
+               ';'
             | ';':       % Added to check for just ";", meaning Null statements
                 .sNullStmt
             | *:
@@ -305,6 +306,7 @@ PublicVariableDeclarations :
         .sPublic
         @ValueOrLike;
 
+% Added fuction for like declaration
 ValueOrLike :
         % variable declarations uses either an inital value 
         % or a like clause to specify the variable's type
@@ -401,8 +403,8 @@ ProcedureHeading :
         .sParmEnd  % switched .sParmEnd to be emitted before reading the 'is' token else new line characters are displayed before .sParmEnd instead of after 
         'is';
 
-Statement :
-    @Block;
+Statement : %Updated for new way of doing block
+    @Block; 
 
 AssignmentOrCallStmt :
         [
