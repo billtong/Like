@@ -1,0 +1,13 @@
+/*
+Purpose: Testing to make sure a package needs a semicolon.
+Result: The result matches the expect output in packageWithoutSemiColon.eOutput
+*/
+using output;
+
+// random number generation
+using output;
+
+pkg empty is
+end
+
+multiplier = 17;

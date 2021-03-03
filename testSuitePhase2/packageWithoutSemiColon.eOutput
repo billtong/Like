@@ -1,0 +1,33 @@
+ % .sNewLine
+ % .sNewLine
+ % .sNewLine
+ % .sNewLine
+ .sProgram
+ .sIdentifier
+ .sParmEnd
+ % .sNewLine
+ % .sNewLine
+ % .sNewLine
+  .sBegin
+   .sBegin
+     .sBegin
+       .sCallStmt
+       .sIdentifier
+       .sParmEnd
+     % .sNewLine
+     % .sNewLine
+      .sPackage
+      .sIdentifier
+      % .sNewLine
+        .sBegin
+        .sEnd
+     .sEnd
+   % .sNewLine
+   % .sNewLine
+     .sBegin
+      .sAssignmentStmt
+      .sIdentifier
+          .sInteger
+      .sExpnEnd
+     % .sNewLine
+     .sEnd
