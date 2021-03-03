@@ -9,25 +9,16 @@
  % .sNewLine
  % .sNewLine
   .sBegin
-   .sBegin
-     .sBegin
-       .sCallStmt
-       .sIdentifier
-       .sParmEnd
-     % .sNewLine
-     % .sNewLine
-      .sPackage
-      .sIdentifier
-      % .sNewLine
-        .sBegin
-        .sEnd
-     .sEnd
+   .sProgram
+   .sIdentifier
+   .sParmEnd
    % .sNewLine
    % .sNewLine
-     .sBegin
-      .sAssignmentStmt
-      .sIdentifier
-          .sInteger
-      .sExpnEnd
+    .sBegin
+     .sPackage
+     .sIdentifier
      % .sNewLine
-     .sEnd
+       .sBegin
+       .sEnd
+    .sEnd
+  .sEnd
