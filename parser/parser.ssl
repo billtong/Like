@@ -375,8 +375,7 @@ PublicRoutines :
         .sPublic
         @ProcedureHeading
         @Block 
-        'end'
-        ';';
+        'end';
 
 ProcedureHeading :
         % Accept zero or more procedure formal parameter declarations.
