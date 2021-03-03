@@ -1,0 +1,3 @@
+Purpose: Test if with else
+
+Result: Result match with expected output in ifElseTest.eOutput

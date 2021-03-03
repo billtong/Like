@@ -1,0 +1,3 @@
+Purpose: Testing if else with no semi to make sure it needs opne
+
+Result: Result match with expected output in ifElseNoSemi.eOutput
