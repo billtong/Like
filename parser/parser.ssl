@@ -107,7 +107,6 @@ Input :
         pHash                   '#'  
         pPercent                '%'   % Replaced pMod
         pBar                    '|'
-        pBang                   '!'
         pBarBar                 '||'
         pPlusEquals             '+='
         pMinusEquals            '-='
