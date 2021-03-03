@@ -3,9 +3,8 @@
  .sParmEnd
  % .sNewLine
   .sBegin
-   .sVar
+   .sConst
    .sIdentifier
    .sPublic
-     .sInitialValue
-         .sInteger
-     .sExpnEnd
+    .sInteger
+  .sEnd

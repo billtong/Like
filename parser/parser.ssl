@@ -233,13 +233,14 @@ Block :
                 [
                     | 'var':    % Added to check for var
                         @PublicVariableDeclarations
+                        ';'
                     | 'val':    % Add to check for val
                         @PublicConstDefinitions
                     | 'fun':    % Added to check for fun
                         @PublicRoutines
+                        ';'
                     | *:
                 ]
-               ';'
             | 'val':    % Add to check for val
                 @ConstantDefinitions % semicolon is part of definition
             | 'var':    % Added to check for var
