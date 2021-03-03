@@ -215,8 +215,7 @@ Block :
                 @AssignmentOrCallStmt
 		';'		% semicolon not handled in assignment or call
             | 'using':
-                @BeginStmt
-		';'	% semicolon not in beginStmt
+                @Program	% semicolon is part of Program
             | 'pkg':      % Added to check for packages
                 @Package
 		';'
