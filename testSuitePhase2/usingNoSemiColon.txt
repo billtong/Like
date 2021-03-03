@@ -1,0 +1,5 @@
+Purpose: 
+To test that the using statement without a semicolon doesn't process well
+
+Result: 
+The output matches what is expected 
