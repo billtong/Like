@@ -1,0 +1,3 @@
+Purpose: Make sure that assignment need semi colon
+
+Result: The result matched with the expected result in assignmentNoSemiColon.PT
