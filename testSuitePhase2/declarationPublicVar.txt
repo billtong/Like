@@ -1,0 +1,5 @@
+Purpose: 
+To test that the public var declarations works as expected
+
+Result: 
+The output matches what is expected
