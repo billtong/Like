@@ -510,15 +510,20 @@ IfStmt :
         .sExpnEnd
         'then'  .sThen
         @Statement
-        [
+        {[
             | 'else':
                 .sElse
                 @Statement
-                'if' .sIfStmt
-                @Expression
+                >
 
+            | 'elseif':
+                .sIfStmt
+                @Expression
+                'then'    .sThen
+                @Statement
             | *:
-        ];
+                >                  
+        ]};
 
 CaseStmt :
         .sCaseStmt
