@@ -93,6 +93,7 @@ Output :
 
         % Non-compound tokens - 
         %   These tokens simply represent themselves.
+        % For Phase 2 removed pDotDot, pDot and pColonEquals which were missed in phase 1
         pNewLine
         pEndFile
         pSlash
@@ -229,8 +230,9 @@ Scan :
                     | *:
                         .pMinus
                 ]
-            | '<':
+            | '<': 
                 [
+                    %  For Phase 2 got rid of '>' option for matching <> which is not used in like and we missed in phase 1
                     | '=':
                         .pLessEqual
                     | *:
