@@ -164,6 +164,19 @@ Output :
         tCallEnd
         tLineNumber
         tTrap
+        % Added operations below
+        %String operations
+        tConcatenate
+        tRepeatString
+        tSubstring
+        tLength
+        tStringEQ
+        %Other new operations 
+        %TODO here for now move to other section if had no operand
+        tInitialValue
+        tInitEnd
+        tCaseElse
+        tCaseElseEnd
         lastCompoundTcode = tTrap
 
         % End of file marker T-code
