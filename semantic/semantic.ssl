@@ -15,7 +15,6 @@
 %      "t-code", corresponding semantically to the source program.
 
 Input :
-        % Semantic tokens - must match output tokens in parser.ssl exactly!
         sIdentifier 
         firstSemanticToken = sIdentifier
         firstCompoundSemanticToken = sIdentifier
@@ -27,7 +26,7 @@ Input :
         sParmBegin
         sParmEnd
         sConst
-        sType
+        sLike    % Changed from sType to sLike 
         sVar
         sProcedure
         sBegin
@@ -68,6 +67,16 @@ Input :
         sAnd
         sNot
         sNewLine
+        % --------- Added tokens ---------- 
+        sPackage
+        sPublic
+        sConcatenate
+        sRepeatString
+        sSubstring
+        sLength
+        sInitialValue
+        sCaseElse
+        % ---------------------------------
         sEndOfFile
         lastSemanticToken = sEndOfFile;
 
@@ -785,8 +794,8 @@ Block :
                 @ProcedureDefinition
             | sConst:
                 @ConstantDefinitions
-            | sType:
-                @TypeDefinitions
+          %  | sType:
+           %     @TypeDefinitions
             | sVar:
                 @VariableDeclarations
             | *:
