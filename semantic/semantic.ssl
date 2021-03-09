@@ -738,7 +738,7 @@ Program :
                 @ProgramParameter
         ]}
         oCountPop
-        @Block
+        @Statement     % Changed from Block to Statement  
         % Check that all file parameters have been declared
         [ oSymbolTblLookupExternal
             | yes:
@@ -802,19 +802,36 @@ Block :
         % The parser has flagged phase errors, but has emitted out-of-phase
         % definitions with the intent of providing better error repair.
 
+        sBegin
         {[
+             % Moved from statement rule to here
+            | sAssignmentStmt:
+                @AssignmentStmt
+            | sCallStmt:
+                @CallStmt
+            | sBegin:
+                @BeginStmt
+            | sIfStmt:
+                @IfStmt
+            | sWhileStmt:
+                @WhileStmt
+            | sCaseStmt:
+                @CaseStmt
+            | sRepeatStmt:
+                @RepeatStmt
+            | sNullStmt:
+            % End of ones added from statement rule
             | sProcedure:
                 @ProcedureDefinition
             | sConst:
                 @ConstantDefinitions
-          %  | sType:
-           %     @TypeDefinitions
+            | sLike: % Changed from sType to sLike
+                @TypeDefinitions
             | sVar:
                 @VariableDeclarations
             | *:
                 >
         ]}
-        sBegin
         @BeginStmt;
 
 ConstantDefinitions :           % Process named constant definitions
@@ -1355,23 +1372,10 @@ ProcedurePrologue :
         oCountPop;
 
 Statement :
-        [
-            | sAssignmentStmt:
-                @AssignmentStmt
-            | sCallStmt:
-                @CallStmt
-            | sBegin:
-                @BeginStmt
-            | sIfStmt:
-                @IfStmt
-            | sWhileStmt:
-                @WhileStmt
-            | sCaseStmt:
-                @CaseStmt
-            | sRepeatStmt:
-                @RepeatStmt
-            | sNullStmt:
-        ];
+    oSymbolTblPushScope %Added to push a new scope
+    @Block %Added to call the block rule
+    oSymbolTblPopScope; %Added to pop the scope
+      
 
 AssignmentStmt :
         sIdentifier  oSymbolStkPushIdentifier
