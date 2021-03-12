@@ -523,8 +523,11 @@ mechanism TypeStack :
     oTypeStkSwap
         % Swap the top two entries
 
-    oTypeStkPop;
+    oTypeStkPop
         % Pop the type stack
+
+    oPrint;
+        %Prints
 
 
 % Emit type and mechanism
@@ -724,6 +727,7 @@ Program :
         sProgram
         % Program scope, distinct from implicit scope surrounding
         % program which contains predefined names
+        oPrint
         oSymbolStkPush(syProcedure)
         oSymbolTblPushScope
         % Count is used to assign file descriptors to non-standard
