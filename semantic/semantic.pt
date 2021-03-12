@@ -2475,7 +2475,10 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                 begin
                                     EmitOutputToken(compoundTokenText[i]);
                                     i := i + 1;
-                                end
+                                end;
+                            { Below line added to emit a zero following the string's characters }
+                            EmitOutputToken(zero); 
+                            
                         end;
 
                     oEmitCaseBranchTable:
