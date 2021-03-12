@@ -1766,45 +1766,18 @@ Operand :
         ];
 
 StringLiteral :
-        % Process a string literal, which can either represent 
-        % a single character or a packed array of characters.
+        % Process a string literal
         % Pushes the type and value. 
-        % The value of a packed array is its address.
 
         oValuePushStringLength
-        [ oValueChoose
-            | zero:
-                #eNullString
-                oTypeStkPush(tpChar)
-                oTypeStkLinkToStandardType(stdChar)
-                oValuePop
-                oValuePush(zero)
-            | one:
-                oTypeStkPush(tpChar)
-                oTypeStkLinkToStandardType(stdChar)
-                oValuePop
-                oValuePushChar
-            | *:
-                % branch around the literal string since
-                % it is stored in the code area
-                .tSkipString
-                oFixPushForwardBranch
-                oEmitNullAddress
-                .tStringData
-                oEmitValue                      % string length
-                oValuePop
-                oValuePushCodeAddress           % The string's characters are in the code area
-                oValueNegate                    % encode that with a negative address
-                oEmitString                     % string's characters
-                oFixPopForwardBranch
-              %  oTypeStkPush(tpString)
-                oValuePush(one)                 % strings are indexed from 1
-                oValuePushStringLength
-                oTypeStkEnterBounds
-                oValuePop
-                oValuePop
-                oTypeTblEnter
-        ];
+        % removed choice options based on oValueChoose as only one default option, that is now used for Like
+        % Removed the single character cases (0 & 1) that are not needed in Like
+    
+        % Replaced PT's fake char array construction with a simply push of tpChar to the type stack
+        % and link the stdChar to the standard type
+       % TODO STRING: compare with old version see what still needs to be kept and figure out how to like to standard type
+        oTypeStkPush(tpChar)
+        oTypeStkLinkToStandardType(stdChar);
 
 UnaryOperator :
         [
