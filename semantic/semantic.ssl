@@ -1752,8 +1752,10 @@ Operand :
                 @StringLiteral  % pushes type and value
                 [ oTypeStkChooseKind
                     | tpChar:
-                        .tLiteralChar
-                        oEmitValue
+                      %  .tLiteralChar
+                     %   oEmitValue
+                        .tLiteralAddress
+                        .tFetchChar
                     | *:
                         .tLiteralString
                         oEmitValue
@@ -1776,6 +1778,7 @@ StringLiteral :
         % Replaced PT's fake char array construction with a simply push of tpChar to the type stack
         % and link the stdChar to the standard type
        % TODO STRING: compare with old version see what still needs to be kept and figure out how to like to standard type
+        .tSkipString
         oTypeStkPush(tpChar)
         oTypeStkLinkToStandardType(stdChar);
 
