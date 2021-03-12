@@ -231,6 +231,9 @@ type Integer :
         three = 3
         ten = 10
 
+        % Added stringSize that will be used as units fo storage allocation for Like strings.
+        stringSize = 256
+
         % These two sizes are machine dependent
         byteSize = 1
         wordSize = 4;
@@ -443,7 +446,7 @@ type TypeKind :
         tpBoolean
         tpSubrange
         tpArray
-        tpString        % special type for string literals
+        % -- Removed tpString from here
         tpFile
         tpNull;
 
@@ -537,12 +540,13 @@ type TrapKind :
         trReadln = 4
         trWrite = 5
         trWriteln = 6
-        trWriteString = 7
+        trWriteString = 109 % changed from 7 to 109
         trWriteInteger = 8
         trWriteChar = 9
         trReadInteger = 10
         trReadChar = 11
-        trAssign = 12;
+        trAssign = 12
+        trReadString = 108; % Added for input of Like strings
 
 mechanism Emit :
     % Emit writes to the output "t-code" stream (the code area),
@@ -1793,7 +1797,7 @@ StringLiteral :
                 oValueNegate                    % encode that with a negative address
                 oEmitString                     % string's characters
                 oFixPopForwardBranch
-                oTypeStkPush(tpString)
+              %  oTypeStkPush(tpString)
                 oValuePush(one)                 % strings are indexed from 1
                 oValuePushStringLength
                 oTypeStkEnterBounds
@@ -1916,13 +1920,13 @@ CompareAndSwapTypes :
                     | *:
                         #eTypeMismatch
                 ]
-            | tpString:
-                oTypeStkSwap
-                [ oTypeStkChooseKind
-                    | tpString:
-                    | *:
-                        #eTypeMismatch
-                ]
+     %       | tpString:
+      %          oTypeStkSwap
+       %         [ oTypeStkChooseKind
+        %            | tpString:
+         %           | *:
+          %              #eTypeMismatch
+           %     ]
             | tpFile:
                 oTypeStkSwap
                 [ oTypeStkChooseKind
@@ -2095,9 +2099,9 @@ ConstantOperand :
             | tpBoolean:
                 .tLiteralBoolean
                 oEmitValue
-            | tpString:         % a named literal string
-                .tLiteralString
-                oEmitValue
+     %       | tpString:         % a named literal string
+      %          .tLiteralString
+       %         oEmitValue
         ]
         oValuePop;
 
@@ -2283,7 +2287,7 @@ AssignProcedure :
                     | *:
                         @Expression                     % pushes symbol and type
                         [ oTypeStkChooseKind
-                            | tpString:
+                      %      | tpString:
                                 % literal string
                             | tpArray:
                                 % a char array with lower bound 1
@@ -2315,16 +2319,16 @@ AssignProcedure :
                         ]
                         .tParmEnd
                         % need the length of the file name as well
-                        [ oTypeStkChooseKind
-                            | tpString, tpArray:   
-                                .tLiteralInteger
-                                oValuePushTypeStkUpperBound
-                                oEmitValue
-                                oValuePop
-                                sParmEnd
-                            | *:
-                                % already reported above
-                        ]
+                      %  [ oTypeStkChooseKind %TODO STRING: Commented out for now see if needed though
+                         %   | tpString, tpArray:   
+                           %     .tLiteralInteger
+                           %     oValuePushTypeStkUpperBound
+                          %      oEmitValue
+                          %      oValuePop
+                           %     sParmEnd
+                          %  | *:
+                           %     % already reported above
+                       % ]
                         .tParmEnd
                         oSymbolStkPop
                         oTypeStkPop
@@ -2512,8 +2516,8 @@ WriteText :
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
-                    | tpString:
-                        oValuePushTypeStkUpperBound     % actual length of string
+                 %   | tpString:
+                %        oValuePushTypeStkUpperBound     % actual length of string
                     | *:        
                         % error flagged below
                         oValuePush(zero)
@@ -2530,9 +2534,9 @@ WriteText :
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trWriteInteger)
-            | tpString: 
-                .tTrap
-                oEmitTrapKind(trWriteString)
+         %   | tpString: 
+          %      .tTrap
+           %     oEmitTrapKind(trWriteString)
             | tpArray:                  % must be a char array 
                 oTypeStkPushComponent
                 [ oTypeStkChooseKind
