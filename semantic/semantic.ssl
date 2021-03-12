@@ -542,9 +542,9 @@ type TrapKind :
         trWriteln = 6
         trWriteString = 109 % changed from 7 to 109
         trWriteInteger = 8
-        trWriteChar = 9
+        trWriteChar = 9  %TODO STRING: Check if still needed
         trReadInteger = 10
-        trReadChar = 11
+        trReadChar = 11 %TODO STRING: Check if still needed
         trAssign = 12
         trReadString = 108; % Added for input of Like strings
 
@@ -1754,7 +1754,8 @@ Operand :
                     | tpChar:
                       %  .tLiteralChar
                      %   oEmitValue
-                        .tLiteralAddress
+                     %Added below two lines
+                        .tLiteralAddress %Somehow add the code addess
                         .tFetchChar
                     | *:
                         .tLiteralString
@@ -2506,13 +2507,11 @@ WriteText :
         [ oTypeStkChooseKind
             | tpChar:
                 .tTrap
-                oEmitTrapKind(trWriteChar)
+                oEmitTrapKind(trWriteString) % Changed trWriteChar to trWriteString
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trWriteInteger)
-         %   | tpString: 
-          %      .tTrap
-           %     oEmitTrapKind(trWriteString)
+            % Removed tpString option from here
             | tpArray:                  % must be a char array 
                 oTypeStkPushComponent
                 [ oTypeStkChooseKind
@@ -2791,7 +2790,7 @@ ReadText :
         [ oTypeStkChooseKind
             | tpChar:
                 .tTrap
-                oEmitTrapKind(trReadChar)
+                oEmitTrapKind(trReadString) %Changed from trReadChar to trReadString
             | tpInteger, tpSubrange:
                 .tTrap
                 oEmitTrapKind(trReadInteger)
