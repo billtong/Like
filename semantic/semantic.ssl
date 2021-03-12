@@ -442,7 +442,7 @@ mechanism TypeTable :
 
 type TypeKind :
         tpInteger
-        tpChar
+        tpChar % redefined to handle Like strings instead of pascal char
         tpBoolean
         tpSubrange
         tpArray
