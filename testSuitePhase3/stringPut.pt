@@ -1,5 +1,4 @@
 using input, output;
 
-//var stars = "";
-write("Please give me a regular French 'er' verb (end with 'arreter')"); //working slightly with write - not put
-
+put("Please give me a regular French 'er' verb (end with 'arreter')"); //working slightly with write - not put
+putln;

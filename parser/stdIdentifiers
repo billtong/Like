@@ -47,7 +47,7 @@ false
 reset
 rewrite
 put
-putLn
+putln
 get
 getln
 chr

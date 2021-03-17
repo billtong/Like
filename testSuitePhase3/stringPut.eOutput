@@ -106,6 +106,15 @@
        oEmitTrapKind(trWriteString)
        % value emitted 109
      .tWriteEnd
+    .tTrapBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 4
+     .tVarParm
+     .tParmEnd
+    .tTrap
+    oEmitTrapKind(trWriteln)
+    % value emitted 6
  .tTrapBegin
  .tTrap
  oEmitTrapKind(trHalt)
