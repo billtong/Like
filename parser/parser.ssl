@@ -262,7 +262,8 @@ Package :
     pIdentifier 
     .sIdentifier
     'is'
-    @Statement;
+    @Statement
+    'end';
 
 PublicConstDefinitions :
         % Accept one or more named constant definitions
