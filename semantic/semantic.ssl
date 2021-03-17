@@ -731,7 +731,6 @@ Program :
         sProgram
         % Program scope, distinct from implicit scope surrounding
         % program which contains predefined names
-        oPrint
         oSymbolStkPush(syProcedure)
         oSymbolTblPushScope
         % Count is used to assign file descriptors to non-standard
@@ -1436,6 +1435,7 @@ BeginStmt :
 
 CallStmt :
         sIdentifier  oSymbolStkPushIdentifier   % Procedure being called
+        oPrint
         [ oSymbolStkChooseKind
             | syUndefined:
                 #eUndefinedIdentifier
@@ -1756,10 +1756,12 @@ Operand :
                 @StringLiteral  % pushes type and value
                 [ oTypeStkChooseKind
                     | tpChar:
+                    %TODO String: Clean this up
                       %  .tLiteralChar
                      %   oEmitValue
                      %Added below two lines
-                        .tLiteralAddress %Somehow add the code addess
+                        .tLiteralAddress %Somehow add the code address
+                        oEmitValue %added this to match the expected output form francais
                         .tFetchChar
                     | *:
                         .tLiteralString
@@ -1784,8 +1786,26 @@ StringLiteral :
         % and link the stdChar to the standard type
        % TODO STRING: compare with old version see what still needs to be kept and figure out how to like to standard type
         .tSkipString
+        % branch around the literal string since
+        % it is stored in the code area
+        oFixPushForwardBranch
+        oEmitNullAddress
+        .tStringData
+        oEmitValue                      % string length
+        oValuePop
+        oValuePushCodeAddress           % The string's characters are in the code area
+        oValueNegate                    % encode that with a negative address
+        oEmitString                     % string's characters
+        oFixPopForwardBranch
         oTypeStkPush(tpChar)
-        oTypeStkLinkToStandardType(stdChar);
+        oTypeStkLinkToStandardType(stdChar)
+        oValuePush(one)                 % strings are indexed from 1
+        oValuePushStringLength
+        oTypeStkEnterBounds
+        oValuePop
+        oValuePop
+        oTypeTblEnter;
+     
 
 UnaryOperator :
         [
@@ -2497,8 +2517,10 @@ WriteText :
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
-                 %   | tpString:
-                %        oValuePushTypeStkUpperBound     % actual length of string
+                    % Removed old pascal fake string option
+                    % Added option for the new Like string instead
+                    %| tpChar:
+                       % oValuePushTypeStkUpperBound     % actual length of string
                     | *:        
                         % error flagged below
                         oValuePush(zero)
