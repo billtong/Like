@@ -805,6 +805,8 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         begin
             write ('This is a test print statement', symbolStkKind[symbolStkTop]);
             writeln;
+            write ('This is a test print statement', -symbolStkValue[symbolStkTop]);
+            writeln;
         end { Print };
 
     procedure Assert (assertion: Boolean; number: integer);
@@ -1948,9 +1950,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                         end;
 
                     oSymbolStkChooseKind:
-                        begin
-                            resultValue := symbolStkKind[symbolStkTop];
-                        end;
+                        resultValue := symbolStkKind[symbolStkTop];
 
                     oSymbolStkChooseStandardFile:
                         if symbolStkIdentTblRef[symbolStkTop] = standardInputNameIndex then
