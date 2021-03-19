@@ -165,7 +165,7 @@ Output :
         tLineNumber
         tTrap
         % Added operations below
-        %String operations
+        %S tring operations
         tConcatenate
         tRepeatString
         tSubstring
@@ -1813,6 +1813,8 @@ UnaryOperator :
                 oTypeStkPush(tpBoolean) % result type
                 @CompareAndSwapTypes
                 oTypeStkPop
+            | sLength:
+                .tLength
             | *:
                 >>
         ]
