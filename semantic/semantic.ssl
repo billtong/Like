@@ -165,7 +165,7 @@ Output :
         tLineNumber
         tTrap
         % Added operations below
-        %S tring operations
+        % String operations
         tConcatenate
         tRepeatString
         tSubstring
@@ -1876,6 +1876,22 @@ BinaryOperator :
                 .tModulus
                 oTypeStkPush(tpInteger)
                 @CompareOperandAndResultTypes
+            % Added sConcatenate, sRepeatString, sEq, sNE and sSubstring below
+            | sConcatenate:
+                .tConcatenate
+                oTypeStkPush(tpChar) % Result type
+                @CompareOperandAndResultTypes
+            | sRepeatString:
+                .tRepeatString
+                oTypeStkPush(tpChar) % Result type
+                @CompareOperandAndResultTypes
+           % | sEq:
+            %    .tStringEQ
+            %| sNE:
+             %   .tStringEQ %TODO: From end of french thinking may this but need to check
+              %  .tNot
+            |sSubstring:
+                .tSubstring
             | *:
                 >>
         ]
@@ -1917,13 +1933,7 @@ CompareAndSwapTypes :
                     | *:
                         #eTypeMismatch
                 ]
-     %       | tpString:
-      %          oTypeStkSwap
-       %         [ oTypeStkChooseKind
-        %            | tpString:
-         %           | *:
-          %              #eTypeMismatch
-           %     ]
+            % Removed tpString option from here
             | tpFile:
                 oTypeStkSwap
                 [ oTypeStkChooseKind
@@ -2091,14 +2101,12 @@ ConstantOperand :
                 .tLiteralInteger
                 oEmitValue
             | tpChar:
-                .tLiteralChar
+                .tLiteralChar % TODO String - check if this should still be type char
                 oEmitValue
             | tpBoolean:
                 .tLiteralBoolean
                 oEmitValue
-     %       | tpString:         % a named literal string
-      %          .tLiteralString
-       %         oEmitValue
+            % Removed tpString option from here
         ]
         oValuePop;
 
