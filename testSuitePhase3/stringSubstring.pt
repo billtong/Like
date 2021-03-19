@@ -1,0 +1,4 @@
+using input, output;
+
+put(("test" / 4 : 5));
+

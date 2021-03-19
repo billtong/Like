@@ -1815,6 +1815,13 @@ UnaryOperator :
                 oTypeStkPop
             | sLength:
                 .tLength
+                 [ oTypeStkChooseKind  % Confirm operand is a string
+                    | tpChar: 
+                    | *:
+                        #eTypeMismatch
+                ]
+                oTypeStkPop
+                oTypeStkPush(tpInteger) % result type
             | *:
                 >>
         ]
@@ -1847,24 +1854,26 @@ BinaryOperator :
                 oTypeStkPush(tpBoolean)
                 @CompareOperandAndResultTypes
             | sEq:
-                % Added choice option below so that if it is a string operation, emits .tStringEq instead of .tNE
+                % Added choice option below so that if it is a string operation, 
+                % emits .tStringEq instead of .tNE
                 [oTypeStkChooseKind
                     |tpChar:
                         .tStringEQ
                     |*:
                         .tEQ
                 ]
-                @CompareEqualityOperandTypes % Note this works for comparing strings as well
+                @CompareEqualityOperandTypes             % Note this works for comparing strings as well
             | sNE: 
-                % Added choice option below so that if it is a string operation, emits .tStringEQ and .tNot instead of .tNE
+                % Added choice option below so that if it is a string operation, emits 
+                % .tStringEQ and .tNot instead of .tNE
                 [oTypeStkChooseKind
-                    |tpChar: %TODO: From end of french thinking may this but need to check
+                    |tpChar:                             %TODO: From end of french thinking may this but need to check
                         .tStringEQ 
                         .tNot
                     |*:
                         .tNE
                 ]
-                @CompareEqualityOperandTypes % Note this works for comparing strings as well
+                @CompareEqualityOperandTypes             % Note this works for comparing strings as well
             | sGT:
                 .tGT
                 @CompareRelationalOperandTypes
@@ -1889,17 +1898,58 @@ BinaryOperator :
                 .tModulus
                 oTypeStkPush(tpInteger)
                 @CompareOperandAndResultTypes
-            % Added sConcatenate, sRepeatString, sEq, sNE and sSubstring below
+            % Added sConcatenate, sRepeatString, and sSubstring below
             | sConcatenate:
                 .tConcatenate
                 oTypeStkPush(tpChar) % Result type
                 @CompareOperandAndResultTypes
             | sRepeatString:
                 .tRepeatString
-                oTypeStkPush(tpChar) % Result type
-                @CompareOperandAndResultTypes
+                % Check that the top of the Type stack is an tpInteger and the next type is a tpChar
+                [ oTypeStkChooseKind 
+                    | tpInteger: 
+                        oTypeStkPop
+                        [ oTypeStkChooseKind
+                            | tpChar: 
+                            | *:
+                                #eTypeMismatch
+                        ]
+                    | *:
+                        #eTypeMismatch
+                        oTypeStkPop
+                ]
+                oTypeStkPop
+                oTypeStkPush(tpChar)
+                oSymbolStkPop
+                oSymbolStkSetKind(syExpression)
             | sSubstring:
                 .tSubstring
+                % Check that the top of the Type stack is an tpInteger, tpInteger then tpChar
+                oPrint
+                [ oTypeStkChooseKind 
+                    | tpInteger: 
+                        oTypeStkPop
+                        [ oTypeStkChooseKind
+                            | tpInteger: 
+                                oTypeStkPop
+                                [ oTypeStkChooseKind
+                                    | tpChar: 
+                                    | *:
+                                        #eTypeMismatch
+                                ]
+                            | *:
+                                #eTypeMismatch
+                                oTypeStkPop
+                        ]
+                    | *:
+                        #eTypeMismatch
+                        oTypeStkPop
+                ]
+                oTypeStkPop
+                oTypeStkPush(tpChar)
+                oSymbolStkPop
+                oSymbolStkPop
+                oSymbolStkSetKind(syExpression)
             | *:
                 >>
         ]
