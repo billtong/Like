@@ -803,9 +803,9 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
 
     procedure Print (assertion: Boolean);
         begin
+            write ('This is a test print statement', symbolStkValue[symbolStkTop]);
             write ('This is a test print statement', symbolStkKind[symbolStkTop]);
-            writeln;
-            write ('This is a test print statement', -symbolStkValue[symbolStkTop]);
+            
             writeln;
         end { Print };
 

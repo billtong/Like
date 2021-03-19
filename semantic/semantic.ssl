@@ -1434,8 +1434,8 @@ BeginStmt :
         ]};
 
 CallStmt :
-        sIdentifier  oSymbolStkPushIdentifier   % Procedure being called
-        oPrint
+        sIdentifier  
+        oSymbolStkPushIdentifier   % Procedure being called
         [ oSymbolStkChooseKind
             | syUndefined:
                 #eUndefinedIdentifier
@@ -1847,11 +1847,24 @@ BinaryOperator :
                 oTypeStkPush(tpBoolean)
                 @CompareOperandAndResultTypes
             | sEq:
-                .tEQ
-                @CompareEqualityOperandTypes
-            | sNE:
-                .tNE
-                @CompareEqualityOperandTypes
+                % Added choice option below so that if it is a string operation, emits .tStringEq instead of .tNE
+                [oTypeStkChooseKind
+                    |tpChar:
+                        .tStringEQ
+                    |*:
+                        .tEQ
+                ]
+                @CompareEqualityOperandTypes % Note this works for comparing strings as well
+            | sNE: 
+                % Added choice option below so that if it is a string operation, emits .tStringEQ and .tNot instead of .tNE
+                [oTypeStkChooseKind
+                    |tpChar: %TODO: From end of french thinking may this but need to check
+                        .tStringEQ 
+                        .tNot
+                    |*:
+                        .tNE
+                ]
+                @CompareEqualityOperandTypes % Note this works for comparing strings as well
             | sGT:
                 .tGT
                 @CompareRelationalOperandTypes
@@ -1885,12 +1898,7 @@ BinaryOperator :
                 .tRepeatString
                 oTypeStkPush(tpChar) % Result type
                 @CompareOperandAndResultTypes
-           % | sEq:
-            %    .tStringEQ
-            %| sNE:
-             %   .tStringEQ %TODO: From end of french thinking may this but need to check
-              %  .tNot
-            |sSubstring:
+            | sSubstring:
                 .tSubstring
             | *:
                 >>
