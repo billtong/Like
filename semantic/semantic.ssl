@@ -1756,13 +1756,9 @@ Operand :
                 @StringLiteral  % pushes type and value
                 [ oTypeStkChooseKind
                     | tpChar:
-                    %TODO String: Clean this up
-                      %  .tLiteralChar
-                     %   oEmitValue
-                     %Added below two lines
-                        .tLiteralAddress %Somehow add the code address
+                        .tLiteralAddress  % Change from tLiteralChar to this
                         oEmitValue %added this to match the expected output form francais
-                        .tFetchChar
+                        .tFetchChar % Added this to go with tLiteralAddress 
                     | *:
                         .tLiteralString
                         oEmitValue
@@ -1777,7 +1773,6 @@ Operand :
 StringLiteral :
         % Process a string literal
         % Pushes the type and value. 
-
         oValuePushStringLength
         % removed choice options based on oValueChoose as only one default option, that is now used for Like
         % Removed the single character cases (0 & 1) that are not needed in Like
@@ -1785,9 +1780,9 @@ StringLiteral :
         % Replaced PT's fake char array construction with a simply push of tpChar to the type stack
         % and link the stdChar to the standard type
        % TODO STRING: compare with old version see what still needs to be kept and figure out how to like to standard type
-        .tSkipString
         % branch around the literal string since
         % it is stored in the code area
+        .tSkipString
         oFixPushForwardBranch
         oEmitNullAddress
         .tStringData
@@ -1797,9 +1792,9 @@ StringLiteral :
         oValueNegate                    % encode that with a negative address
         oEmitString                     % string's characters
         oFixPopForwardBranch
-        oTypeStkPush(tpChar)
-        oTypeStkLinkToStandardType(stdChar)
-        oValuePush(one)                 % strings are indexed from 1
+        oTypeStkPush(tpChar)            % Changed tpString to tpChar
+        oTypeStkLinkToStandardType(stdChar)   % Added to link to the standard type
+        oValuePush(one) % strings are indexed from 1              
         oValuePushStringLength
         oTypeStkEnterBounds
         oValuePop
@@ -2495,10 +2490,11 @@ WriteText :
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
+                    % TODO determine if needed
                     % Removed old pascal fake string option
                     % Added option for the new Like string instead
-                    | tpChar: % Changed from tpString to tpChar
-                        oValuePush(stringSize)    % changed from oValuePushTypeStkUpperBound
+                 %   | tpChar: % Changed from tpString to tpChar
+                   %     oValuePush(stringSize)    % changed from oValuePushTypeStkUpperBound
                     | *:        
                         % error flagged below
                         oValuePush(zero)

@@ -1,0 +1,4 @@
+//Check if the output is correct
+using input, output;
+
+val word = "";
