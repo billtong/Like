@@ -830,7 +830,7 @@ Block :
             | sConst:
                 @ConstantDefinitions
             | sLike: % Changed from sType to sLike
-                @TypeDefinitions
+                @SimpleType
             | sVar:
                 @VariableDeclarations
             | *:
@@ -906,32 +906,7 @@ ConstantValue :         % push the value and type of the constant value
                 @StringLiteral  % pushes type and value, enters address
         ];
 
-TypeDefinitions :       % process named type definitions
-        {[
-            | sIdentifier:
-                oSymbolStkPushLocalIdentifier
-                [ oSymbolStkChooseKind
-                    | syUndefined:
-                    | syExternal:
-                        % Program parameters must be declared as file variables
-                        #eExternalDeclare        % ignore this declaration
-                    | *:
-                        #eMultiplyDefined
-                        % The new definition will obscure the old one
-                ]
-                oSymbolStkSetKind(syType)
 
-                % Accepts a type specification and pushes its type to the Type Stack.
-                % Creates type table entries for the type and any new subtypes as necessary.
-                @TypeBody
-
-                oSymbolStkEnterTypeReference
-                oTypeStkPop
-                oSymbolTblEnter
-                oSymbolStkPop
-            | *:
-                >
-        ]};
 
 TypeBody :
         % Accept a type specification and push a Type Stack entry for it.
@@ -1114,7 +1089,7 @@ SubrangeUpperBound :
         ];
 
 VariableDeclarations :
-        {[
+        [ % removed the loop so it can only accept a single declaration in a line
             | sIdentifier:
                 oSymbolStkPushLocalIdentifier
 
@@ -1126,15 +1101,29 @@ VariableDeclarations :
                         % The new definition will obscure the old one
                 ]
 
-                % Accepts a type specification and pushes its type to the Type Stack.
-                % Creates type table entries for the type and any new subtypes as necessary.
-                @TypeBody
-                @EnterVariableAttributes
-                oTypeStkPop
-                oSymbolStkPop
+		% checks if is a type declaration or if an initial value is defined
+		[
+		    | sLike:
+	                % Accepts a type specification and pushes its type to the Type Stack.
+	                % Creates type table entries for the type and any new subtypes as necessary.
+	                @TypeBody
+	                @EnterVariableAttributes
+	                oTypeStkPop
+	                oSymbolStkPop
+		    % add the option of a variable being declared with an initial value
+		    | sInitialValue:
+			.tInitialValue
+			@Expression
+			@EnterVariableAttributes
+			.tLiteralAddress
+			@EmitStore			
+			.tInitEnd
+			oTypeStkPop
+			oSymbolStkPop
+			oSymbolStkPop % why do I need 2? is it consistent? or fix elsewhere?
+		]
             | *:
-                >
-        ]};
+        ];
 
 EnterVariableAttributes :
         % Enter the type on top of the Type Stack as the type of 
