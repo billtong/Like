@@ -954,6 +954,24 @@ TypeDefinitions :       % process named type definitions
                 oTypeStkPop
                 oSymbolTblEnter
                 oSymbolStkPop
+            | sPublic:
+                oSymbolStkSetPublicFlag
+                [ oSymbolStkChooseKind
+                    | syUndefined:
+                    | syExternal:
+                        
+                        #eExternalDeclare        
+                    | *:
+                        #eMultiplyDefined
+                ]
+                oSymbolStkSetKind(syType)
+
+                @TypeBody
+
+                oSymbolStkEnterTypeReference
+                oTypeStkPop
+                oSymbolTblEnter
+                oSymbolStkPop
             | *:
                 >
         ]};
@@ -1256,7 +1274,9 @@ AllocateVar :
         ];
 
 ProcedureDefinition :
-        sIdentifier  oSymbolStkPushLocalIdentifier      % procedure name
+
+        sIdentifier  oSymbolStkPushLocalIdentifier      % procedure names
+        
         [ oSymbolStkChooseKind
             | syUndefined:
             | syExternal:
@@ -1400,11 +1420,9 @@ ProcedurePrologue :
         oTypeStkEnterParameterCount     % In procedure's type entry
         oCountPop;
 
-PackageDefinition :
+PackageDefinition:
         sIdentifier  oSymbolStkPushLocalIdentifier      % pkg name
-        % Procedure bodies only execute when the routine is called
-        % so we need to branch around the procedure's code
-        
+    
         oFixPushForwardBranch
         oEmitNullAddress
 
@@ -1428,9 +1446,7 @@ PackageDefinition :
         oSymbolTblUpdate
         oSymbolStkPop
 
-        oSymbolTblMergePublicScope
-
-        oFixPopForwardBranch;
+        oSymbolTblMergePublicScope;
 
 
 
