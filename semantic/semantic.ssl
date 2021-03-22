@@ -310,6 +310,8 @@ mechanism SymbolTable :
         % Restore procedure parameter entries to the symbol table 
         % after popping the scope.
 
+    oSymbolTblMergePublicScope
+
     oSymbolTblLookupExternal >> Boolean;
         % Return true if any external names (program parameters)
         % have not yet been declared.
@@ -326,6 +328,7 @@ type SymbolKind :
         syFunction
         syExternal
         syExpression
+        syPackage
         syUndefined;
 
 type StdRoutine :
@@ -404,6 +407,9 @@ mechanism SymbolStack :
     oSymbolStkEnterTypeReference
         % The top entry's type reference field is set to the type reference
         % field of the top type stack entry.
+    
+    oSymbolStkSetPublicFlag
+        %Declares an entry accessible outside of the current pkg scope.
 
     oSymbolStkChooseKind >> SymbolKind
         % Return the value of the top entry's kind field.
@@ -842,6 +848,25 @@ ConstantDefinitions :           % Process named constant definitions
         {[
             | sIdentifier:
                 oSymbolStkPushLocalIdentifier
+                [ oSymbolStkChooseKind
+                    | syUndefined:
+                    | syExternal:
+                        % A program parameter must be declared as a file variable
+                        #eExternalDeclare
+                    | *:
+                        #eMultiplyDefined
+                        % The new definition will now obscure the old one
+                ]
+                oSymbolStkSetKind(syConstant)
+                @ConstantValue
+                oSymbolStkEnterTypeReference
+                oTypeStkPop
+                oSymbolStkEnterValue
+                oValuePop
+                oSymbolTblEnter
+                oSymbolStkPop
+            | sPublic:
+                oSymbolStkSetPublicFlag
                 [ oSymbolStkChooseKind
                     | syUndefined:
                     | syExternal:
@@ -1374,6 +1399,40 @@ ProcedurePrologue :
         ]}
         oTypeStkEnterParameterCount     % In procedure's type entry
         oCountPop;
+
+PackageDefinition :
+        sIdentifier  oSymbolStkPushLocalIdentifier      % pkg name
+        % Procedure bodies only execute when the routine is called
+        % so we need to branch around the procedure's code
+        
+        oFixPushForwardBranch
+        oEmitNullAddress
+
+        oSymbolStkSetKind(syPackage)
+        oValuePushCodeAddress
+        oSymbolStkEnterValue
+        oValuePop
+        oTypeStkPush(tpNull)
+        oTypeStkSetRecursionFlag(yes)
+        oTypeTblEnter
+        oSymbolStkEnterTypeReference
+        oSymbolTblEnter
+
+        oSymbolTblPushScope     % procedure scope
+
+        @Block
+
+        oTypeStkSetRecursionFlag(no)
+        oTypeTblUpdate
+        oTypeStkPop
+        oSymbolTblUpdate
+        oSymbolStkPop
+
+        oSymbolTblMergePublicScope
+
+        oFixPopForwardBranch;
+
+
 
 Statement :
     oSymbolTblPushScope %Added to push a new scope
