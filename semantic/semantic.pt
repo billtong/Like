@@ -802,8 +802,18 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
 
     procedure Print (assertion: Boolean);
         begin
-            write ('This is a test print statement', symbolStkTop);
+	    write('This is a test statement for stack top', symbolStkTop);
+	    writeln;
+	    write('This is a test print statement for stack type', symbolStkKind[symbolStkTop]);
             writeln;
+	    write ('This is a test print statement for stack value', symbolStkValue[symbolStkTop]);
+	    writeln;
+	    write('This is a test print statement for stack table', symbolTblTop);
+            writeln;
+	    write('This is a test print statement for stack table kind', symbolTblKind[symbolTblTop]);
+	    writeln;
+	    write('This is a test print statement for stack table value', symbolTblValue[symbolTblTop]);
+	    writeln;
         end { Print };
 
     procedure Assert (assertion: Boolean; number: integer);
