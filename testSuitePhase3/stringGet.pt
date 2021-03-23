@@ -1,0 +1,4 @@
+using input, output;
+
+var infinitive : like "arreter";
+get (infinitive);

@@ -1,4 +1,4 @@
 using input, output;
 
 var word = "";
-var word = "";
+var word : like "";

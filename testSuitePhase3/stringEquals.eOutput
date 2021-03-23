@@ -62,7 +62,6 @@
         % value emitted -43
         .tFetchChar
         .tStringEQ
-        .tNot
       .tParmEnd
        .tLiteralInteger
        oEmitValue
