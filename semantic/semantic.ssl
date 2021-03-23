@@ -1113,14 +1113,25 @@ VariableDeclarations :
 		    % add the option of a variable being declared with an initial value
 		    | sInitialValue:
 			.tInitialValue
+
+			% puts value in symbol stack and type stack
+			% also emits the value of the expression
 			@Expression
+			% after value is emitted, we can pop off the expression value
+			oSymbolStkPop
+
+			 % assign type to the new variable on the symbol stack from the top of the type stack
 			@EnterVariableAttributes
+	
 			.tLiteralAddress
+
+			% store expression result at address of new variable
 			@EmitStore			
 			.tInitEnd
+
+			% clean up stack entries after assigned 
 			oTypeStkPop
 			oSymbolStkPop
-			oSymbolStkPop % why do I need 2? is it consistent? or fix elsewhere?
 		]
             | *:
         ];
@@ -1128,7 +1139,7 @@ VariableDeclarations :
 EnterVariableAttributes :
         % Enter the type on top of the Type Stack as the type of 
         % the new variable on top of the symbol stack
-
+	
         % Check if this is the declaration of an external file parameter
         [ oSymbolStkChooseKind
             | syExternal:       
