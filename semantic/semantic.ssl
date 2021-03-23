@@ -727,7 +727,6 @@ Program :
         sProgram
         % Program scope, distinct from implicit scope surrounding
         % program which contains predefined names
-        oPrint
         oSymbolStkPush(syProcedure)
         oSymbolTblPushScope
         % Count is used to assign file descriptors to non-standard
@@ -973,6 +972,9 @@ ComponentType :
         oTypeStkPop;
 
 SimpleType :
+	% begin with the like token
+	sLike
+
         % Accept a simple type and push a type stack entry for it.
         [
             | sIdentifier:
@@ -1034,18 +1036,9 @@ SimpleType :
                 ]
                 oSymbolStkPop
             | sInteger:         % lower bound of subrange specification
-                oValuePushInteger
-                [
-                    | sNegate:
-                        oValueNegate
-                    | *:
-                ]
-                sRange
-                @SubrangeUpperBound     % pushes value on value stack
-                oTypeStkPush(tpSubrange)
-                oTypeStkEnterBounds
-                oValuePop
-                oValuePop
+              	% delete subrange aspects and instead push integer to type stack
+                oTypeStkPush(tpInteger)
+		oTypeStkLinkToStandardType(stdInteger) % link to standard type
             | *:
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
@@ -1089,6 +1082,7 @@ SubrangeUpperBound :
         ];
 
 VariableDeclarations :
+	oPrint
         [ % removed the loop so it can only accept a single declaration in a line
             | sIdentifier:
                 oSymbolStkPushLocalIdentifier
@@ -1102,38 +1096,48 @@ VariableDeclarations :
                 ]
 
 		% checks if is a type declaration or if an initial value is defined
-		[
-		    | sLike:
-	                % Accepts a type specification and pushes its type to the Type Stack.
-	                % Creates type table entries for the type and any new subtypes as necessary.
-	                @TypeBody
-	                @EnterVariableAttributes
-	                oTypeStkPop
-	                oSymbolStkPop
+		[	    
 		    % add the option of a variable being declared with an initial value
 		    | sInitialValue:
 			.tInitialValue
+			oPrint
 
 			% puts value in symbol stack and type stack
 			% also emits the value of the expression
 			@Expression
+			oPrint
+
+			.tInitEnd
+
 			% after value is emitted, we can pop off the expression value
-			oSymbolStkPop
+			%oSymbolStkPop
+			%oPrint
 
 			 % assign type to the new variable on the symbol stack from the top of the type stack
 			@EnterVariableAttributes
-	
+			oPrint
 			.tLiteralAddress
+			
 
 			% store expression result at address of new variable
 			@EmitStore			
-			.tInitEnd
 
 			% clean up stack entries after assigned 
 			oTypeStkPop
 			oSymbolStkPop
+			oSymbolStkPop
+		    
+		    % assumes that if not initial value it is a like type declaration
+		    | *:
+			% Accepts a type specification and pushes its type to the Type Stack.
+	        	% Creates type table entries for the type and any new subtypes as necessary.
+	        	@TypeBody
+	        	@EnterVariableAttributes
+	        	oTypeStkPop
+	        	oSymbolStkPop
 		]
-            | *:
+	    
+            | *:	
         ];
 
 EnterVariableAttributes :
