@@ -1275,21 +1275,7 @@ ProcedureParameterType :
         % A local procedure's formal parameters must
         % be declared using named types.
 
-        sIdentifier  oSymbolStkPushIdentifier   % formal parameter type
-        [ oSymbolStkChooseKind
-            | syUndefined:
-                #eUndefinedIdentifier
-            | *:
-        ]
-        [ oSymbolStkChooseKind
-            | syType:
-                oTypeStkPushSymbol
-            | *:
-                #eTypeIdentifierReqd
-                oTypeStkPush(tpInteger)
-                oTypeStkLinkToStandardType(stdInteger)
-        ]
-        oSymbolStkPop                           % parameter type symbol
+	@SimpleType % puts type of parameter on the typestack
 
         [ oSymbolStkChooseKind
             | syVariable:
