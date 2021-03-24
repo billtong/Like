@@ -933,17 +933,13 @@ TypeTblEnterIfNew:
 
 IndexType :
         % Accept and fill in index bounds of array type stack entry
-        @SimpleType     % pushes index type
-        [ oTypeStkChooseKind
-            | tpSubrange:
-                oValuePushTypeStkLowerBound
-                oValuePushTypeStkUpperBound
-            | *:
-                oValuePush(one)
-                oValuePush(two)
-        ]
-        oTypeStkPop      % index type
-        % Enter and check the bounds of the array type
+        % push lower and upper bounds onto the value stack
+	oValuePush(one) % lower bound
+	@ConstantValue % push upper bound
+        
+        oTypeStkPop      % type of upper bound
+	
+	% Enter and check the bounds of the array type
         oTypeStkEnterBounds
         [ oTypeStkVerifyBounds
             | yes:
@@ -1100,6 +1096,7 @@ VariableDeclarations :
 	        	@TypeBody
 	        	@EnterVariableAttributes
 	        	oTypeStkPop
+			oSymbolStkPop
 		]
 	    
             | *:	
@@ -1139,7 +1136,6 @@ EnterVariableAttributes :
                 ]
                 oSymbolStkEnterTypeReference
                 oSymbolTblEnter
-		oPrint
         ];
  
 AllocateVar :
