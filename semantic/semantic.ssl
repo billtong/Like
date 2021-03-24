@@ -978,68 +978,35 @@ SimpleType :
         % Accept a simple type and push a type stack entry for it.
         [
             | sIdentifier:
+		oPrint
                 oSymbolStkPushIdentifier
-                [ 
-                    | sRange:                   % subrange specification
-                        [ oSymbolStkChooseKind
-                            | syConstant:       
-                                oTypeStkPushSymbol
-                                [ oTypeStkChooseKind
-                                    | tpInteger:        
-                                        oValuePushSymbol
-                                    | *:
-                                        #eIntegerConstReqd
-                                        oValuePush(one)
-                                ]
-                                [
-                                    | sNegate:
-                                        oValueNegate
-                                    | *:
-                                ]
-                                oTypeStkPop
-                            | syUndefined:
-                                #eUndefinedIdentifier
-                                oValuePush(one)
-                            | *:
-                                #eIntegerConstReqd
-                                oValuePush(one)
-                        ]
-                        @SubrangeUpperBound     % pushes value on value stack
-                        oTypeStkPush(tpSubrange)
-                        oTypeStkEnterBounds
-                        oValuePop
-                        oValuePop
-                    | *:        
-                        % type identifier
-                        [ oSymbolStkChooseKind
-                            | syType:
-                                oTypeStkPushSymbol
-                            | syUndefined:
-                                #eUndefinedIdentifier
-                                oSymbolStkPop
-                                oValuePush(one)
-                                oValuePush(one)
-                                oTypeStkPush(tpSubrange)
-                                oTypeStkEnterBounds
-                                oValuePop
-                                oValuePop
-                            | *:
-                                #eSimpleTypeReqd
-                                oSymbolStkPop
-                                oValuePush(one)
-                                oValuePush(one)
-                                oTypeStkPush(tpSubrange)
-                                oTypeStkEnterBounds
-                                oValuePop
-                                oValuePop
-                        ]
+		oPrint
+       
+                % type identifier
+                [ oSymbolStkChooseKind
+		     % make sure the identifier is a variable or constant
+                     | syConstant, syVariable:
+			% push type of identifier to type stack
+			oTypeStkPushSymbol
+		     % if error default to integer for type
+                     | *:
+                          #eSimpleTypeReqd
+                          oTypeStkPush(tpInteger)
+			  oTypeStkLinkToStandardType(stdInteger)
                 ]
+		% pop pushed identifier off stack
                 oSymbolStkPop
-            | sInteger:         % lower bound of subrange specification
+
+            | sInteger:
               	% delete subrange aspects and instead push integer to type stack
                 oTypeStkPush(tpInteger)
 		oTypeStkLinkToStandardType(stdInteger) % link to standard type
-            | *:
+
+	    % handling for string type
+            | sStringLiteral:
+                oTypeStkPush(tpChar)
+		oTypeStkLinkToStandardType(stdChar) % link to standard type
+	    | *:
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
                 oTypeStkLinkToStandardType(stdInteger)
@@ -1109,14 +1076,15 @@ VariableDeclarations :
 
 			.tInitEnd
 
-			% after value is emitted, we can pop off the expression value
-			%oSymbolStkPop
-			%oPrint
 
 			 % assign type to the new variable on the symbol stack from the top of the type stack
 			@EnterVariableAttributes
 			oPrint
 			.tLiteralAddress
+			% emit the address
+			oValuePushSymbol
+			oEmitValue
+			oValuePop
 			
 
 			% store expression result at address of new variable
@@ -1174,6 +1142,7 @@ EnterVariableAttributes :
                 ]
                 oSymbolStkEnterTypeReference
                 oSymbolTblEnter
+		oPrint
         ];
  
 AllocateVar :
