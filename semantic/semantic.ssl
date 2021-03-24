@@ -1049,7 +1049,6 @@ SubrangeUpperBound :
         ];
 
 VariableDeclarations :
-	oPrint
         [ % removed the loop so it can only accept a single declaration in a line
             | sIdentifier:
                 oSymbolStkPushLocalIdentifier
@@ -1067,12 +1066,11 @@ VariableDeclarations :
 		    % add the option of a variable being declared with an initial value
 		    | sInitialValue:
 			.tInitialValue
-			oPrint
 
 			% puts value in symbol stack and type stack
 			% also emits the value of the expression
 			@Expression
-			oPrint
+			oSymbolStkPop
 
 			.tInitEnd
 
@@ -1092,7 +1090,7 @@ VariableDeclarations :
 
 			% clean up stack entries after assigned 
 			oTypeStkPop
-			oSymbolStkPop
+			%oSymbolStkPop
 			oSymbolStkPop
 		    
 		    % assumes that if not initial value it is a like type declaration
@@ -1102,7 +1100,6 @@ VariableDeclarations :
 	        	@TypeBody
 	        	@EnterVariableAttributes
 	        	oTypeStkPop
-	        	oSymbolStkPop
 		]
 	    
             | *:	
