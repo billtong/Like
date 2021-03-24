@@ -545,9 +545,9 @@ type TrapKind :
         trWriteln = 6
         trWriteString = 109 % changed from 7 to 109
         trWriteInteger = 8
-        trWriteChar = 9  %TODO STRING: Check if still needed
+        trWriteChar = 9  
         trReadInteger = 10
-        trReadChar = 11 %TODO STRING: Check if still needed
+        trReadChar = 11 
         trAssign = 12
         trReadString = 108; % Added for input of Like strings
 
@@ -1779,7 +1779,6 @@ StringLiteral :
     
         % Replaced PT's fake char array construction with a simply push of tpChar to the type stack
         % and link the stdChar to the standard type
-       % TODO STRING: compare with old version see what still needs to be kept and figure out how to like to standard type
         % branch around the literal string since
         % it is stored in the code area
         .tSkipString
@@ -1925,7 +1924,6 @@ BinaryOperator :
             | sSubstring:
                 .tSubstring
                 % Check that the top of the Type stack is an tpInteger, tpInteger then tpChar
-                oPrint
                 [ oTypeStkChooseKind 
                     | tpInteger: 
                         oTypeStkPop
@@ -2159,7 +2157,7 @@ ConstantOperand :
                 .tLiteralInteger
                 oEmitValue
             | tpChar:
-                .tLiteralChar % TODO String - check if this should still be type char
+                .tLiteralChar 
                 oEmitValue
             | tpBoolean:
                 .tLiteralBoolean
@@ -2385,11 +2383,11 @@ WriteProcedure :
         % parameters, the first of which may be a file variable.
         % If the first parameter is not a file variable, standard
         % output is assumed as the default file.
-
         [
             | sIdentifier:
                 oSymbolStkPushIdentifier
                 oTypeStkPushSymbol
+
                 [ oTypeStkChooseKind
                     | tpFile:
                         [
@@ -2477,7 +2475,6 @@ WriteProcedure :
                         .tVarParm
                         .tParmEnd
                         oValuePop
-
                         % Accept the rest of the first write expression.
                         [ oSymbolStkChooseKind
                             | syUndefined:
@@ -2555,14 +2552,14 @@ WriteText :
                 oTypeStkPop
             | *:
                 % No field width specified, supply a default
+                oPrint
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
                     % TODO determine if needed
                     % Removed old pascal fake string option
-                    % Added option for the new Like string instead
                  %   | tpChar: % Changed from tpString to tpChar
-                   %     oValuePush(stringSize)    % changed from oValuePushTypeStkUpperBound
+                 %      oValuePush(stringSize)    % changed from oValuePushTypeStkUpperBound
                     | *:        
                         % error flagged below
                         oValuePush(zero)
