@@ -802,19 +802,27 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
 
     procedure Print (assertion: Boolean);
         begin
-	    write('This is a test statement for stack top', symbolStkTop);
+	    write('This is a test statement for symbol stack top', symbolStkTop);
 	    writeln;
-	    write('This is a test print statement for stack type', symbolStkKind[symbolStkTop]);
+	    write('This is a test print statement for symbol stack type (type 17 lookup)', symbolStkKind[symbolStkTop]);
             writeln;
-	    write ('This is a test print statement for stack value', symbolStkValue[symbolStkTop]);
+	    write ('This is a test print statement for symbol stack value (address)', symbolStkValue[symbolStkTop]);
 	    writeln;
-	    write('This is a test print statement for stack table', symbolTblTop);
+	    write('This is a test print statement for symbol stack type table link FIX (type 20)', symbolStkTypeTblLink[symbolStkTop]);
+	    writeln;
+	    writeln;
+	    write('This is a test print statement for symbol table top', symbolTblTop);
             writeln;
-	    write('This is a test print statement for stack table kind', symbolTblKind[symbolTblTop]);
+	    write('This is a test print statement for symbol table kind (type 17 lookup)', symbolTblKind[symbolTblTop]);
 	    writeln;
-	    write('This is a test print statement for stack table value', symbolTblValue[symbolTblTop]);
+	    write('This is a test print statement for symbol table value (address)', symbolTblValue[symbolTblTop]);
+	    writeln;
+	    write('This is a test print statement for symbol table type link', symbolTblTypeTblLink[symbolTblTop]);
+	    writeln;
+	    write('This is a test print statement for symbol table type (type 20)', typeTblKind[symbolTblTypeTblLink[symbolTblTop]]);
 	    writeln;
         end { Print };
+
 
     procedure Assert (assertion: Boolean; number: integer);
         { Procedure to implement programmer assertion checking with identification numbers. }
