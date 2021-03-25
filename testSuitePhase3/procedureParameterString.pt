@@ -1,0 +1,5 @@
+using output;
+fun Test (value : like "hello") is
+	value = "word";
+
+end;

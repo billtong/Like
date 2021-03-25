@@ -1,0 +1,4 @@
+using output;
+var x = "word";
+var a : like x;
+a = "hello";

@@ -1,0 +1,5 @@
+using output;
+fun Test (value : like true) is
+	value = false;
+
+end;

@@ -1,0 +1,4 @@
+using output;
+fun Test (value : like 1) is
+	value = "hi";
+end;
