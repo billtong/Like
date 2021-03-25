@@ -1,0 +1,4 @@
+Purpose: 
+To test that an array can be declared with a constant as the bound
+Result: 
+The output matches what is expected 

@@ -1,0 +1,5 @@
+Purpose: 
+To test that using a string as an array bound does not work
+
+Result: 
+The output matches what is expected 

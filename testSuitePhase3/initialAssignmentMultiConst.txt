@@ -1,0 +1,4 @@
+Purpose: 
+To test that a constant can be assigned to multiple things in one line
+Result: 
+The output matches what is expected 

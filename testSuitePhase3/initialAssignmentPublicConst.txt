@@ -1,0 +1,5 @@
+Purpose: 
+To test that a constant can be declared public
+
+Result: 
+The output matches what is expected 

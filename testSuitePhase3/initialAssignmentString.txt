@@ -1,0 +1,5 @@
+Purpose: 
+To test that a var can be initially assigned to a string
+
+Result: 
+The output matches what is expected 
