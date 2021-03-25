@@ -554,22 +554,23 @@ CaseStmt :
         @CaseAlternative
         {[
             | 'when':
-                @CaseAlternative 
+                @CaseAlternative
             | *:
                 >
         ]}
         .sCaseEnd
         [
-            | 'else': % add in else case
+            | 'else':
                 .sCaseElse
                 @Statement
             | *:
         ]
-        'end' ';';
+        'end';
 
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
+
         {
             @OptionallySignedIntegerConstant
             [
@@ -579,7 +580,7 @@ CaseAlternative :
             ]
         }
         .sLabelEnd
-        'then'  
+	    'then' % add the then token to case statement
         @Statement;
 
 % switched to be the single line conditional, not containing the body
