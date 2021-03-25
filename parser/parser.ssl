@@ -215,8 +215,6 @@ Block :
             | pIdentifier:
                 @AssignmentOrCallStmt
                ';'		% semicolon not handled in assignment or call
-            | 'using':   % Added in case multiple program in a file 
-                @Program	% semicolon is part of Program
             | 'pkg':      % Added to check for packages
                 @Package
                ';'  

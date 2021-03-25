@@ -816,8 +816,6 @@ Block :
                 @AssignmentStmt
             | sCallStmt:
                 @CallStmt
-            | sBegin:
-                @BeginStmt
             | sIfStmt:
                 @IfStmt
             | sWhileStmt:
