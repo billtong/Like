@@ -992,6 +992,12 @@ SimpleType :
                 oSymbolStkPop
 
             | sInteger:
+		% check for negate at negative integer allowed
+		[
+		    | sNegate:
+		    | *:
+		]
+
               	% delete subrange aspects and instead push integer to type stack
                 oTypeStkPush(tpInteger)
 		oTypeStkLinkToStandardType(stdInteger) % link to standard type
