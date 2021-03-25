@@ -1,5 +1,3 @@
 using input, output;
 
-var word : like "";
-
-
+put(#1);

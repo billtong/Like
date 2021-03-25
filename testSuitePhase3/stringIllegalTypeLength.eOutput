@@ -16,22 +16,27 @@
    oEmitDataAddress
    % value emitted 4
    .tStoreInteger
-    .tReadBegin
-     .tTrapBegin
-     .tLiteralAddress
-     oEmitValue
-     % value emitted 0
-     .tVarParm
-     .tParmEnd
+    .tWriteBegin
+      .tTrapBegin
       .tLiteralAddress
       oEmitValue
-      % value emitted 8
-     .tVarParm
-     .tParmEnd
-      .tTrap
-      oEmitTrapKind(trReadString)
-      % value emitted 108
-     .tReadEnd
+      % value emitted 4
+      .tVarParm
+      .tParmEnd
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 1
+        .tLength
+        #eTypeMismatch
+      .tParmEnd
+       .tLiteralInteger
+       oEmitValue
+       % value emitted 10
+       .tParmEnd
+       .tTrap
+       oEmitTrapKind(trWriteInteger)
+       % value emitted 8
+     .tWriteEnd
  .tTrapBegin
  .tTrap
  oEmitTrapKind(trHalt)

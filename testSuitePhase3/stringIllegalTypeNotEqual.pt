@@ -1,0 +1,4 @@
+using input, output;
+
+put(1 == "test");
+put("test" == 1);

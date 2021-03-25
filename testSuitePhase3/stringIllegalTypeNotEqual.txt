@@ -1,0 +1,5 @@
+Purpose: 
+To test that an error is thrown if the not equal string operation types are not both strings
+
+Result: 
+The output matches what is expected with a type error being indicated

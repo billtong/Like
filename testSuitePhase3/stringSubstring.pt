@@ -1,4 +1,3 @@
 using input, output;
 
-put(("test" / 4 : 5));
-
+put(("test" / 1 : 3));

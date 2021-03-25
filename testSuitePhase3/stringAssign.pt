@@ -1,2 +1,4 @@
 using input, output;
 
+var g: file like 1;
+assign(g, "Test.txt");
