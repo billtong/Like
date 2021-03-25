@@ -1,0 +1,5 @@
+Purpose: 
+To test that a var can be declared as a string if it is given an identifier containing a string
+
+Result: 
+The output matches what is expected 

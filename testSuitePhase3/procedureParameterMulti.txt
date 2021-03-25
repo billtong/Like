@@ -1,0 +1,5 @@
+Purpose: 
+To test that multiple parameters can be defined in a function
+
+Result: 
+The output matches what is expected 

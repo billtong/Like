@@ -1,0 +1,5 @@
+Purpose: 
+To test that a parameter's type needs to be matched to how it is used in the function. So a mismatch should cause an error
+
+Result: 
+The output matches what is expected 

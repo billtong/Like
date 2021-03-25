@@ -1,0 +1,5 @@
+Purpose: 
+To test that an array can be declared if the bound is an identifier
+
+Result: 
+The output matches what is expected 

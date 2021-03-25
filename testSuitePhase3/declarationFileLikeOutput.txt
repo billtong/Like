@@ -1,0 +1,5 @@
+Purpose: 
+To test that a file can be declared if it is like a file
+
+Result: 
+The output matches what is expected 

@@ -1,0 +1,5 @@
+Purpose: 
+To test that a var can use the value of a constant (integer here) to declare type
+
+Result: 
+The output matches what is expected 
