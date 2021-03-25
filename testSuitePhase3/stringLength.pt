@@ -1,3 +1,5 @@
 using input, output;
 
 put(#"arreter");
+var int: like 1;
+int = #"arreter";

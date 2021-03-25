@@ -41,10 +41,10 @@
         .tFetchChar
         .tLiteralInteger
         oEmitValue
-        % value emitted 4
+        % value emitted 1
         .tLiteralInteger
         oEmitValue
-        % value emitted 5
+        % value emitted 3
         .tSubstring
       .tParmEnd
        .tLiteralInteger
@@ -55,6 +55,34 @@
        oEmitTrapKind(trWriteString)
        % value emitted 109
      .tWriteEnd
+    .tAssignBegin
+     .tLiteralAddress
+     oEmitValue
+     % value emitted 8
+       .tSkipString
+       oEmitNullAddress
+       % value emitted -32767
+       .tStringData
+       oEmitValue
+       % value emitted 4
+       oEmitString
+       % value emitted 116
+       % value emitted 101
+       % value emitted 115
+       % value emitted 116
+       % value emitted 0
+      .tLiteralAddress
+      oEmitValue
+      % value emitted -57
+      .tFetchChar
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 1
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 3
+      .tSubstring
+     .tAssignChar
  .tTrapBegin
  .tTrap
  oEmitTrapKind(trHalt)
