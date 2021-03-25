@@ -1181,7 +1181,6 @@ VariableDeclarations :
                 oSymbolStkSetPublicFlag
             | *:
         ]
-        
         [	    
 		    % add the option of a variable being declared with an initial value
 		    | sInitialValue:
@@ -1476,7 +1475,6 @@ PackageDefinition:
         oSymbolStkEnterValue
         oValuePop
         oTypeStkPush(tpNull)
-        oTypeStkSetRecursionFlag(yes)
         oTypeTblEnter
         oSymbolStkEnterTypeReference
         oSymbolTblEnter
@@ -1485,7 +1483,6 @@ PackageDefinition:
 
         @Block
 
-        oTypeStkSetRecursionFlag(no)
         oTypeTblUpdate
         oTypeStkPop
         oSymbolTblUpdate
