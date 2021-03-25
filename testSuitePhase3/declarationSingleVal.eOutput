@@ -1,9 +1,0 @@
- .sProgram
- .sIdentifier
- .sParmEnd
- % .sNewLine
-  .sBegin
-   .sConst
-   .sIdentifier
-    .sInteger
-  .sEnd
