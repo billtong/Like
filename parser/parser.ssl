@@ -530,42 +530,43 @@ IfStmt :
         .sExpnEnd
         'then'  .sThen
         @Statement
-        {[
-            | 'else':
-                .sElse
-                @Statement
-                >
-
+        [
             | 'elseif':
-                .sIfStmt
-                @Expression
-                'then'    .sThen
-                @Statement
+                .sElse
+                .sBegin
+                @IfStmt
+                .send
             | *:
-                >                  
-        ]};
+                [
+                    | 'else':
+                        .sElse
+                        @Statement
+                    | *:
+                ]
+                'end'
+        ];
 
 CaseStmt :
         .sCaseStmt
         @Expression
         .sExpnEnd
         'of'
-	'when' % beginning of a case alternative, need it outside CaseAlternative to use in loop
+	    'when' % beginning of a case alternative, need it outside CaseAlternative to use in loop
         @CaseAlternative
         {[
-	    % else is not required
-            | 'end':
-		.sCaseEnd
+            | 'when':
+                @CaseAlternative
+            | *:
                 >
-	    % add in else case
-	    | 'else':
-		.sCaseEnd
-		.sCaseElse
-		@Statement
-		>
-	    | 'when':
-		@CaseAlternative
-        ]};
+        ]}
+        .sCaseEnd
+        [
+            | 'else':
+                .sCaseElse
+                @Statement
+            | *:
+        ]
+        'end';
 
 CaseAlternative :
         % A case alternative is a statement labelled by
@@ -579,8 +580,8 @@ CaseAlternative :
                     >
             ]
         }
-	'then' % add the then token to case statement
         .sLabelEnd
+	    'then' % add the then token to case statement
         @Statement;
 
 % switched to be the single line conditional, not containing the body
