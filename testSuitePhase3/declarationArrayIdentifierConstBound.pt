@@ -1,0 +1,3 @@
+using output;
+val i = 5;
+var a[i] : like 1;
