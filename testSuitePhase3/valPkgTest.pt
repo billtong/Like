@@ -1,0 +1,7 @@
+using output;
+
+pkg foo is 
+    val a : like 1;
+end;
+
+a = 1;

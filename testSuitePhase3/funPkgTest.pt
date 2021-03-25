@@ -1,0 +1,8 @@
+using output;
+
+pkg foo is 
+    fun func(value a : like 1) is 
+         a = a + 1
+    end;
+end;
+val b = func(1);
