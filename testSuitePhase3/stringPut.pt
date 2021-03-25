@@ -1,0 +1,5 @@
+using input, output;
+
+put("Please give me a regular French 'er' verb (end with 'arreter')"); 
+putln;
+

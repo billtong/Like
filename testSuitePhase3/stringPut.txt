@@ -1,0 +1,5 @@
+Purpose: 
+To test that the put operator works as expected on strings
+
+Result: 
+The output matches what is expected

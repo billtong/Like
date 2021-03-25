@@ -336,6 +336,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         two = 2;
         three = 3;
         ten = 10;
+        stringSize = 256;
         byteSize = 1;
         wordSize = 4;
         { Type 14 }
@@ -405,9 +406,8 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         tpBoolean = 2;
         tpSubrange = 3;
         tpArray = 4;
-        tpString = 5;
-        tpFile = 6;
-        tpNull = 7;
+        tpFile = 5;
+        tpNull = 6;
         { Type 21 }
         trHalt = 0;
         trReset = 1;
@@ -416,12 +416,13 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         trReadln = 4;
         trWrite = 5;
         trWriteln = 6;
-        trWriteString = 7;
+        trWriteString = 109;
         trWriteInteger = 8;
         trWriteChar = 9;
         trReadInteger = 10;
         trReadChar = 11;
         trAssign = 12;
+        trReadString = 108;
 
         { S/SL Rule Table Addresses } {
         Program = 0;
@@ -802,9 +803,27 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
 
     procedure Print (assertion: Boolean);
         begin
-            write ('This is a test print statement', symbolStkTop);
+	    write('This is a test statement for symbol stack top', symbolStkTop);
+	    writeln;
+	    write('This is a test print statement for symbol stack type (type 17 lookup)', symbolStkKind[symbolStkTop]);
             writeln;
+	    write ('This is a test print statement for symbol stack value (address)', symbolStkValue[symbolStkTop]);
+	    writeln;
+	    write('This is a test print statement for symbol stack type table link FIX (type 20)', symbolStkTypeTblLink[symbolStkTop]);
+	    writeln;
+	    writeln;
+	    write('This is a test print statement for symbol table top', symbolTblTop);
+            writeln;
+	    write('This is a test print statement for symbol table kind (type 17 lookup)', symbolTblKind[symbolTblTop]);
+	    writeln;
+	    write('This is a test print statement for symbol table value (address)', symbolTblValue[symbolTblTop]);
+	    writeln;
+	    write('This is a test print statement for symbol table type link', symbolTblTypeTblLink[symbolTblTop]);
+	    writeln;
+	    write('This is a test print statement for symbol table type (type 20)', typeTblKind[symbolTblTypeTblLink[symbolTblTop]]);
+	    writeln;
         end { Print };
+
 
     procedure Assert (assertion: Boolean; number: integer);
         { Procedure to implement programmer assertion checking with identification numbers. }
@@ -1947,9 +1966,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                         end;
 
                     oSymbolStkChooseKind:
-                        begin
-                            resultValue := symbolStkKind[symbolStkTop];
-                        end;
+                        resultValue := symbolStkKind[symbolStkTop];
 
                     oSymbolStkChooseStandardFile:
                         if symbolStkIdentTblRef[symbolStkTop] = standardInputNameIndex then
@@ -2296,7 +2313,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                         { Push the value of the last string token to be accepted }
                         begin
                             Assert((compoundToken = sStringLiteral), assert37);
-                            ValueStackPush(compoundTokenText[1]);
+                            ValueStackPush(codeAreaEnd); { Changed compoundTokenText[1] to codeAreaEnd }
                         end;
 
                     oValuePushStringLength:
@@ -2364,7 +2381,10 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                         case typeStkKind[typeStkTop] of
                             tpInteger, tpSubrange:
                                 dataAreaEnd := dataAreaEnd + wordSize;
-                            tpChar, tpBoolean:
+                            {Split tpChar and tpBoolean and add stringSize to tpChar to hanlde allocation of Like strings}
+                            tpChar: 
+                                dataAreaEnd := dataAreaEnd + stringSize;
+                            tpBoolean:
                                 dataAreaEnd := dataAreaEnd + byteSize;
                             tpArray:
                                 begin
@@ -2374,6 +2394,9 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                     kind := typeTblKind[typeStkComponentLink[typeStkTop]];
                                     if (kind = tpInteger) or (kind = tpSubrange) then
                                         size := size * wordSize;
+                                    {Added the below for size of arrays of strings for the new Like strings}
+                                    if (kind = tpChar) then
+                                        size := size * stringSize;
 
                                     dataAreaEnd := dataAreaEnd + size
                                 end;
@@ -2477,7 +2500,10 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                                 begin
                                     EmitOutputToken(compoundTokenText[i]);
                                     i := i + 1;
-                                end
+                                end;
+                            { Below line added to emit a zero following the string's characters }
+                            EmitOutputToken(zero); 
+                            
                         end;
 
                     oEmitCaseBranchTable:
