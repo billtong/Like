@@ -1,0 +1,4 @@
+using output;
+val x = 3;
+var a : like x;
+a = 7;
