@@ -1,0 +1,11 @@
+using output;
+
+var a = 1;
+var b = 2;
+
+if a < b then
+    var f = 1;
+elseif a > b then
+    var c = 3;
+else
+    end;
