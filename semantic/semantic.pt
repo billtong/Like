@@ -731,7 +731,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         symbolTblKind:          array [1 .. symbolTblSize] of SymbolKinds;
         symbolTblValue:         array [1 .. symbolTblSize] of integer;
         symbolTblTypeTblLink:   array [1 .. symbolTblSize] of TypeTblReference;
-        symbolTblPublicFlag:    array [1 .. symbolTblSize] of Boolean; {updated for like. Will write comment pretending I understand later.}
+        symbolTblPublicFlag:    array [1 .. symbolTblSize] of Boolean; {updated for like}
         symbolTblTop:  SymbolTblReference;      { initially 0 }
 
         { Lexic Level Stack }
@@ -745,7 +745,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
         symbolStkKind:          array [1 .. symbolStkSize] of SymbolKinds;
         symbolStkValue:         array [1 .. symbolStkSize] of integer;
         symbolStkTypeTblLink:   array [1 .. symbolStkSize] of TypeTblReference;
-        symbolStkPublicFlag:    array [1 .. symbolTblSize] of Boolean; {updated for like. Will write comment pretending I understand later.}
+        symbolStkPublicFlag:    array [1 .. symbolTblSize] of Boolean; {updated for like.}
         symbolStkTop:  SymbolStkReference;      { initially 0 }
 
         { Type Table }
@@ -1814,8 +1814,12 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                     
                     oSymbolTblMergePublicScope:
                         { Merges public items into public scope }
+                        
                         begin
+                        
+
                         end;
+                        
                     oSymbolTblLookupExternal:
                         { Return yes if the symbol table contains an undeclared 
                           external file name (program parameter), otherwise return no. }
