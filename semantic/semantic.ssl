@@ -831,11 +831,11 @@ Block :
                 @RepeatStmt
             | sPublic: % Added to check for public 
                 [
-                    | sVar:    % Added to check for var
+                    | sVar:    
                         @VariableDeclarations
-                    | sConst:    % Add to check for val
+                    | sConst:    
                         @ConstantDefinitions
-                    | sProcedure:    % Added to check for fun
+                    | sProcedure:    
                         @ProcedureDefinition
                     | *:
                         #eFileNameReqd
@@ -855,6 +855,7 @@ Block :
             | *:
                 >
         ]}
+        sEnd
         @BeginStmt;
 
 ConstantDefinitions :           % Process named constant definitions
@@ -1327,6 +1328,12 @@ ProcedureDefinition :
                 #eMultiplyDefined
                 % New definition obscures old one.
         ]
+        [
+            | sPublic:
+                oSymbolStkSetPublicFlag
+            | *:
+
+        ]
         % Procedure bodies only execute when the routine is called
         % so we need to branch around the procedure's code
         .tSkipProc              % branch around procedure definition
@@ -1462,7 +1469,7 @@ ProcedurePrologue :
         oCountPop;
 
 PackageDefinition:
-        sIdentifier  oSymbolStkPushLocalIdentifier      % pkg name
+        sIdentifier  oSymbolStkPushLocalIdentifier      
 
         oSymbolStkSetKind(syPackage)
         oValuePushCodeAddress
@@ -1474,7 +1481,7 @@ PackageDefinition:
         oSymbolStkEnterTypeReference
         oSymbolTblEnter
 
-        oSymbolTblPushScope     % procedure scope
+        oSymbolTblPushScope     
 
         @Block
 
@@ -1484,8 +1491,7 @@ PackageDefinition:
         oSymbolTblUpdate
         oSymbolStkPop
 
-        oSymbolTblMergePublicScope
-        oSymbolTblPopScope;
+        oSymbolTblMergePublicScope;
 
 
 

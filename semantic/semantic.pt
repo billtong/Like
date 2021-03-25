@@ -1815,10 +1815,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                     oSymbolTblMergePublicScope:
                         { Merges public items into public scope }
                         begin
-                            symbolTblTop := symbolTblTop +
-                                symbolStkPublicFlag[symbolStkTop]        
-                        end ;
-
+                        end;
                     oSymbolTblLookupExternal:
                         { Return yes if the symbol table contains an undeclared 
                           external file name (program parameter), otherwise return no. }
@@ -1961,6 +1958,7 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                     oSymbolStkSetPublicFlag:
                         begin
                            symbolStkPublicFlag[symbolStkTop]  := true;
+                           symbolTblPublicFlag[symbolStkTop] := symbolStkPublicFlag [symbolStkTop];
                         end; 
 
                     oSymbolStkChooseKind:
