@@ -1811,6 +1811,13 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                             symbolTblTop := symbolTblTop +
                                 typeTblLowerBound [symbolTblTypeTblLink[symbolTblTop]];
                         end ;
+                    
+                    oSymbolTblMergePublicScope:
+                        { Merges public items into public scope }
+                        begin
+                            symbolTblTop := symbolTblTop +
+                                symbolStkPublicFlag[symbolStkTop]        
+                        end ;
 
                     oSymbolTblLookupExternal:
                         { Return yes if the symbol table contains an undeclared 
@@ -1951,10 +1958,16 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                             symbolStkTypeTblLink[symbolStkTop] := typeStkTypeTblRef[typeStkTop];
                         end;
 
+                    oSymbolStkSetPublicFlag:
+                        begin
+                           symbolStkPublicFlag[symbolStkTop]  := true;
+                        end; 
+
                     oSymbolStkChooseKind:
                         begin
                             resultValue := symbolStkKind[symbolStkTop];
                         end;
+
 
                     oSymbolStkChooseStandardFile:
                         if symbolStkIdentTblRef[symbolStkTop] = standardInputNameIndex then
