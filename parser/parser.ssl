@@ -550,27 +550,26 @@ CaseStmt :
         @Expression
         .sExpnEnd
         'of'
-	'when' % beginning of a case alternative, need it outside CaseAlternative to use in loop
+	    'when' % beginning of a case alternative, need it outside CaseAlternative to use in loop
         @CaseAlternative
         {[
-	    % else is not required
-            | 'end':
-		.sCaseEnd
+            | 'when':
+                @CaseAlternative 
+            | *:
                 >
-	    % add in else case
-	    | 'else':
-		.sCaseEnd
-		.sCaseElse
-		@Statement
-		>
-	    | 'when':
-		@CaseAlternative
-        ]};
+        ]}
+        .sCaseEnd
+        [
+            | 'else': % add in else case
+                .sCaseElse
+                @Statement
+            | *:
+        ]
+        'end' ';';
 
 CaseAlternative :
         % A case alternative is a statement labelled by
         % one or more optionally signed integer constants
-
         {
             @OptionallySignedIntegerConstant
             [
@@ -579,8 +578,8 @@ CaseAlternative :
                     >
             ]
         }
-	'then' % add the then token to case statement
         .sLabelEnd
+        'then'  
         @Statement;
 
 % switched to be the single line conditional, not containing the body
