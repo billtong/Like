@@ -974,9 +974,7 @@ SimpleType :
         % Accept a simple type and push a type stack entry for it.
         [
             | sIdentifier:
-		oPrint
                 oSymbolStkPushIdentifier
-		oPrint
        
                 % type identifier
                 [ oSymbolStkChooseKind
@@ -1066,6 +1064,18 @@ VariableDeclarations :
 			% puts value in symbol stack and type stack
 			% also emits the value of the expression
 			@Expression
+			% link the resulting expression type to the type table ref
+			[ oTypeStkChooseKind
+			    | tpInteger:
+				oTypeStkLinkToStandardType(stdInteger)
+			    | tpBoolean:
+				oTypeStkLinkToStandardType(stdBoolean)
+			    | tpChar:
+				oTypeStkLinkToStandardType(stdChar)
+			    | *:
+				% can we print an error?
+			]
+
 			oSymbolStkPop
 
 			.tInitEnd
@@ -1073,7 +1083,6 @@ VariableDeclarations :
 
 			 % assign type to the new variable on the symbol stack from the top of the type stack
 			@EnterVariableAttributes
-			oPrint
 			.tLiteralAddress
 			% emit the address
 			oValuePushSymbol
