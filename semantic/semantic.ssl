@@ -1819,7 +1819,7 @@ BinaryOperator :
                 % Added choice option below so that if it is a string operation, emits 
                 % .tStringEQ and .tNot instead of .tNE
                 [oTypeStkChooseKind
-                    |tpChar:                             %TODO: From end of french thinking may this but need to check
+                    |tpChar:                            
                         .tStringEQ 
                         .tNot
                     |*:
@@ -2509,10 +2509,6 @@ WriteText :
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
-                    % TODO determine if needed
-                    % Removed old pascal fake string option
-                 %   | tpChar: % Changed from tpString to tpChar
-                 %      oValuePush(stringSize)    % changed from oValuePushTypeStkUpperBound
                     | *:        
                         % error flagged below
                         oValuePush(zero)
