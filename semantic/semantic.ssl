@@ -828,8 +828,7 @@ Block :
                 @ProcedureDefinition
             | sConst:
                 @ConstantDefinitions
-            | sLike: % Changed from sType to sLike
-                @SimpleType
+            % deleted sType option as does not exist in Like
             | sVar:
                 @VariableDeclarations
             | *:
@@ -905,7 +904,7 @@ ConstantValue :         % push the value and type of the constant value
                 @StringLiteral  % pushes type and value, enters address
         ];
 
-
+% deleted TypeDefinitions as rule is not used
 
 TypeBody :
         % Accept a type specification and push a Type Stack entry for it.
@@ -932,12 +931,14 @@ TypeTblEnterIfNew:
         ];
 
 IndexType :
-        % Accept and fill in index bounds of array type stack entry
-        % push lower and upper bounds onto the value stack
+    % Accept and fill in index bounds of array type stack entry
+
+    % replace subrange with default lower bound of 1, and a given upper bound
+    % push lower and upper bounds onto the value stack
 	oValuePush(one) % lower bound
 	@ConstantValue % push upper bound
         
-        oTypeStkPop      % type of upper bound
+    oTypeStkPop      % type of upper bound
 	
 	% Enter and check the bounds of the array type
         oTypeStkEnterBounds
@@ -968,8 +969,8 @@ ComponentType :
         oTypeStkPop;
 
 SimpleType :
-	% begin with the like token
-	sLike
+    	% begin with the like token
+    	sLike
 
         % Accept a simple type and push a type stack entry for it.
         [
@@ -978,78 +979,48 @@ SimpleType :
        
                 % type identifier
                 [ oSymbolStkChooseKind
-		     % make sure the identifier is a variable or constant
-                     | syConstant, syVariable:
-			% push type of identifier to type stack
-			oTypeStkPushSymbol
-		     % if error default to integer for type
-                     | *:
-                          #eSimpleTypeReqd
-                          oTypeStkPush(tpInteger)
-			  oTypeStkLinkToStandardType(stdInteger)
+                    % make sure the identifier is a variable or constant
+                    | syConstant, syVariable:
+			             % push type of identifier to type stack
+			             oTypeStkPushSymbol
+                    % if error default to integer for type
+                    | *:
+                        #eSimpleTypeReqd
+                        oTypeStkPush(tpInteger)
+			            oTypeStkLinkToStandardType(stdInteger)
                 ]
-		% pop pushed identifier off stack
+
+                % pop pushed identifier off stack
                 oSymbolStkPop
 
             | sInteger:
-		% check for negate at negative integer allowed
-		[
-		    | sNegate:
-		    | *:
-		]
+        		% check for negate at negative integer allowed
+        		[
+        		    | sNegate:
+        		    | *:
+        		]
 
               	% delete subrange aspects and instead push integer to type stack
                 oTypeStkPush(tpInteger)
-		oTypeStkLinkToStandardType(stdInteger) % link to standard type
+        		oTypeStkLinkToStandardType(stdInteger) % link to standard type
 
-	    % handling for string type
+    	    % handling for string type
             | sStringLiteral:
                 oTypeStkPush(tpChar)
-		oTypeStkLinkToStandardType(stdChar) % link to standard type
-	    | *:
+        		oTypeStkLinkToStandardType(stdChar) % link to standard type
+
+            % default to integer if error
+    	    | *:
                 #eSimpleTypeReqd
                 oTypeStkPush(tpInteger)
                 oTypeStkLinkToStandardType(stdInteger)
         ];
 
-SubrangeUpperBound :
-        % Accept the upper bound of a subrange and push it on the value stack.
-        [
-            | sInteger:
-                oValuePushInteger
-            | sIdentifier:
-                oSymbolStkPushIdentifier
-                [ oSymbolStkChooseKind
-                    | syConstant:
-                        oTypeStkPushSymbol
-                        [ oTypeStkChooseKind
-                            | tpInteger:
-                                oValuePushSymbol
-                            | *:
-                                #eIntegerConstReqd
-                                @ValuePushValuePlusOne
-                        ]
-                        oTypeStkPop
-                    | syUndefined:
-                        #eUndefinedIdentifier
-                        @ValuePushValuePlusOne
-                    | *:
-                        #eIntegerConstReqd
-                        @ValuePushValuePlusOne
-                ]
-                oSymbolStkPop
-            | *:
-                #eIntegerConstReqd
-                @ValuePushValuePlusOne
-        ]
-        [
-            | sNegate:
-                oValueNegate
-            | *:
-        ];
+% delete subrangeupperbound as it is no longer needed for Like
 
 VariableDeclarations :
-        [ % removed the loop so it can only accept a single declaration in a line
+        % removed the loop so it can only accept a single declaration in a line
+        [ 
             | sIdentifier:
                 oSymbolStkPushLocalIdentifier
 
@@ -1061,58 +1032,55 @@ VariableDeclarations :
                         % The new definition will obscure the old one
                 ]
 
-		% checks if is a type declaration or if an initial value is defined
-		[	    
-		    % add the option of a variable being declared with an initial value
-		    | sInitialValue:
-			.tInitialValue
+    		% checks if is a type declaration or if an initial value is defined
+    		[	    
+    		    % add the option of a variable being declared with an initial value
+    		    | sInitialValue:
+    			.tInitialValue
 
-			% puts value in symbol stack and type stack
-			% also emits the value of the expression
-			@Expression
-			% link the resulting expression type to the type table ref
-			[ oTypeStkChooseKind
-			    | tpInteger:
-				oTypeStkLinkToStandardType(stdInteger)
-			    | tpBoolean:
-				oTypeStkLinkToStandardType(stdBoolean)
-			    | tpChar:
-				oTypeStkLinkToStandardType(stdChar)
-			    | *:
-				% can we print an error?
-			]
+    			% puts value in symbol stack and type stack
+    			% also emits the value of the expression
+    			@Expression
+    			% link the resulting expression type to the type table ref
+    			[ oTypeStkChooseKind
+    			    | tpInteger:
+    				oTypeStkLinkToStandardType(stdInteger)
+    			    | tpBoolean:
+    				oTypeStkLinkToStandardType(stdBoolean)
+    			    | tpChar:
+    				oTypeStkLinkToStandardType(stdChar)
+    			    | *:
+    			]
 
-			oSymbolStkPop
+    			oSymbolStkPop
 
-			.tInitEnd
+    			.tInitEnd
 
 
-			 % assign type to the new variable on the symbol stack from the top of the type stack
-			@EnterVariableAttributes
-			.tLiteralAddress
-			% emit the address
-			oValuePushSymbol
-			oEmitValue
-			oValuePop
-			
+    			% assign type to the new variable on the symbol stack from the top of the type stack
+    			@EnterVariableAttributes
+    			.tLiteralAddress
+    			% emit the address
+    			oValuePushSymbol
+    			oEmitValue
+    			oValuePop
+    			
+    			% store expression result at address of new variable
+    			@EmitStore			
 
-			% store expression result at address of new variable
-			@EmitStore			
-
-			% clean up stack entries after assigned 
-			oTypeStkPop
-			%oSymbolStkPop
-			oSymbolStkPop
+    			% clean up stack entries after assigned 
+    			oTypeStkPop
+    			oSymbolStkPop
 		    
-		    % assumes that if not initial value it is a like type declaration
-		    | *:
-			% Accepts a type specification and pushes its type to the Type Stack.
+    		    % assumes that if not initial value it is a like type declaration
+    		    | *:
+    			% Accepts a type specification and pushes its type to the Type Stack.
 	        	% Creates type table entries for the type and any new subtypes as necessary.
 	        	@TypeBody
 	        	@EnterVariableAttributes
 	        	oTypeStkPop
-			oSymbolStkPop
-		]
+    			oSymbolStkPop
+            ]
 	    
             | *:	
         ];
@@ -1290,7 +1258,7 @@ ProcedureParameterType :
         % A local procedure's formal parameters must
         % be declared using named types.
 
-	@SimpleType % puts type of parameter on the typestack
+    	@SimpleType % puts type of parameter on the typestack
 
         [ oSymbolStkChooseKind
             | syVariable:
