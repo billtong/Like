@@ -1,0 +1,5 @@
+Purpose: 
+To test that the assign operator works as expected with the string updates
+
+Result: 
+The output matches what is expected

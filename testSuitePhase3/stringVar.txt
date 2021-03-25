@@ -1,0 +1,5 @@
+Purpose: 
+To test that string can be declared using var and the like operator. 
+
+Result: 
+The output matches what is expected

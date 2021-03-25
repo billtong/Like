@@ -46,10 +46,10 @@ false
 % Predeclared procedures and functions
 reset
 rewrite
-write
-writeln
-read
-readln
+put
+putln
+get
+getln
 chr
 ord
 eoln

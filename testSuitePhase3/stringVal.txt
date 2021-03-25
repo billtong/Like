@@ -1,0 +1,5 @@
+Purpose: 
+To test that assigning strings as vals works as expected
+
+Result: 
+The output matches what is expected

@@ -1,0 +1,5 @@
+Purpose: 
+To test that the get operator works on strings as expected
+
+Result: 
+The output matches what is expected
