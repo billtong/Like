@@ -1,2 +1,3 @@
 using output;
 public val a = 3;
+var b = a;
