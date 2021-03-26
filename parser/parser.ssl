@@ -217,7 +217,6 @@ Block :
                ';'		% semicolon not handled in assignment or call
             | 'pkg':      % Added to check for packages
                 @Package
-               ';'  
             | 'if':
                 @IfStmt
                 ';'
@@ -231,12 +230,10 @@ Block :
                 [
                     | 'var':    % Added to check for var
                         @PublicVariableDeclarations
-                        ';'
                     | 'val':    % Add to check for val
                         @PublicConstDefinitions
                     | 'fun':    % Added to check for fun
                         @PublicRoutines
-                        ';'
                     | *:
                 ]
             | 'val':    % Add to check for val
@@ -261,7 +258,7 @@ Package :
     .sIdentifier
     'is'
     @Statement
-    'end';
+    'end' ';';
 
 PublicConstDefinitions :
         % Accept one or more named constant definitions

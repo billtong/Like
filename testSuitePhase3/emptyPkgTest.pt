@@ -1,0 +1,4 @@
+using output;
+
+pkg foo is 
+end;

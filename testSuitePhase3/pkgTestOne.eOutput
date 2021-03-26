@@ -1,0 +1,205 @@
+@Program
+ ?sProgram (sProgram)
+ oPrint
+ This is a test print statement         0
+ oSymbolStkPush(syProcedure)
+ oSymbolTblPushScope
+ oCountPush(three)
+ [ (sIdentifier)
+ | *:
+ @ProgramParameter
+  ?sIdentifier (sIdentifier)
+  oSymbolStkPushLocalIdentifier
+  [ oSymbolStkChooseKind (syUndefined)
+  | syUndefined:
+  [ oSymbolStkChooseStandardFile (stdOutput)
+  | stdOutput:
+  oSymbolStkSetKind(syVariable)
+  oTypeStkPush(tpFile)
+  oTypeStkLinkToStandardType(stdText)
+  oSymbolStkEnterTypeReference
+  oValuePush(two)
+  ] or >
+  @AllocateVar
+   [ oSymbolStkChooseKind (syVariable)
+   | *:
+   [ oTypeStkChooseKind (tpFile)
+   | tpFile:
+   .tFileDescriptor
+   oAllocateAlignOnWord
+   oSymbolStkEnterDataAddress
+   .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tFileBind
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tStoreInteger
+   oAllocateDescriptor
+   ] or >
+   >>
+  ;AllocateVar
+  oSymbolTblEnter
+  ] or >
+  oSymbolStkPop
+  oTypeStkPop
+  oValuePop
+  >>
+ ;ProgramParameter
+ }
+ [ (sParmEnd)
+ | sParmEnd:
+ ] or >
+ oCountPop
+ @Statement
+  oSymbolTblPushScope
+  @Block
+   ?sBegin (sBegin)
+   [ (sPackage)
+   | sPackage:
+   @PackageDefinition
+    ?sIdentifier (sIdentifier)
+    oSymbolStkPushLocalIdentifier
+    oSymbolStkSetKind(syPackage)
+    oValuePushCodeAddress
+    oSymbolStkEnterValue
+    oValuePop
+    oTypeStkPush(tpNull)
+    oTypeStkSetRecursionFlag(yes)
+    oTypeTblEnter
+    oSymbolStkEnterTypeReference
+    oSymbolTblEnter
+    oSymbolTblPushScope
+    @Block
+     ?sBegin (sBegin)
+     [ (sVar)
+     | sVar:
+     @VariableDeclarations
+      [ (sIdentifier)
+      | sIdentifier:
+      oSymbolStkPushLocalIdentifier
+      ] or >
+      [ (sInitialValue)
+      | *:
+      [ (sInitialValue)
+      | sInitialValue:
+      .tInitialValue
+      @Expression
+       @Operand
+        [ (sInteger)
+        | sInteger:
+        oValuePushInteger
+        oSymbolStkPush(syExpression)
+        oTypeStkPush(tpInteger)
+        oTypeStkLinkToStandardType(stdInteger)
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 1
+        oValuePop
+        ] or >
+        >>
+       ;Operand
+       @UnaryOperator
+        [ (sExpnEnd)
+        | *:
+        >>
+       ;UnaryOperator
+       @BinaryOperator
+        [ (sExpnEnd)
+        | *:
+        >>
+       ;BinaryOperator
+       [ (sExpnEnd)
+       | sExpnEnd:
+       ] or >
+       >>
+      ;Expression
+      oSymbolStkPop
+      .tInitEnd
+      @EnterVariableAttributes
+       [ oSymbolStkChooseKind (syUndefined)
+       | *:
+       oSymbolStkSetKind(syVariable)
+       [ oTypeStkChooseKind (tpInteger)
+       | *:
+       @AllocateVar
+        [ oSymbolStkChooseKind (syVariable)
+        | *:
+        [ oTypeStkChooseKind (tpInteger)
+        | tpInteger:
+        oAllocateAlignOnWord
+        oSymbolStkEnterDataAddress
+        oAllocateVariable
+        ] or >
+        >>
+       ;AllocateVar
+       oSymbolStkEnterTypeReference
+       oSymbolTblEnter
+       >>
+      ;EnterVariableAttributes
+      .tLiteralAddress
+      oValuePushSymbol
+      oEmitValue
+      % value emitted 4
+      oValuePop
+      @EmitStore
+       [ oTypeStkChooseKind (tpInteger)
+       | tpInteger:
+       .tStoreInteger
+       ] or >
+       >>
+      ;EmitStore
+      oTypeStkPop
+      oSymbolStkPop
+      ] or >
+      >>
+     ;VariableDeclarations
+     ] or >
+     }
+     [ (sEnd)
+     | *:
+     ] or >
+     @BeginStmt
+      [ (sEnd)
+      | sEnd:
+      ] or >
+      >>
+     ;BeginStmt
+     >>
+    ;Block
+    oTypeStkSetRecursionFlag(no)
+    oTypeTblUpdate
+    oTypeStkPop
+    oSymbolTblUpdate
+    oSymbolStkPop
+    oSymbolTblMergePublicScope
+    oSymbolTblPopScope
+    >>
+   ;PackageDefinition
+   ] or >
+   }
+   [ (sEnd)
+   | *:
+   ] or >
+   @BeginStmt
+    [ (sEnd)
+    | sEnd:
+    ] or >
+    >>
+   ;BeginStmt
+   >>
+  ;Block
+  oSymbolTblPopScope
+  >>
+ ;Statement
+ [ oSymbolTblLookupExternal (no)
+ | *:
+ oSymbolTblPopScope
+ oSymbolStkPop
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
+ >>
+;Program

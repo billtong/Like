@@ -313,6 +313,8 @@ mechanism SymbolTable :
         % Restore procedure parameter entries to the symbol table 
         % after popping the scope.
 
+    oSymbolTblMergePublicScope
+
     oSymbolTblLookupExternal >> Boolean;
         % Return true if any external names (program parameters)
         % have not yet been declared.
@@ -329,6 +331,7 @@ type SymbolKind :
         syFunction
         syExternal
         syExpression
+        syPackage
         syUndefined;
 
 type StdRoutine :
@@ -407,6 +410,9 @@ mechanism SymbolStack :
     oSymbolStkEnterTypeReference
         % The top entry's type reference field is set to the type reference
         % field of the top type stack entry.
+    
+    oSymbolStkSetPublicFlag
+        %Declares an entry accessible outside of the current pkg scope.
 
     oSymbolStkChooseKind >> SymbolKind
         % Return the value of the top entry's kind field.
@@ -824,6 +830,17 @@ Block :
                 @CaseStmt
             | sRepeatStmt:
                 @RepeatStmt
+            | sPublic: % Added to check for public 
+                [
+                    | sVar:    
+                        @VariableDeclarations
+                    | sConst:    
+                        @ConstantDefinitions
+                    | sProcedure:    
+                        @ProcedureDefinition
+                    | *:
+                        #eFileNameReqd
+                ]
             | sNullStmt:
             % End of ones added from statement rule
             | sProcedure:
@@ -833,15 +850,37 @@ Block :
             % deleted sType option as does not exist in Like
             | sVar:
                 @VariableDeclarations
+            | sPackage:
+                @PackageDefinition %added a path for packages
             | *:
                 >
         ]}
+        sEnd
         @BeginStmt;
 
 ConstantDefinitions :           % Process named constant definitions
         {[
             | sIdentifier:
                 oSymbolStkPushLocalIdentifier
+                [ oSymbolStkChooseKind
+                    | syUndefined:
+                    | syExternal:
+                        % A program parameter must be declared as a file variable
+                        #eExternalDeclare
+                    | *:
+                        #eMultiplyDefined
+                        % The new definition will now obscure the old one
+                ]
+                oSymbolStkSetKind(syConstant)
+                @ConstantValue
+                oSymbolStkEnterTypeReference
+                oTypeStkPop
+                oSymbolStkEnterValue
+                oValuePop
+                oSymbolTblEnter
+                oSymbolStkPop
+            | sPublic:
+                oSymbolStkSetPublicFlag
                 [ oSymbolStkChooseKind
                     | syUndefined:
                     | syExternal:
@@ -1021,6 +1060,7 @@ SimpleType :
 % delete subrangeupperbound as it is no longer needed for Like
 
 VariableDeclarations :
+<<<<<<< HEAD
         % removed the loop so it can only accept a single declaration in a line
         [ 
             | sIdentifier:
@@ -1035,6 +1075,11 @@ VariableDeclarations :
                 ]
 
     		% checks if is a type declaration or if an initial value is defined
+            [
+                | sPublic:
+                    oSymbolStkSetPublicFlag
+                | *:
+            ]
     		[	    
     		    % add the option of a variable being declared with an initial value
     		    | sInitialValue:
@@ -1087,6 +1132,57 @@ VariableDeclarations :
             | *:	
         ];
 
+=======
+        % checks if is a type declaration or if an initial value is defined
+		[
+            | sIdentifier:
+                oSymbolStkPushLocalIdentifier
+        ]
+        [
+            | sPublic:
+                oSymbolStkSetPublicFlag
+            | *:
+        ]
+        [	    
+		    % add the option of a variable being declared with an initial value
+		    | sInitialValue:
+			    .tInitialValue
+
+			% puts value in symbol stack and type stack
+			% also emits the value of the expression
+			    @Expression
+			    oSymbolStkPop
+
+			    .tInitEnd
+
+
+			 % assign type to the new variable on the symbol stack from the top of the type stack
+			    @EnterVariableAttributes
+			    .tLiteralAddress
+			% emit the address
+			    oValuePushSymbol
+			    oEmitValue
+			    oValuePop
+
+
+			% store expression result at address of new variable
+			    @EmitStore			
+
+			% clean up stack entries after assigned 
+			    oTypeStkPop
+			%oSymbolStkPop
+			    oSymbolStkPop
+
+		    % assumes that if not initial value it is a like type declaration
+		    | *:
+			% Accepts a type specification and pushes its type to the Type Stack.
+	        % Creates type table entries for the type and any new subtypes as necessary.
+	        	@TypeBody
+	        	@EnterVariableAttributes
+	        	oTypeStkPop
+			    oSymbolStkPop
+		];
+>>>>>>> phase3backup
 EnterVariableAttributes :
         % Enter the type on top of the Type Stack as the type of 
         % the new variable on top of the symbol stack
@@ -1182,7 +1278,9 @@ AllocateVar :
         ];
 
 ProcedureDefinition :
-        sIdentifier  oSymbolStkPushLocalIdentifier      % procedure name
+
+        sIdentifier  oSymbolStkPushLocalIdentifier      % procedure names
+        
         [ oSymbolStkChooseKind
             | syUndefined:
             | syExternal:
@@ -1191,6 +1289,12 @@ ProcedureDefinition :
             | *:
                 #eMultiplyDefined
                 % New definition obscures old one.
+        ]
+        [
+            | sPublic:
+                oSymbolStkSetPublicFlag
+            | *:
+
         ]
         % Procedure bodies only execute when the routine is called
         % so we need to branch around the procedure's code
@@ -1311,6 +1415,31 @@ ProcedurePrologue :
         ]}
         oTypeStkEnterParameterCount     % In procedure's type entry
         oCountPop;
+
+PackageDefinition:
+        sIdentifier  oSymbolStkPushLocalIdentifier      
+
+        oSymbolStkSetKind(syPackage)
+        oValuePushCodeAddress
+        oSymbolStkEnterValue
+        oValuePop
+        oTypeStkPush(tpNull)
+        oTypeTblEnter
+        oSymbolStkEnterTypeReference
+        oSymbolTblEnter
+
+        oSymbolTblPushScope     
+
+        @Block
+
+        oTypeTblUpdate
+        oTypeStkPop
+        oSymbolTblUpdate
+        oSymbolStkPop
+
+        oSymbolTblMergePublicScope;
+
+
 
 Statement :
     oSymbolTblPushScope %Added to push a new scope
