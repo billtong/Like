@@ -1835,8 +1835,24 @@ program SemanticAnalysis (output, semanticSsl, parseStream, temp, tCode, options
                         { Merges public items into public scope }
                         
                         begin
-                        
+                            { The below code is commented out as it is close to working but does not quite work }
+                            {i := symbolTblTop;
 
+                            while i > symbolTblDisplay[lexicLevelStackTop] do
+                                begin
+                                    link := symbolTblIdentLink[i];
+                                    check := symbolTblPublicFlag[i];
+
+                                    if link <> null and link <> check then
+
+                                        begin
+                                            while link > 0 do
+                                                link := symbolTblIdentLink[link];
+                                            identSymbolTblRef[-link] := symbolTblIdentLink[i];
+                                        end;
+
+                                    i := i - 1
+                            }
                         end;
                         
                     oSymbolTblLookupExternal:
