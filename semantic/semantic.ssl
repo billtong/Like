@@ -830,17 +830,6 @@ Block :
                 @CaseStmt
             | sRepeatStmt:
                 @RepeatStmt
-            | sPublic: % Added to check for public 
-                [
-                    | sVar:    
-                        @VariableDeclarations
-                    | sConst:    
-                        @ConstantDefinitions
-                    | sProcedure:    
-                        @ProcedureDefinition
-                    | *:
-                        #eFileNameReqd
-                ]
             | sNullStmt:
             % End of ones added from statement rule
             | sProcedure:
@@ -1060,7 +1049,6 @@ SimpleType :
 % delete subrangeupperbound as it is no longer needed for Like
 
 VariableDeclarations :
-<<<<<<< HEAD
         % removed the loop so it can only accept a single declaration in a line
         [ 
             | sIdentifier:
@@ -1074,115 +1062,66 @@ VariableDeclarations :
                         % The new definition will obscure the old one
                 ]
 
-    		% checks if is a type declaration or if an initial value is defined
-            [
-                | sPublic:
-                    oSymbolStkSetPublicFlag
-                | *:
-            ]
-    		[	    
-    		    % add the option of a variable being declared with an initial value
-    		    | sInitialValue:
-    			.tInitialValue
+        		% checks if is a type declaration or if an initial value is defined
+                [
+                    | sPublic:
+                        oSymbolStkSetPublicFlag
+                    | *:
+                ]
 
-    			% puts value in symbol stack and type stack
-    			% also emits the value of the expression
-    			@Expression
-    			% link the resulting expression type to the type table ref
-    			[ oTypeStkChooseKind
-    			    | tpInteger:
-    				oTypeStkLinkToStandardType(stdInteger)
-    			    | tpBoolean:
-    				oTypeStkLinkToStandardType(stdBoolean)
-    			    | tpChar:
-    				oTypeStkLinkToStandardType(stdChar)
-    			    | *:
-    			]
+        		[	    
+        		    % add the option of a variable being declared with an initial value
+        		    | sInitialValue:
+            			.tInitialValue
 
-    			oSymbolStkPop
+            			% puts value in symbol stack and type stack
+            			% also emits the value of the expression
+            			@Expression
+            			% link the resulting expression type to the type table ref
+            			[ oTypeStkChooseKind
+            			    | tpInteger:
+            				oTypeStkLinkToStandardType(stdInteger)
+            			    | tpBoolean:
+            				oTypeStkLinkToStandardType(stdBoolean)
+            			    | tpChar:
+            				oTypeStkLinkToStandardType(stdChar)
+            			    | *:
+            			]
 
-    			.tInitEnd
+            			oSymbolStkPop
+
+            			.tInitEnd
 
 
-    			% assign type to the new variable on the symbol stack from the top of the type stack
-    			@EnterVariableAttributes
-    			.tLiteralAddress
-    			% emit the address
-    			oValuePushSymbol
-    			oEmitValue
-    			oValuePop
-    			
-    			% store expression result at address of new variable
-    			@EmitStore			
+            			% assign type to the new variable on the symbol stack from the top of the type stack
+            			@EnterVariableAttributes
+            			.tLiteralAddress
+            			% emit the address
+            			oValuePushSymbol
+            			oEmitValue
+            			oValuePop
+            			
+            			% store expression result at address of new variable
+            			@EmitStore			
 
-    			% clean up stack entries after assigned 
-    			oTypeStkPop
-    			oSymbolStkPop
+            			% clean up stack entries after assigned 
+            			oTypeStkPop
+            			oSymbolStkPop
 		    
-    		    % assumes that if not initial value it is a like type declaration
-    		    | *:
-    			% Accepts a type specification and pushes its type to the Type Stack.
-	        	% Creates type table entries for the type and any new subtypes as necessary.
-	        	@TypeBody
-	        	@EnterVariableAttributes
-	        	oTypeStkPop
-    			oSymbolStkPop
-            ]
+        		    % assumes that if not initial value it is a like type declaration
+        		    | *:
+            			% Accepts a type specification and pushes its type to the Type Stack.
+        	        	% Creates type table entries for the type and any new subtypes as necessary.
+        	        	@TypeBody
+        	        	@EnterVariableAttributes
+        	        	oTypeStkPop
+            			oSymbolStkPop
+                ]
 	    
             | *:	
         ];
 
-=======
-        % checks if is a type declaration or if an initial value is defined
-		[
-            | sIdentifier:
-                oSymbolStkPushLocalIdentifier
-        ]
-        [
-            | sPublic:
-                oSymbolStkSetPublicFlag
-            | *:
-        ]
-        [	    
-		    % add the option of a variable being declared with an initial value
-		    | sInitialValue:
-			    .tInitialValue
 
-			% puts value in symbol stack and type stack
-			% also emits the value of the expression
-			    @Expression
-			    oSymbolStkPop
-
-			    .tInitEnd
-
-
-			 % assign type to the new variable on the symbol stack from the top of the type stack
-			    @EnterVariableAttributes
-			    .tLiteralAddress
-			% emit the address
-			    oValuePushSymbol
-			    oEmitValue
-			    oValuePop
-
-
-			% store expression result at address of new variable
-			    @EmitStore			
-
-			% clean up stack entries after assigned 
-			    oTypeStkPop
-			%oSymbolStkPop
-			    oSymbolStkPop
-
-		    % assumes that if not initial value it is a like type declaration
-		    | *:
-			% Accepts a type specification and pushes its type to the Type Stack.
-	        % Creates type table entries for the type and any new subtypes as necessary.
-	        	@TypeBody
-	        	@EnterVariableAttributes
-	        	oTypeStkPop
-			    oSymbolStkPop
-		];
->>>>>>> phase3backup
 EnterVariableAttributes :
         % Enter the type on top of the Type Stack as the type of 
         % the new variable on top of the symbol stack
