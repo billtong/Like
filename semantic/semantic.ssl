@@ -172,7 +172,6 @@ Output :
         tLength
         tStringEQ
         %Other new operations 
-        %TODO here for now move to other section if had no operand
         tInitialValue
         tInitEnd
         tCaseElse
@@ -844,12 +843,19 @@ Block :
             | *:
                 >
         ]}
-        sEnd
         @BeginStmt;
 
 ConstantDefinitions :           % Process named constant definitions
         {[
             | sIdentifier:
+
+                % check if it is public
+                [
+                    | sPublic:
+                        oSymbolStkSetPublicFlag
+                    | *:
+                ]
+
                 oSymbolStkPushLocalIdentifier
                 [ oSymbolStkChooseKind
                     | syUndefined:
@@ -867,26 +873,7 @@ ConstantDefinitions :           % Process named constant definitions
                 oSymbolStkEnterValue
                 oValuePop
                 oSymbolTblEnter
-                oSymbolStkPop
-            | sPublic:
-                oSymbolStkSetPublicFlag
-                [ oSymbolStkChooseKind
-                    | syUndefined:
-                    | syExternal:
-                        % A program parameter must be declared as a file variable
-                        #eExternalDeclare
-                    | *:
-                        #eMultiplyDefined
-                        % The new definition will now obscure the old one
-                ]
-                oSymbolStkSetKind(syConstant)
-                @ConstantValue
-                oSymbolStkEnterTypeReference
-                oTypeStkPop
-                oSymbolStkEnterValue
-                oValuePop
-                oSymbolTblEnter
-                oSymbolStkPop
+                oSymbolStkPop 
             | *:
                 >
         ]};
@@ -2562,7 +2549,6 @@ WriteText :
                 oTypeStkPop
             | *:
                 % No field width specified, supply a default
-                oPrint
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
