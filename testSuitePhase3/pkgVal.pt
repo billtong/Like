@@ -1,7 +1,7 @@
 using output;
 
-pkg foo is 
-    val a : like 1;
-end;
+//pkg foo is 
+//    val a : like 1;
+//end;
 
-a = 1;
+//a = 1;
