@@ -1,0 +1,5 @@
+Purpose: 
+To test package with a public var being accessible outside package
+
+Result: 
+The output does not match what is expected but the test was kept to show what it should do
