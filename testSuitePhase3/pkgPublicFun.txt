@@ -1,0 +1,5 @@
+Purpose: 
+To test package with a Public Fun(Procedure) routine inside
+
+Result: 
+The output matches what is expected 
