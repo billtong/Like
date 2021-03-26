@@ -849,6 +849,14 @@ Block :
 ConstantDefinitions :           % Process named constant definitions
         {[
             | sIdentifier:
+
+                % check if it is public
+                [
+                    | sPublic:
+                        oSymbolStkSetPublicFlag
+                    | *:
+                ]
+
                 oSymbolStkPushLocalIdentifier
                 [ oSymbolStkChooseKind
                     | syUndefined:
@@ -866,26 +874,7 @@ ConstantDefinitions :           % Process named constant definitions
                 oSymbolStkEnterValue
                 oValuePop
                 oSymbolTblEnter
-                oSymbolStkPop
-            | sPublic:
-                oSymbolStkSetPublicFlag
-                [ oSymbolStkChooseKind
-                    | syUndefined:
-                    | syExternal:
-                        % A program parameter must be declared as a file variable
-                        #eExternalDeclare
-                    | *:
-                        #eMultiplyDefined
-                        % The new definition will now obscure the old one
-                ]
-                oSymbolStkSetKind(syConstant)
-                @ConstantValue
-                oSymbolStkEnterTypeReference
-                oTypeStkPop
-                oSymbolStkEnterValue
-                oValuePop
-                oSymbolTblEnter
-                oSymbolStkPop
+                oSymbolStkPop 
             | *:
                 >
         ]};
