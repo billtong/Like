@@ -11,4 +11,3 @@
  .tTrap
  oEmitTrapKind(trHalt)
  % value emitted 0
-### Semantic assertion 51 failed: lexic level stack not empty at end of semantic phase
