@@ -1,0 +1,3 @@
+Purpose: Base case test of a null program
+
+Result: The output matched with the expected result in emptyProgram.eOutput
