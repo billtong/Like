@@ -13,7 +13,7 @@
       .tLiteralAddress
       oEmitValue
       % value emitted 4
-       .tStoreInteger
+       .tStoreChar
       .tParmEnd
       .tAssignBegin
        .tLiteralAddress
@@ -24,17 +24,18 @@
          % value emitted -32767
          .tStringData
          oEmitValue
-         % value emitted 2
+         % value emitted 4
          oEmitString
-         % value emitted 104
-         % value emitted 105
+         % value emitted 119
+         % value emitted 111
+         % value emitted 114
+         % value emitted 100
          % value emitted 0
         .tLiteralAddress
         oEmitValue
         % value emitted -26
         .tFetchChar
-       #eTypeMismatch
-       .tAssignInteger
+       .tAssignChar
     .tProcedureEnd
  .tTrapBegin
  .tTrap
