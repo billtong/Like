@@ -172,7 +172,6 @@ Output :
         tLength
         tStringEQ
         %Other new operations 
-        %TODO here for now move to other section if had no operand
         tInitialValue
         tInitEnd
         tCaseElse
@@ -2550,7 +2549,6 @@ WriteText :
                 oTypeStkPop
             | *:
                 % No field width specified, supply a default
-                oPrint
                 [ oTypeStkChooseKind    % of expression being written
                     | tpInteger, tpSubrange:
                         oValuePush(ten)
