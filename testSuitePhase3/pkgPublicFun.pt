@@ -1,8 +1,8 @@
 using output;
 
 pkg foo is 
-    public fun pubFun(value a : like 1) is 
-         a = a + 1
+    public fun func(a : like 1) is 
+         a = 2;
     end;
 end;
-val b = pubFun(1);
+func;

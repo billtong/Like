@@ -1,7 +1,6 @@
 using output;
 
 pkg foo is 
-    public val a : like 1;
+    public val a = 1;
 end;
-
-a = 1;
+a=2;

@@ -311,7 +311,7 @@ mechanism SymbolTable :
     oSymbolTblPreserveParameters
         % Restore procedure parameter entries to the symbol table 
         % after popping the scope.
-
+    
     oSymbolTblMergePublicScope
 
     oSymbolTblLookupExternal >> Boolean;
@@ -843,18 +843,12 @@ Block :
             | *:
                 >
         ]}
+        
         @BeginStmt;
 
 ConstantDefinitions :           % Process named constant definitions
         {[
             | sIdentifier:
-
-                % check if it is public
-                [
-                    | sPublic:
-                        oSymbolStkSetPublicFlag
-                    | *:
-                ]
 
                 oSymbolStkPushLocalIdentifier
                 [ oSymbolStkChooseKind
@@ -866,7 +860,14 @@ ConstantDefinitions :           % Process named constant definitions
                         #eMultiplyDefined
                         % The new definition will now obscure the old one
                 ]
+                 % check if it is public
                 oSymbolStkSetKind(syConstant)
+                [
+                    | sPublic:
+                        oSymbolStkSetPublicFlag
+                    | *:
+                ]
+
                 @ConstantValue
                 oSymbolStkEnterTypeReference
                 oTypeStkPop
@@ -1343,26 +1344,31 @@ ProcedurePrologue :
         oCountPop;
 
 PackageDefinition:
-        sIdentifier  oSymbolStkPushLocalIdentifier      
+        sIdentifier  oSymbolStkPushLocalIdentifier 
+        
+        [ oSymbolStkChooseKind
+            | syUndefined:
+            | syExternal:
+                % Program parameters must be declared as file variables
+                #eExternalDeclare
+            | *:
+                #eMultiplyDefined
+                % New definition obscures old one.
+        ]     
 
         oSymbolStkSetKind(syPackage)
-        oValuePushCodeAddress
-        oSymbolStkEnterValue
-        oValuePop
         oTypeStkPush(tpNull)
         oTypeTblEnter
         oSymbolStkEnterTypeReference
         oSymbolTblEnter
-
         oSymbolTblPushScope     
 
         @Block
 
-        oTypeTblUpdate
-        oTypeStkPop
         oSymbolTblUpdate
         oSymbolStkPop
-
+        oTypeTblUpdate
+        oTypeStkPop
         oSymbolTblMergePublicScope;
 
 

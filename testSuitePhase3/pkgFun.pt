@@ -1,8 +1,8 @@
 using output;
 
 pkg foo is 
-    fun func(value a : like 1) is 
-         a = a + 1
+    fun func(a : like 1) is 
+         a = 2;
     end;
 end;
-val b = func(1);
+func;

@@ -7,13 +7,22 @@
    oEmitDataAddress
    % value emitted 0
    .tStoreInteger
+      .tInitialValue
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 1
+      .tInitEnd
+      .tLiteralAddress
+      oEmitValue
+      % value emitted 4
+       .tStoreInteger
     .tAssignBegin
      .tLiteralAddress
      oEmitValue
      % value emitted 4
       .tLiteralInteger
       oEmitValue
-      % value emitted 5
+      % value emitted 2
      .tAssignInteger
  .tTrapBegin
  .tTrap

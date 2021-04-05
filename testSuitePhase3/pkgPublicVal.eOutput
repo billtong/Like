@@ -8,7 +8,7 @@
    % value emitted 0
    .tStoreInteger
     .tAssignBegin
-     #eUndefinedIdentifier
+     #eVariableReqd
       .tLiteralInteger
       oEmitValue
       % value emitted 2
