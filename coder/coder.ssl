@@ -20,10 +20,11 @@
 
 
 Input:
-        % T-code tokens - must match output tokens in semantic.ssl exactly!
+      
+        % T-code tokens - must match input tokens in coder.ssl exactly!
 
         % Non-compound T-codes - T-code operations take no operands
-        tMultiply
+        tMultiply 
         firstTcode = tMultiply
         tDivide
         tModulus
@@ -103,12 +104,23 @@ Input:
         tCallEnd
         tLineNumber
         tTrap
+        % Added operations below
+        % String operations
+        tConcatenate
+        tRepeatString
+        tSubstring
+        tLength
+        tStringEQ
+        %Other new operations 
+        tInitialValue
+        tInitEnd
+        tCaseElse
+        tCaseElseEnd
         lastCompoundTcode = tTrap
 
         % End of file marker T-code
         tEndOfFile
         lastTcode = tEndOfFile;
-
 
 Error:
         eDivisionByZero 
@@ -125,6 +137,7 @@ type Integer:
         four = 4
         eight = 8
         twelve = 12
+        twofiftysix = 256
 
         % Temporary registers
         regAX = 1   %eax
@@ -140,7 +153,6 @@ type Integer:
         trReadln = 4
         trWrite = 5
         trWriteln = 6
-        trWriteString = 7
         trWriteInteger = 8
         trWriteChar = 9
         trReadInteger = 10
@@ -150,10 +162,20 @@ type Integer:
         trCaseAbort = 14
         trEoln = 15
         trEof = 16
+        trAssignString = 101%added
+        trChrString = 102
+        trConcatenate = 103
+        trSubstring = 104
+        trLength= 105
+        trStringEqual = 107
+        trReadString = 108
+        trWriteString = 109
+        trRepeatString = 110%end added
 
         % Data kinds
         byte = 1
-        word = 2;   % 4 bytes on x86
+        word = 2 % 4 bytes on x86
+        string = 3;   % added
 
 
 type Boolean:
@@ -744,6 +766,24 @@ Block:
             @Routine
             oFixForwardBranch   
             oFixPopAddress
+                | tAssignBegin:
+            @AssignStmt
+        | tCallBegin:
+            @CallStmt
+        | tIfBegin:
+            @IfStmt
+        | tWhileBegin:
+            @WhileStmt
+        | tRepeatBegin:
+            @RepeatStmt
+        | tCaseBegin:
+            @CaseStmt
+        | tWriteBegin:
+            @WriteProc
+        | tReadBegin:
+            @ReadProc
+        | tTrapBegin:
+            @TrapStmt
 
         | *:
             >
@@ -814,28 +854,7 @@ OperandNextArgument:
 
 Statements:
     % Previous passes have removed redundant begin-end markers.
-    {[
-        | tAssignBegin:
-            @AssignStmt
-        | tCallBegin:
-            @CallStmt
-        | tIfBegin:
-            @IfStmt
-        | tWhileBegin:
-            @WhileStmt
-        | tRepeatBegin:
-            @RepeatStmt
-        | tCaseBegin:
-            @CaseStmt
-        | tWriteBegin:
-            @WriteProc
-        | tReadBegin:
-            @ReadProc
-        | tTrapBegin:
-            @TrapStmt
-        | *:
-            >   % End of statement list or empty statement
-    ]};
+    @Block;
 
 
 AssignStmt:
