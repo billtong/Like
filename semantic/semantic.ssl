@@ -1757,15 +1757,9 @@ Operand :
             | sStringLiteral:
                 oSymbolStkPush(syExpression)
                 @StringLiteral  % pushes type and value
-                [ oTypeStkChooseKind
-                    | tpChar:
-                        .tLiteralAddress  % Change from tLiteralChar to this
-                        oEmitValue %added this to match the expected output form francais
-                        .tFetchChar % Added this to go with tLiteralAddress 
-                    | *:
-                        .tLiteralString
-                        oEmitValue
-                ]
+                .tLiteralAddress  % Change from tLiteralChar to this
+                oEmitValue %added this to match the expected output form francais
+                .tFetchChar % Added this to go with tLiteralAddress 
                 oValuePop
             | sFile:
                 @Expression
@@ -1776,7 +1770,6 @@ Operand :
 StringLiteral :
         % Process a string literal
         % Pushes the type and value. 
-        oValuePushStringLength
         % removed choice options based on oValueChoose as only one default option, that is now used for Like
         % Removed the single character cases (0 & 1) that are not needed in Like
     
@@ -1788,6 +1781,7 @@ StringLiteral :
         oFixPushForwardBranch
         oEmitNullAddress
         .tStringData
+        oValuePushStringLength
         oEmitValue                      % string length
         oValuePop
         oValuePushCodeAddress           % The string's characters are in the code area
@@ -1795,13 +1789,8 @@ StringLiteral :
         oEmitString                     % string's characters
         oFixPopForwardBranch
         oTypeStkPush(tpChar)            % Changed tpString to tpChar
-        oTypeStkLinkToStandardType(stdChar)   % Added to link to the standard type
-        oValuePush(one) % strings are indexed from 1              
-        oValuePushStringLength
-        oTypeStkEnterBounds
-        oValuePop
-        oValuePop
-        oTypeTblEnter;
+        oTypeStkLinkToStandardType(stdChar);   % Added to link to the standard type
+
 
 UnaryOperator :
         [
@@ -2160,8 +2149,9 @@ ConstantOperand :
                 .tLiteralInteger
                 oEmitValue
             | tpChar:
-                .tLiteralChar 
+                .tLiteralAddress
                 oEmitValue
+                .tFetchChar
             | tpBoolean:
                 .tLiteralBoolean
                 oEmitValue
