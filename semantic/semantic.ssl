@@ -1770,7 +1770,6 @@ Operand :
 StringLiteral :
         % Process a string literal
         % Pushes the type and value. 
-        oValuePushStringLength
         % removed choice options based on oValueChoose as only one default option, that is now used for Like
         % Removed the single character cases (0 & 1) that are not needed in Like
     
@@ -1782,6 +1781,7 @@ StringLiteral :
         oFixPushForwardBranch
         oEmitNullAddress
         .tStringData
+        oValuePushStringLength
         oEmitValue                      % string length
         oValuePop
         oValuePushCodeAddress           % The string's characters are in the code area
@@ -1789,13 +1789,8 @@ StringLiteral :
         oEmitString                     % string's characters
         oFixPopForwardBranch
         oTypeStkPush(tpChar)            % Changed tpString to tpChar
-        oTypeStkLinkToStandardType(stdChar)   % Added to link to the standard type
-        oValuePush(one) % strings are indexed from 1              
-        oValuePushStringLength
-        oTypeStkEnterBounds
-        oValuePop
-        oValuePop
-        oTypeTblEnter;
+        oTypeStkLinkToStandardType(stdChar);   % Added to link to the standard type
+
 
 UnaryOperator :
         [
