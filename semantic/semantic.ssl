@@ -844,7 +844,7 @@ Block :
                 >
         ]}
         
-        @BeginStmt;
+        sEnd;
 
 ConstantDefinitions :           % Process named constant definitions
         {[
