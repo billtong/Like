@@ -750,7 +750,7 @@ Program :
                 @ProgramParameter
         ]}
         oCountPop
-        @Statement     % Changed from Block to Statement  
+        @Block    % Changed from Block to Statement  %fixed 4-17-21 based on TA feedback. 
         % Check that all file parameters have been declared
         [ oSymbolTblLookupExternal
             | yes:

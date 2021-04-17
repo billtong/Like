@@ -1,4 +1,31 @@
+@Program
+ ?sProgram (sProgram)
+ oSymbolStkPush(syProcedure)
+ oSymbolTblPushScope
+ oCountPush(three)
+ [ (sIdentifier)
+ | *:
+ @ProgramParameter
+  ?sIdentifier (sIdentifier)
+  oSymbolStkPushLocalIdentifier
+  [ oSymbolStkChooseKind (syUndefined)
+  | syUndefined:
+  [ oSymbolStkChooseStandardFile (stdOutput)
+  | stdOutput:
+  oSymbolStkSetKind(syVariable)
+  oTypeStkPush(tpFile)
+  oTypeStkLinkToStandardType(stdText)
+  oSymbolStkEnterTypeReference
+  oValuePush(two)
+  ] or >
+  @AllocateVar
+   [ oSymbolStkChooseKind (syVariable)
+   | *:
+   [ oTypeStkChooseKind (tpFile)
+   | tpFile:
    .tFileDescriptor
+   oAllocateAlignOnWord
+   oSymbolStkEnterDataAddress
    .tLiteralInteger
    oEmitValue
    % value emitted 2
@@ -7,7 +34,68 @@
    oEmitDataAddress
    % value emitted 0
    .tStoreInteger
+   oAllocateDescriptor
+   ] or >
+   >>
+  ;AllocateVar
+  oSymbolTblEnter
+  ] or >
+  oSymbolStkPop
+  oTypeStkPop
+  oValuePop
+  >>
+ ;ProgramParameter
+ }
+ [ (sParmEnd)
+ | sParmEnd:
+ ] or >
+ oCountPop
+ @Block
+  ?sBegin (sBegin)
+  [ (sPackage)
+  | sPackage:
+  @PackageDefinition
+   ?sIdentifier (sIdentifier)
+   oSymbolStkPushLocalIdentifier
+   [ oSymbolStkChooseKind (syUndefined)
+   | syUndefined:
+   ] or >
+   oSymbolStkSetKind(syPackage)
+   oTypeStkPush(tpNull)
+   oTypeTblEnter
+   oSymbolStkEnterTypeReference
+   oSymbolTblEnter
+   oSymbolTblPushScope
+   @Block
+    ?sBegin (sBegin)
+    [ (sEnd)
+    | *:
+    ] or >
+    ?sEnd (sEnd)
+    >>
+   ;Block
+   oSymbolTblUpdate
+   oSymbolStkPop
+   oTypeTblUpdate
+   oTypeStkPop
+   oSymbolTblMergePublicScope
+   >>
+  ;PackageDefinition
+  ] or >
+  }
+  [ (sEnd)
+  | *:
+  ] or >
+  ?sEnd (sEnd)
+  >>
+ ;Block
+ [ oSymbolTblLookupExternal (no)
+ | *:
+ oSymbolTblPopScope
+ oSymbolStkPop
  .tTrapBegin
  .tTrap
  oEmitTrapKind(trHalt)
  % value emitted 0
+ >>
+;Program
