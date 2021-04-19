@@ -768,6 +768,23 @@ Block:
             oFixPopAddress
                 | tAssignBegin:
             @AssignStmt
+        | tInitialValue:
+            @OperandPushExpression
+            [
+                | tInitEnd:
+                    tLiteralAddress
+                    oOperandPushVariable
+                    [
+                        | tStoreInteger:
+                            oOperandSetLength(word)
+                            oOperandSwap
+                            @OperandAssignIntegerPopPop
+                        | tStoreBoolean:
+                            oOperandSetLength(byte)
+                            oOperandSwap
+                            @OperandAssignBooleanPopPop
+                    ]
+            ]
         | tCallBegin:
             @CallStmt
         | tIfBegin:
@@ -787,8 +804,7 @@ Block:
 
         | *:
             >
-    ]}
-    @Statements;
+    ]};
 
 
 Routine:
