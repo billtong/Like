@@ -95,6 +95,18 @@ type INSTRUCTION :      % corresponds to semantic.ssl output
         tTrapBegin
         tWriteEnd
         tReadEnd
+        % Added operations below
+        % String operations
+        tConcatenate
+        tRepeatString
+        tSubstring
+        tLength
+        tStringEQ
+        %Other new operations 
+        tInitialValue
+        tInitEnd
+        tCaseElse
+        tCaseElseEnd
 
         % Compound T-codes are those that take operands
         tLiteralAddress 

@@ -82,6 +82,18 @@ Input:
         tTrapBegin
         tWriteEnd
         tReadEnd
+        % Added operations below
+        % String operations
+        tConcatenate
+        tRepeatString
+        tSubstring
+        tLength
+        tStringEQ
+        %Other new operations 
+        tInitialValue
+        tInitEnd
+        tCaseElse
+        tCaseElseEnd
 
         % Compound T-codes - T-code operations that take an operand
         tLiteralAddress
@@ -103,19 +115,7 @@ Input:
         tSkipProc
         tCallEnd
         tLineNumber
-        tTrap
-        % Added operations below
-        % String operations
-        tConcatenate
-        tRepeatString
-        tSubstring
-        tLength
-        tStringEQ
-        %Other new operations 
-        tInitialValue
-        tInitEnd
-        tCaseElse
-        tCaseElseEnd
+        tTrap 
         lastCompoundTcode = tTrap
 
         % End of file marker T-code
@@ -788,7 +788,8 @@ Block:
         | *:
             >
     ]};
-    % removed call to statements as functionality now done in block itself
+    % remove call to statements at end of block as is now already handled
+
 
 
 Routine:
@@ -820,7 +821,7 @@ Routine:
                             oOperandSetLength(word)
                             @OperandAssignIntegerPopPop
                         | tStoreChar:
-                            oOperandSetLength(byte)
+                            oOperandSetLength(string) % change size to string
                             @OperandAssignCharPopPop
                         | tStoreBoolean:
                             oOperandSetLength(byte)
@@ -1469,14 +1470,10 @@ OperandPushExpression:
             @OperandPushVariable
         | tLiteralInteger:
             oOperandPushInteger
-        | tLiteralChar:
-            oOperandPushChar
+        % remove tLiteralChar option as no longer needed
         | tLiteralBoolean:
             oOperandPushBoolean
-        | tLiteralString:
-            % Get a string literal's address
-            oOperandPushStringAddress
-            @EmitStringAddress                  %       lea     sNNN, %T
+        % remove tLiteralString option as no longer needed
         | tSkipString:
             % Emit string literal to data area
             oEmitNone(iData)                    %       .data
@@ -1583,7 +1580,7 @@ OperandPushVariable:
     [
         | tFetchInteger:
         | tFetchChar, tFetchBoolean:
-            oOperandSetLength(byte)
+            oOperandSetLength(string) % change size to string
         | *: 
             % Value is not to be loaded
     ] ;
@@ -1630,7 +1627,7 @@ OperandSubscriptCharPop:
         | *:
             @OperandSubscriptNonManifestCharPop
     ]
-    oOperandSetLength(byte);
+    oOperandSetLength(string); % change size to string
 
 
 OperandSubscriptBooleanPop:
@@ -1878,17 +1875,24 @@ OperandCheckedSubscriptNonManifestCharPop:
     oOperandSwapLeftAndDest                     % ... arraydesc, %T, lower
     @OperandSubtractPop                         %       subl lower, %T
 
+    % add subscripting scaling by string size
+    oOperandPushMode(mManifest)
+    oOperandSetLength(string)
+    oOperandSetValue(twofiftysix)
+    oEmitDouble(iShl)
+    oOperandPop
+
     % Add normalized subscript to array address
     oOperandSwap                                % ... %T, arraydesc
     [ oOperandChooseMode
         | mStatic:
             % Optimize by folding array offset into array descriptor address 
             oOperandPushMode(mManifest)
-            oOperandSetLength(word)
-            oOperandSetValue(eight)
-            oOperandAddManifestValues           % ... %T, arraydesc+8, 8
-            oOperandPop                         % ... %T, arraydesc+8
-            @OperandForceAddressIntoTemp        %       mov     $arraydesc+8, %T2
+            oOperandSetLength(string) % switch to string size
+            oOperandSetValue(twofiftysix) % switch to 256 
+            oOperandAddManifestValues           % ... %T, arraydesc+256, 256
+            oOperandPop                         % ... %T, arraydesc+256
+            @OperandForceAddressIntoTemp        %       mov     $arraydesc+256, %T2
                                                 % ... %T, %T2
             % Add array address to normalized and scaled subscript
             oEmitDouble(iAdd)                   %       addl    %T2, %T
@@ -1897,8 +1901,8 @@ OperandCheckedSubscriptNonManifestCharPop:
             % Can't optimize
             @OperandForceAddressIntoTemp        % ... %T, %T2
             oOperandPushMode(mManifest)
-            oOperandSetLength(word)
-            oOperandSetValue(eight)             % ... %T, %T2, 8
+            oOperandSetLength(string) % switch to size string
+            oOperandSetValue(twofiftysix) % switch to 256         ... %T, %T2, 8
             oEmitDouble(iAdd)                   %       addl    $8, %T2
             oOperandPop                         % ... %T, %T2
             oEmitDouble(iAdd)                   %       addl    %T2, %T
@@ -1925,7 +1929,14 @@ OperandUncheckedSubscriptNonManifestCharPop:
             % Any other array - know all the characteristics now,
             % so optimize subscripting as best we can
             oOperandSwap                        % ... arraydesc, subscript
+
+            % add scaling of subscript by size string
             @OperandForceIntoTemp               %       movl    subscript, %T
+            oOperandPushMode(mManifest)
+            oOperandSetLength(word)
+            oOperandSetValue(twofiftysix)
+            oEmitDouble(iShl)
+            oOperandPop
             oOperandSwap                        % ... %T, arraydesc
 
             % Fold lower bound into array address to avoid normalizing
@@ -1934,8 +1945,8 @@ OperandUncheckedSubscriptNonManifestCharPop:
             oOperandSwap                        % ... %T, lower, arraydesc
             oOperandSetMode(mManifest)          % (eliminate indirection)
             oOperandPushMode(mManifest)         % ... %T, lower, arraydesc, 8
-            oOperandSetLength(word)
-            oOperandSetValue(eight)
+            oOperandSetLength(string)
+            oOperandSetValue(twofiftysix)
             oOperandAddManifestValues           % ... %T, lower, arraydesc+8, 8
             oOperandPop                         % ... %T, lower, arraydesc+8
             oOperandSwap                        % ... %T, arraydesc+8, lower
@@ -1965,10 +1976,16 @@ OperandPushExpressionAssignPopPop:
             @OperandPushVariable
         | tLiteralInteger:
             oOperandPushInteger
-        | tLiteralChar:
-            oOperandPushChar
+        % remove tLiteralChar option as no longer needed
         | tLiteralBoolean:
             oOperandPushBoolean
+        % add tSkipString option
+        | tSkipString:
+            % content the same as in OperandPushExpression
+            oEmitNone(iData)
+            tStringData
+            oEmitString
+            oEmitNone(iText)
         | tAssignInteger:
             @OperandAssignIntegerPopPop
             >
@@ -2832,13 +2849,35 @@ OperandAssignIntegerPopPop:
 
 
 OperandAssignCharPopPop:
-    % Generate code to assign the right (top) operand's value to
-    % the left (second) operand and pop both operands.
+    % change to emitting the trAssignString trap over a single byte assignment
+    
+    % save the temp registers in case in use
+    @SaveTempRegsToStack
 
-    oOperandSetLength(byte)
-    @EmitMove                   %       movb    y, x
+    % send the arguments
+    @OperandForceAddressIntoTemp % do this before we can put it into a stack
+    @OperandForceToStack
     @OperandPopAndFreeTemp
-    @OperandPopAndFreeTemp;
+    oOperandPop
+
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trAssignString)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)
+    oOperandPop
+
+    % pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(four)
+    oEmitDouble(iAdd)
+    oOperandPop
+    oOperandPop
+
+    % restore temp regs
+    @RestoreTempRegsFromStack;
 
 
 OperandAssignBooleanPopPop:
@@ -3080,6 +3119,10 @@ OperandForceIntoTemp:
                     @OperandPushTempByte
                 | word:
                     @OperandPushTempWord
+                % add size string as an option
+                | string:
+                    @OperandForceAddressIntoTemp
+                    >>
             ]
             oOperandSwap
             oEmitDouble(iMov)   % mov(b) operand, dN
@@ -3203,6 +3246,9 @@ OperandForceToStack:
                 @OperandForceIntoTemp
                 oOperandSetLength(word)
         | word:
+        % add alternative for size string
+        | string:
+                @OperandForceAddressIntoTemp
     ]
     oEmitSingle(iPush)
     @OperandPopAndFreeTemp
