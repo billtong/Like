@@ -1,5 +1,0 @@
-Purpose: 
-To test that an error is thrown if the substring operation types are not a string followed by two integers
-
-Result: 
-The output matches what is expected with a type error being indicated

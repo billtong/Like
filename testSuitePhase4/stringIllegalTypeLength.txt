@@ -1,5 +1,0 @@
-Purpose: 
-To test that an error is thrown if the length string operation type is not a string
-
-Result: 
-The output matches what is expected with a type error being indicated

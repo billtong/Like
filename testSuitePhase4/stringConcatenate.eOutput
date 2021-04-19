@@ -12,14 +12,18 @@ ptmain:    pushl   %ebp
     .data    
 s28:    .asciz  "test"
     .text    
+    .data    
+s40:    .asciz  "12"
+    .text    
     pushl    %eax
     pushl    %ebx
     pushl    %ecx
     pushl    %edx
-    pushl    $4
+    lea    s40,%eax
+    pushl    %eax
     lea    s28,%eax
     pushl    %eax
-    call    pttrap110
+    call    pttrap103
     addl    $8,%esp
     movl    %eax,%esi
     popl    %edx
@@ -31,22 +35,22 @@ s28:    .asciz  "test"
     pushl    $0
     call    pttrap109
     addl    $12,%esp
-    incl    n
-    pushl    u+4
-    call    pttrap6
-    addl    $4,%esp
-    movl    $6,n
+    movl    $5,n
     .data    
-s64:    .asciz  "test"
+s63:    .asciz  "test"
+    .text    
+    .data    
+s75:    .asciz  "12"
     .text    
     pushl    %eax
     pushl    %ebx
     pushl    %ecx
     pushl    %edx
-    pushl    $4
-    lea    s64,%eax
+    lea    s75,%eax
     pushl    %eax
-    call    pttrap110
+    lea    s63,%eax
+    pushl    %eax
+    call    pttrap103
     addl    $8,%esp
     movl    %eax,%esi
     popl    %edx
@@ -68,13 +72,6 @@ s64:    .asciz  "test"
     popl    %ebx
     popl    %eax
     incl    n
-    pushl    u+4
-    lea    u+8,%eax
-    pushl    %eax
-    pushl    $0
-    call    pttrap109
-    addl    $12,%esp
-    movl    $9,n
     call    pttrap0
     leave    
     ret    

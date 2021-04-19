@@ -18,7 +18,7 @@ for i in *.pt; do
 		continue
 	fi
 
-	ptc -S -L lib/pt $i
+	ptc -S -L ../lib/pt $i
 	diff $generatedFile $outFile
 
 	#ssltrace "ptc -o4 -t4 -L lib/pt $i" lib/pt/coder.def -e | diff $outFile -

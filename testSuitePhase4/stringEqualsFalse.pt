@@ -1,9 +1,8 @@
 using input, output;
 
-if("arreter" == "arreter") then
+if("string1" == "differentString") then
     put("true");
 else
     put("false");
 end;
-
 

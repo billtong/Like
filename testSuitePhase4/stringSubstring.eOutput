@@ -1,89 +1,70 @@
-   .tFileDescriptor
-   .tLiteralInteger
-   oEmitValue
-   % value emitted 1
-   .tFileBind
-   .tLiteralAddress
-   oEmitDataAddress
-   % value emitted 0
-   .tStoreInteger
-   .tFileDescriptor
-   .tLiteralInteger
-   oEmitValue
-   % value emitted 2
-   .tFileBind
-   .tLiteralAddress
-   oEmitDataAddress
-   % value emitted 4
-   .tStoreInteger
-    .tWriteBegin
-      .tTrapBegin
-      .tLiteralAddress
-      oEmitValue
-      % value emitted 4
-      .tVarParm
-      .tParmEnd
-         .tSkipString
-         oEmitNullAddress
-         % value emitted -32767
-         .tStringData
-         oEmitValue
-         % value emitted 4
-         oEmitString
-         % value emitted 116
-         % value emitted 101
-         % value emitted 115
-         % value emitted 116
-         % value emitted 0
-        .tLiteralAddress
-        oEmitValue
-        % value emitted -28
-        .tFetchChar
-        .tLiteralInteger
-        oEmitValue
-        % value emitted 1
-        .tLiteralInteger
-        oEmitValue
-        % value emitted 3
-        .tSubstring
-      .tParmEnd
-       .tLiteralInteger
-       oEmitValue
-       % value emitted 0
-       .tParmEnd
-       .tTrap
-       oEmitTrapKind(trWriteString)
-       % value emitted 109
-     .tWriteEnd
-    .tAssignBegin
-     .tLiteralAddress
-     oEmitValue
-     % value emitted 8
-       .tSkipString
-       oEmitNullAddress
-       % value emitted -32767
-       .tStringData
-       oEmitValue
-       % value emitted 4
-       oEmitString
-       % value emitted 116
-       % value emitted 101
-       % value emitted 115
-       % value emitted 116
-       % value emitted 0
-      .tLiteralAddress
-      oEmitValue
-      % value emitted -57
-      .tFetchChar
-      .tLiteralInteger
-      oEmitValue
-      % value emitted 1
-      .tLiteralInteger
-      oEmitValue
-      % value emitted 3
-      .tSubstring
-     .tAssignChar
- .tTrapBegin
- .tTrap
- oEmitTrapKind(trHalt)
- % value emitted 0
+    .data    
+    .comm    u,264
+n:    .long    0
+    .text    
+    .globl    ptmain
+ptmain:    pushl   %ebp
+        movl    %esp, %ebp    
+    movl    $1,u+0
+    movl    $2,u+4
+    movl    $3,n
+    pushl    u+4
+    .data    
+s28:    .asciz  "test"
+    .text    
+    pushl    %eax
+    pushl    %ebx
+    pushl    %ecx
+    pushl    %edx
+    pushl    $3
+    pushl    $1
+    lea    s28,%eax
+    pushl    %eax
+    call    pttrap104
+    addl    $12,%esp
+    movl    %eax,%esi
+    popl    %edx
+    popl    %ecx
+    popl    %ebx
+    popl    %eax
+    movl    %esi,%eax
+    pushl    %eax
+    pushl    $0
+    call    pttrap109
+    addl    $12,%esp
+    movl    $5,n
+    .data    
+s57:    .asciz  "test"
+    .text    
+    pushl    %eax
+    pushl    %ebx
+    pushl    %ecx
+    pushl    %edx
+    pushl    $3
+    pushl    $1
+    lea    s57,%eax
+    pushl    %eax
+    call    pttrap104
+    addl    $12,%esp
+    movl    %eax,%esi
+    popl    %edx
+    popl    %ecx
+    popl    %ebx
+    popl    %eax
+    movl    %esi,%eax
+    pushl    %eax
+    pushl    %ebx
+    pushl    %ecx
+    pushl    %edx
+    pushl    %eax
+    lea    u+8,%eax
+    pushl    %eax
+    call    pttrap101
+    addl    $8,%esp
+    popl    %edx
+    popl    %ecx
+    popl    %ebx
+    popl    %eax
+    call    pttrap0
+    leave    
+    ret    

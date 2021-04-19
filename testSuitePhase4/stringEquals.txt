@@ -1,5 +1,0 @@
-Purpose: 
-To test that the string equals operator works as expected
-
-Result: 
-The output matches what is expected

@@ -1,0 +1,5 @@
+Purpose: 
+To test that the string equals operator works as expected when two strings when two string are not equal. 
+
+Result: 
+The output matches what is expected

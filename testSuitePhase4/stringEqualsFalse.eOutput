@@ -9,10 +9,10 @@ ptmain:    pushl   %ebp
     movl    $2,u+4
     movl    $3,n
     .data    
-s23:    .asciz  "arreter"
+s23:    .asciz  "string1"
     .text    
     .data    
-s38:    .asciz  "arreter"
+s38:    .asciz  "differentString"
     .text    
     pushl    %eax
     pushl    %ebx
@@ -35,9 +35,9 @@ s38:    .asciz  "arreter"
     incl    n
     pushl    u+4
     .data    
-s64:    .asciz  "true"
+s72:    .asciz  "true"
     .text    
-    lea    s64,%eax
+    lea    s72,%eax
     pushl    %eax
     pushl    $0
     call    pttrap109
@@ -46,14 +46,14 @@ s64:    .asciz  "true"
 f1:    movl    $6,n
     pushl    u+4
     .data    
-s93:    .asciz  "false"
+s101:    .asciz  "false"
     .text    
-    lea    s93,%eax
+    lea    s101,%eax
     pushl    %eax
     pushl    $0
     call    pttrap109
     addl    $12,%esp
-f2:    movl    $10,n
+f2:    movl    $9,n
     call    pttrap0
     leave    
     ret    

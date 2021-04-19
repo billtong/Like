@@ -53,7 +53,7 @@ s93:    .asciz  "false"
     pushl    $0
     call    pttrap109
     addl    $12,%esp
-f2:    movl    $10,n
+f2:    movl    $9,n
     call    pttrap0
     leave    
     ret    

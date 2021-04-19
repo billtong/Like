@@ -1,5 +1,5 @@
 using input, output;
 
-put("test" | "1");
+put("test" | "12");
 var s : like "";
-s = "test" | "1";
+s = "test" | "12";

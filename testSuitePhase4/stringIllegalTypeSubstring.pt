@@ -1,5 +1,0 @@
-using input, output;
-
-put("test" | 1 : "1");
-put("test" | "1" : 1);
-put(1 | 1 : 1);
