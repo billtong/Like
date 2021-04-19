@@ -791,6 +791,7 @@ Block:
     % remove call to statements at end of block as is now already handled
 
 
+
 Routine:
     oEmitProcLabel(mProc)                       % pNN:
     oEmitNone(iEnter)                           %       pushl   %ebp
@@ -1194,14 +1195,22 @@ EmitDefaultCaseAbort:
     oFixSwapAddresses                   % (keep branch around case body on top)
     oEmitMergeSourceCoordinate
 
-    % Call case abort trap (never returns)
-    oOperandPushMode(mLineNum)          % ... n
-    oOperandSetLength(word)
-    @OperandForceToStack                %       pushl   n
-    oOperandPop                         % ...
-    oOperandPushMode(mTrap)
-    oOperandSetValue(trCaseAbort)
-    oEmitSingle(iCall)                  %       call  caseAbort
+    [
+        | tCaseElse:
+            % handle case else
+            @Statements
+            tCaseElseEnd
+            oEmitCaseMergeBranch
+        |*:
+            % Call case abort trap (never returns)
+            oOperandPushMode(mLineNum)          % ... n
+            oOperandSetLength(word)
+            @OperandForceToStack                %       pushl   n
+            oOperandPop                         % ...
+            oOperandPushMode(mTrap)
+            oOperandSetValue(trCaseAbort)
+            oEmitSingle(iCall)                  %       call  caseAbort
+    ]
 
     oOperandPop;
 
