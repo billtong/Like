@@ -783,6 +783,10 @@ Block:
                             oOperandSetLength(byte)
                             oOperandSwap
                             @OperandAssignBooleanPopPop
+                        | tStoreChar:
+                            oOperandSetLength(byte)
+                            oOperandSwap
+                            @OperandAssignCharPopPop
                     ]
             ]
         | tCallBegin:
