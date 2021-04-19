@@ -1884,15 +1884,16 @@ program Coder (output, coderSsl, tCode, object, options);
                             end;
                         tStringData:
                             begin
-			        { compundTokenValue := tCodeAddress;}
-                                { switch to reading until reads in the null character }
+			        compoundTokenLength := compoundTokenValue;
+			        compoundTokenValue := tCodeAddress;
 				i := 1;
-				while compoundTokenText[i] <> 0  do
+				while i <= compoundTokenLength  do
                                     begin
                                         read (tCode, compoundTokenText[i]);
                                         i := i + 1
                                     end;
-                                nextTCodeAddress := nextTCodeAddress + i;
+				read (tCode, compoundTokenText[i]); { read in new trailing null character }
+				nextTCodeAddress := nextTCodeAddress + compoundTokenLength + 1; {add one for the nulll character }
                             end;
                     end         { case compoundToken }
                 end;
