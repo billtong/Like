@@ -2096,7 +2096,47 @@ OperandPushExpressionAssignPopPop:
 %%% New string operation rules added here
 
 OperandConcatenatePop:
-;
+    % change to emitting the trAssignString trap over a single byte assignment
+    
+    % save the temp registers in case in use
+    @SaveTempRegsToStack
+
+    % send the arguments
+    @OperandForceAddressIntoTemp % do this before we can put it into a stack
+    @OperandForceToStack
+    @OperandPopAndFreeTemp
+    oOperandPop
+
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trAssignString)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)
+    oOperandPop
+
+    % pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(four)
+    oEmitDouble(iAdd)
+    oOperandPop
+    oOperandPop
+
+    % Accept result
+    oOperandPushMode(mScratchReg1)
+    oOperandSetLength(word)
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(word)
+    oEmitDouble(iMov)           %       movl    %eax, %S1
+    oOperandPop %eax
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
+    oOperandSetLength(byte);    
+
 
 OperandRepeatStringPop:
 ;
