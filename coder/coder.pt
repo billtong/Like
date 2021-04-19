@@ -2213,7 +2213,8 @@ program Coder (output, coderSsl, tCode, object, options);
                     oOperandPushChar:
                         begin
                             Assert ( (compoundToken = tLiteralChar), assert19);
-                            OperandPush (mManifest, compoundTokenValue, undefined, byte)
+			    { change to push string address size word in mStatic mode}
+                            OperandPush (mStatic, compoundTokenValue, undefined, word)
                         end;
 
                     oOperandPushBoolean:

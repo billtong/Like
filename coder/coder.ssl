@@ -820,7 +820,7 @@ Routine:
                             oOperandSetLength(word)
                             @OperandAssignIntegerPopPop
                         | tStoreChar:
-                            oOperandSetLength(byte)
+                            oOperandSetLength(string) % change size to string
                             @OperandAssignCharPopPop
                         | tStoreBoolean:
                             oOperandSetLength(byte)
@@ -1461,14 +1461,10 @@ OperandPushExpression:
             @OperandPushVariable
         | tLiteralInteger:
             oOperandPushInteger
-        | tLiteralChar:
-            oOperandPushChar
+        % remove tLiteralChar option as no longer needed
         | tLiteralBoolean:
             oOperandPushBoolean
-        | tLiteralString:
-            % Get a string literal's address
-            oOperandPushStringAddress
-            @EmitStringAddress                  %       lea     sNNN, %T
+        % remove tLiteralString option as no longer needed
         | tSkipString:
             % Emit string literal to data area
             oEmitNone(iData)                    %       .data
@@ -1575,7 +1571,7 @@ OperandPushVariable:
     [
         | tFetchInteger:
         | tFetchChar, tFetchBoolean:
-            oOperandSetLength(byte)
+            oOperandSetLength(string) % change size to string
         | *: 
             % Value is not to be loaded
     ] ;
@@ -1622,7 +1618,7 @@ OperandSubscriptCharPop:
         | *:
             @OperandSubscriptNonManifestCharPop
     ]
-    oOperandSetLength(byte);
+    oOperandSetLength(string); % change size to string
 
 
 OperandSubscriptBooleanPop:
@@ -1957,10 +1953,16 @@ OperandPushExpressionAssignPopPop:
             @OperandPushVariable
         | tLiteralInteger:
             oOperandPushInteger
-        | tLiteralChar:
-            oOperandPushChar
+        % remove tLiteralChar option as no longer needed
         | tLiteralBoolean:
             oOperandPushBoolean
+        % add tSkipString option
+        | tSkipString:
+            % content the same as in OperandPushExpression
+            oEmitNone(iData)
+            tStringData
+            oEmitString
+            oEmitNone(iText)
         | tAssignInteger:
             @OperandAssignIntegerPopPop
             >
