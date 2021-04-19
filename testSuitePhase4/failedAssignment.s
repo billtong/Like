@@ -7,7 +7,7 @@ ptmain:    pushl   %ebp
         movl    %esp, %ebp    
     movl    $2,u+0
     movl    $1,u+4
-    movl    $2,n
+    movl    $3,n
     call    pttrap0
     leave    
     ret    
