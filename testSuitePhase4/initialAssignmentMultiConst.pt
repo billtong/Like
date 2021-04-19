@@ -1,0 +1,4 @@
+using output;
+val a = 3, b = 2;
+var x = a;
+var y = b;

@@ -1,0 +1,7 @@
+using output;
+
+pkg foo is 
+    public var x = 1;
+end;
+
+x = 2;

@@ -1,0 +1,6 @@
+using output;
+fun Test (x : like 4, y : like 3) is
+	x = 5;
+	y = 7;
+
+end;

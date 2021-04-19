@@ -1,0 +1,6 @@
+using output;
+
+var x = 5;
+repeat
+	x = x - 1;
+while (x > 0); 

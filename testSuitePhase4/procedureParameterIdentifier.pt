@@ -1,0 +1,7 @@
+using output;
+var x = 5;
+
+fun Test (value : like x)  is
+	value = 5;
+
+end;

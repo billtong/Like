@@ -1,0 +1,6 @@
+using output;
+
+pkg foo is 
+    val a = 1;
+end;
+a = 2;
