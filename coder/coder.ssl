@@ -1619,7 +1619,7 @@ OperandSubscriptCharPop:
                     @OperandSubscriptNonManifestCharPop
                 | *:
                     % tell the folder we are working on bytes
-                    oOperandSetLength(byte)     
+                    oOperandSetLength(string) % switch to size string     
                     oOperandSwap
                     oOperandFoldManifestSubscript
                     oOperandPop
