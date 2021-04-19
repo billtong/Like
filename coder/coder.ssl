@@ -2846,11 +2846,15 @@ OperandAssignCharPopPop:
     @SaveTempRegsToStack
 
     % send the arguments
+    @OperandForceToStack
+    oOperandPop
+
     @OperandForceAddressIntoTemp % do this before we can put it into a stack
     @OperandForceToStack
     @OperandPopAndFreeTemp
-    oOperandPop
 
+
+    % call assignstring trap routine
     oOperandPushMode(mTrap)
     oOperandSetValue(trAssignString)
     oOperandSetLength(word)
@@ -2862,10 +2866,10 @@ OperandAssignCharPopPop:
     oOperandSetLength(word)
     oOperandPushMode(mManifest)
     oOperandSetLength(word)
-    oOperandSetValue(four)
+    oOperandSetValue(eight)
     oEmitDouble(iAdd)
     oOperandPop
-    oOperandPop
+    oOperandPop 
 
     % restore temp regs
     @RestoreTempRegsFromStack;
