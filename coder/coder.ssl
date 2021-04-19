@@ -1517,6 +1517,18 @@ OperandPushExpression:
             @OperandNot
         | tChr:
             @OperandChr
+       %%% Added options for string operations
+        | tConcatenate:
+            @OperandConcatenatePop
+        | tRepeatString:
+            @OperandRepeatStringPop
+        | tSubstring:
+            @OperandSubstringPopPop
+        | tLength:
+            @OperandLength
+        | tStringEQ:
+            @OperandStringEqualPop
+       %%% End of added options for string operations
         | tOrd:
             @OperandOrd
         | tEoln:
@@ -2036,6 +2048,18 @@ OperandPushExpressionAssignPopPop:
             @OperandNot
         | tChr:
             @OperandChr
+       %%% Added options for string operations
+        | tConcatenate:
+            @OperandConcatenatePop
+        | tRepeatString:
+            @OperandRepeatStringPop
+        | tSubstring:
+            @OperandSubstringPopPop
+        | tLength:
+            @OperandLength
+        | tStringEQ:
+            @OperandStringEqualPop
+       %%% End of added options for string operations
         | tOrd:
             @OperandOrd
         | tEoln:
@@ -2044,6 +2068,24 @@ OperandPushExpressionAssignPopPop:
             @OperandEofFunction
     ]};
 
+%%% New string operation rules added here
+
+OperandConcatenatePop:
+;
+
+OperandRepeatStringPop:
+;
+
+OperandSubstringPopPop:
+;
+
+OperandLength:
+;
+
+OperandStringEqualPop:
+;
+
+%%% End of Added String rules
 
 OperandNegateAssignPopPop:
     % Assign the negation of the right (top) operand's value to
