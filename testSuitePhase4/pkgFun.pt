@@ -1,0 +1,8 @@
+using output;
+
+pkg foo is 
+    fun func(a : like 1) is 
+         a = 2;
+    end;
+end;
+func;
