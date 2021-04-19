@@ -2093,25 +2093,23 @@ OperandPushExpressionAssignPopPop:
             @OperandEofFunction
     ]};
 
-%%% New string operation rules added here
+%%% ----- New string operation rules added here------------- %%
 
 OperandConcatenatePop:
-    % change to emitting the trAssignString trap over a single byte assignment
-    
-       % change to emitting the trAssignString trap over a single byte assignment
-    
     % save the temp registers in case in use
     @SaveTempRegsToStack
 
     % send the arguments
+    % String 2
     @OperandForceToStack
     oOperandPop
 
+    % String 1
     @OperandForceAddressIntoTemp % do this before we can put it into a stack
     @OperandForceToStack
     @OperandPopAndFreeTemp
 
-    % call assignstring trap routine
+    % call trConcatenate trap routine
     oOperandPushMode(mTrap)
     oOperandSetValue(trConcatenate)
     oOperandSetLength(word)
@@ -2144,18 +2142,189 @@ OperandConcatenatePop:
 
 
 OperandRepeatStringPop:
-;
+    % save the temp registers in case in use
+    @SaveTempRegsToStack
+
+    % send the arguments
+    %Repetition Count
+    @OperandForceToStack
+    oOperandPop
+
+    % String
+    @OperandForceAddressIntoTemp % do this before we can put it into a stack
+    @OperandForceToStack
+    @OperandPopAndFreeTemp
+
+    % call trRepeatString trap routine
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trRepeatString)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)
+    oOperandPop
+
+    % pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)
+    oEmitDouble(iAdd)
+    oOperandPop
+    oOperandPop 
+
+    % Accept result
+    oOperandPushMode(mScratchReg1)
+    oOperandSetLength(word)
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(word)
+    oEmitDouble(iMov)           %       movl    %eax, %S1
+    oOperandPop %eax
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
+    oOperandSetLength(byte);
+  
 
 OperandSubstringPopPop:
-;
+   % save the temp registers in case in use
+    @SaveTempRegsToStack
+
+    % send the arguments
+    % Upper index
+    @OperandForceToStack
+    oOperandPop
+
+    %Lower index
+    @OperandForceToStack
+    oOperandPop
+ 
+    %String
+    @OperandForceAddressIntoTemp 
+    @OperandForceToStack
+    @OperandPopAndFreeTemp
+
+    % call trSubstring trap routine
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trSubstring)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)
+    oOperandPop
+
+    % pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(twelve)
+    oEmitDouble(iAdd)
+    oOperandPop
+    oOperandPop 
+
+    % Accept result
+    oOperandPushMode(mScratchReg1)
+    oOperandSetLength(word)
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(word)
+    oEmitDouble(iMov)           %       movl    %eax, %S1
+    oOperandPop %eax
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
+    oOperandSetLength(byte);
+
 
 OperandLength:
-;
+   % save the temp registers in case in use
+    @SaveTempRegsToStack
+
+    % send the arguments
+    %String
+    @OperandForceAddressIntoTemp 
+    @OperandForceToStack
+    @OperandPopAndFreeTemp
+
+    % call trLength trap routine
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trLength)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)
+    oOperandPop
+
+    % pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(four)
+    oEmitDouble(iAdd)
+    oOperandPop
+    oOperandPop 
+
+    % Accept result
+    oOperandPushMode(mScratchReg1)
+    oOperandSetLength(word)
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(word)
+    oEmitDouble(iMov)           %       movl    %eax, %S1
+    oOperandPop %eax
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
+    oOperandSetLength(byte);
+
 
 OperandStringEqualPop:
-;
+    % save the temp registers in case in use
+    @SaveTempRegsToStack
 
-%%% End of Added String rules
+    % send the arguments
+    %String 2
+    @OperandForceToStack
+    oOperandPop
+
+    %String 1
+    @OperandForceAddressIntoTemp % do this before we can put it into a stack
+    @OperandForceToStack
+    @OperandPopAndFreeTemp
+
+    % call trStringEqual trap routine
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trStringEqual)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)
+    oOperandPop
+
+    % pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)
+    oEmitDouble(iAdd)
+    oOperandPop
+    oOperandPop 
+
+    % Accept result
+    oOperandPushMode(mScratchReg1)
+    oOperandSetLength(word)
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(word)
+    oEmitDouble(iMov)           %       movl    %eax, %S1
+    oOperandPop %eax
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
+    oOperandSetLength(byte);    
+
+%%% -------------- End of Added String rules ---------- %%
 
 OperandNegateAssignPopPop:
     % Assign the negation of the right (top) operand's value to
