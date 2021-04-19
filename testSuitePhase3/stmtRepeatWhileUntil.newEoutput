@@ -1,0 +1,48 @@
+   .tFileDescriptor
+   .tLiteralInteger
+   oEmitValue
+   % value emitted 2
+   .tFileBind
+   .tLiteralAddress
+   oEmitDataAddress
+   % value emitted 0
+   .tStoreInteger
+   .tInitialValue
+     .tLiteralInteger
+     oEmitValue
+     % value emitted 5
+   .tInitEnd
+   .tLiteralAddress
+   oEmitValue
+   % value emitted 4
+    .tStoreInteger
+   .tRepeatBegin
+      .tAssignBegin
+       .tLiteralAddress
+       oEmitValue
+       % value emitted 4
+         .tLiteralAddress
+         oEmitValue
+         % value emitted 4
+         .tFetchInteger
+        .tLiteralInteger
+        oEmitValue
+        % value emitted 1
+        .tSubtract
+       .tAssignInteger
+   .tRepeatControl
+       .tLiteralAddress
+       oEmitValue
+       % value emitted 4
+       .tFetchInteger
+      .tLiteralInteger
+      oEmitValue
+      % value emitted 0
+      .tGT
+      .tNot
+   .tRepeatTest
+   % value emitted 21
+ .tTrapBegin
+ .tTrap
+ oEmitTrapKind(trHalt)
+ % value emitted 0
