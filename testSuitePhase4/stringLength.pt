@@ -1,0 +1,5 @@
+using input, output;
+
+put(#"arreter");
+var a: like 1;
+a = #"arreter";

@@ -1,0 +1,8 @@
+using input, output;
+
+if("string1" == "differentString") then
+    put("true");
+else
+    put("false");
+end;
+

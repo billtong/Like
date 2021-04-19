@@ -1,0 +1,8 @@
+using input, output;
+
+put(("test"||4));
+putln;
+var s : like "";
+s = "test" || 4;
+put(s);
+
