@@ -82,6 +82,18 @@ Input:
         tTrapBegin
         tWriteEnd
         tReadEnd
+        % Added operations below
+        % String operations
+        tConcatenate
+        tRepeatString
+        tSubstring
+        tLength
+        tStringEQ
+        %Other new operations 
+        tInitialValue
+        tInitEnd
+        tCaseElse
+        tCaseElseEnd
 
         % Compound T-codes - T-code operations that take an operand
         tLiteralAddress
@@ -103,19 +115,7 @@ Input:
         tSkipProc
         tCallEnd
         tLineNumber
-        tTrap
-        % Added operations below
-        % String operations
-        tConcatenate
-        tRepeatString
-        tSubstring
-        tLength
-        tStringEQ
-        %Other new operations 
-        tInitialValue
-        tInitEnd
-        tCaseElse
-        tCaseElseEnd
+        tTrap 
         lastCompoundTcode = tTrap
 
         % End of file marker T-code
