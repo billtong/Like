@@ -1,0 +1,5 @@
+Purpose: 
+To test that declaring variable using var with the string operations works correctly. 
+
+Result: 
+The output matches what is expected

@@ -1,0 +1,5 @@
+using input, output;
+
+put("test" | "1");
+var s : like "";
+s = "test" | "1";
