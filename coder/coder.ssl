@@ -2098,17 +2098,22 @@ OperandPushExpressionAssignPopPop:
 OperandConcatenatePop:
     % change to emitting the trAssignString trap over a single byte assignment
     
+       % change to emitting the trAssignString trap over a single byte assignment
+    
     % save the temp registers in case in use
     @SaveTempRegsToStack
 
     % send the arguments
+    @OperandForceToStack
+    oOperandPop
+
     @OperandForceAddressIntoTemp % do this before we can put it into a stack
     @OperandForceToStack
     @OperandPopAndFreeTemp
-    oOperandPop
 
+    % call assignstring trap routine
     oOperandPushMode(mTrap)
-    oOperandSetValue(trAssignString)
+    oOperandSetValue(trConcatenate)
     oOperandSetLength(word)
     oEmitSingle(iCall)
     oOperandPop
@@ -2118,10 +2123,10 @@ OperandConcatenatePop:
     oOperandSetLength(word)
     oOperandPushMode(mManifest)
     oOperandSetLength(word)
-    oOperandSetValue(four)
+    oOperandSetValue(eight)
     oEmitDouble(iAdd)
     oOperandPop
-    oOperandPop
+    oOperandPop 
 
     % Accept result
     oOperandPushMode(mScratchReg1)
