@@ -494,6 +494,8 @@ program Coder (output, coderSsl, tCode, object, options);
 
         { Machine word size }
         wordSize = 4;           { longword (4 bytes) on SUN }
+        { add string size }
+	stringSize = 256;
 
         { Temporary regs - %ebx, %ecx, %esi, %edi }
         firstTempReg = 1;       
@@ -1801,7 +1803,11 @@ program Coder (output, coderSsl, tCode, object, options);
                     subscript := subscript - lowerBound;
                     if operandStkLength[operandStkTop-1] = word then
                         { Convert a byte offset to a word offset }
-                        subscript := subscript * wordSize;
+                        subscript := subscript * wordSize
+		    { add in scaling by size string }
+		    else
+		        if operandStkLength[operandStkTop-1] = string then
+			    subscript := subscript * stringSize;
                     { Set the subscripted varable's address.  Note that the array variable's 
                       address points to the base of a 2 word descriptor (lower, upper bound). }
                     operandStkValue[operandStkTop-1] := 
@@ -1878,15 +1884,15 @@ program Coder (output, coderSsl, tCode, object, options);
                             end;
                         tStringData:
                             begin
-                                compoundTokenLength := compoundTokenValue;
-                                compoundTokenValue := tCodeAddress;
-                                i := 1;
-                                while i <= compoundTokenLength do
+			        { compundTokenValue := tCodeAddress;}
+                                { switch to reading until reads in the null character }
+				i := 1;
+				while compoundTokenText[i] <> 0  do
                                     begin
                                         read (tCode, compoundTokenText[i]);
                                         i := i + 1
                                     end;
-                                nextTCodeAddress := nextTCodeAddress + compoundTokenLength;
+                                nextTCodeAddress := nextTCodeAddress + i;
                             end;
                     end         { case compoundToken }
                 end;
