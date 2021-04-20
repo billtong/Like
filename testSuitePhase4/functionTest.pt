@@ -1,0 +1,9 @@
+using output;
+var a : like 1;
+a = 5;
+
+fun fn(var x : like a) is
+	put(x);
+end;
+
+fn(a);

@@ -1,0 +1,8 @@
+using output;
+var a[5] : like "word";
+a[1] = "goodbye";
+a[2] = "hi";
+put(a[1]);
+putln;
+put(a[2]);
+putln;

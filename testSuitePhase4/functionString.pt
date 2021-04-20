@@ -1,0 +1,9 @@
+using output;
+var a : like "word";
+a = "hi";
+
+fun fn(var x : like a) is
+	put(x);
+end;
+
+fn(a);
