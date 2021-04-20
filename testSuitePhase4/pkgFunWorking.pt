@@ -4,6 +4,6 @@ pkg foo is
     fun func(a : like 1) is 
          a = 2;
     end;
+    var x = 1;
+    func(x);
 end;
-var x = 1;
-func(x);

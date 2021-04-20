@@ -15,8 +15,10 @@ p13:    pushl   %ebp
     pushl    %edx
     movl    8(%ebp),%eax
     pushl    %eax
+    lea    u+4,%eax
+    pushl    %eax
     call    pttrap101
-    addl    $4,%esp
+    addl    $8,%esp
     popl    %edx
     popl    %ecx
     popl    %ebx
@@ -31,8 +33,10 @@ s26:    .asciz  "word"
     pushl    %edx
     lea    s26,%eax
     pushl    %eax
+    lea    u+4,%eax
+    pushl    %eax
     call    pttrap101
-    addl    $4,%esp
+    addl    $8,%esp
     popl    %edx
     popl    %ecx
     popl    %ebx

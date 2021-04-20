@@ -1,49 +1,54 @@
     .data    
-    .comm    u,260
+    .comm    u,12
 n:    .long    0
     .text    
     .globl    ptmain
 ptmain:    pushl   %ebp
         movl    %esp, %ebp    
-    movl    $2,u+0
-    jmp    f1
-p13:    pushl   %ebp
-        movl    %esp, %ebp    
-    pushl    %eax
-    pushl    %ebx
-    pushl    %ecx
-    pushl    %edx
-    movl    8(%ebp),%eax
-    pushl    %eax
-    lea    u+4,%eax
-    pushl    %eax
-    call    pttrap101
-    addl    $8,%esp
-    popl    %edx
-    popl    %ecx
-    popl    %ebx
-    popl    %eax
+    movl    $1,u+0
+    movl    $2,u+4
     movl    $3,n
+    pushl    u+4
     .data    
-s26:    .asciz  "word"
+s28:    .asciz  "arreter"
     .text    
     pushl    %eax
     pushl    %ebx
     pushl    %ecx
     pushl    %edx
-    lea    s26,%eax
+    lea    s28,%eax
     pushl    %eax
-    lea    u+4,%eax
-    pushl    %eax
-    call    pttrap101
-    addl    $8,%esp
+    call    pttrap105
+    addl    $4,%esp
+    movl    %eax,%esi
     popl    %edx
     popl    %ecx
     popl    %ebx
     popl    %eax
-    leave    
-    ret    
-f1:    movl    $6,n
+    movl    %esi,%eax
+    pushl    %eax
+    pushl    $10
+    call    pttrap8
+    addl    $12,%esp
+    movl    $5,n
+    .data    
+s56:    .asciz  "arreter"
+    .text    
+    pushl    %eax
+    pushl    %ebx
+    pushl    %ecx
+    pushl    %edx
+    lea    s56,%eax
+    pushl    %eax
+    call    pttrap105
+    addl    $4,%esp
+    movl    %eax,%esi
+    popl    %edx
+    popl    %ecx
+    popl    %ebx
+    popl    %eax
+    movl    %esi,%eax
+    movb    %al,u+8
     call    pttrap0
     leave    
     ret    

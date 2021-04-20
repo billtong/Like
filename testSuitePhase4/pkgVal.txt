@@ -2,4 +2,4 @@ Purpose:
 To test package with a Val(Constant Variable) routine inside
 
 Result: 
-The output does not match what is expected but the test was kept to show what it should do
+The output does Matches what is expected: non-public variable is not visible outside pkg scope.
