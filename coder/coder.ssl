@@ -1643,7 +1643,7 @@ OperandSubscriptCharPop:
                     @OperandSubscriptNonManifestCharPop
                 | *:
                     % tell the folder we are working on bytes
-                    oOperandSetLength(byte)     
+                    oOperandSetLength(string) % switch to size string     
                     oOperandSwap
                     oOperandFoldManifestSubscript
                     oOperandPop
@@ -1901,8 +1901,8 @@ OperandCheckedSubscriptNonManifestCharPop:
 
     % add subscripting scaling by string size
     oOperandPushMode(mManifest)
-    oOperandSetLength(string)
-    oOperandSetValue(twofiftysix)
+    oOperandSetLength(word)
+    oOperandSetValue(eight)
     oEmitDouble(iShl)
     oOperandPop
 
@@ -1958,7 +1958,7 @@ OperandUncheckedSubscriptNonManifestCharPop:
             @OperandForceIntoTemp               %       movl    subscript, %T
             oOperandPushMode(mManifest)
             oOperandSetLength(word)
-            oOperandSetValue(twofiftysix)
+            oOperandSetValue(eight)
             oEmitDouble(iShl)
             oOperandPop
             oOperandSwap                        % ... %T, arraydesc
