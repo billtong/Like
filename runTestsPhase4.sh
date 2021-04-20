@@ -39,4 +39,4 @@ for i in *.pt; do
 done
 
 echo $counterPass "worked out of" $counter
-echo "Missed" $counterMissed "tests"
+echo "Missing " $counterMissed "tests (read documentation for these tests)"
