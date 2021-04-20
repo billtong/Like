@@ -1,0 +1,5 @@
+Purpose: 
+To test that an array can be declared
+
+Result: 
+The output matches what is expected 

@@ -1,0 +1,5 @@
+Purpose: 
+To test that a parameter can be of the type of a previously defined identifier
+
+Result: 
+The output matches what is expected 

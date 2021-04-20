@@ -1,0 +1,5 @@
+Purpose: 
+To test that a var cannot be initially assigned to an undeclared identifier
+
+Result: 
+The output matches what is expected 
