@@ -2802,13 +2802,47 @@ OperandEmitDividePopPop:
     % finally, the result goes to a free temporary
     @OperandForceIntoTemp;                      % ... %T
 
-
+% Old OperandChar rule was replaced with the following. 
 OperandChr:
-    % Assume operand's value is in range
-    % Force integer (word) value to a register
-    @OperandForceIntoTemp       
-    % Treat the register as byte, to get the low order byte 
+  % save the temp registers in case in use
+    @SaveTempRegsToStack
+
+    % send the arguments
+    % integer
+    @OperandForceToStack
+    oOperandPop
+
+    % call trConcatenate trap routine
+    oOperandPushMode(mTrap)
+    oOperandSetValue(trChrString)
+    oOperandSetLength(word)
+    oEmitSingle(iCall)
+    oOperandPop
+
+    % pop argument
+    oOperandPushMode(mStackReg)
+    oOperandSetLength(word)
+    oOperandPushMode(mManifest)
+    oOperandSetLength(word)
+    oOperandSetValue(four)
+    oEmitDouble(iAdd)
+    oOperandPop
+    oOperandPop 
+
+    % Accept result
+    oOperandPushMode(mScratchReg1)
+    oOperandSetLength(word)
+    oOperandPushMode(mResultReg)
+    oOperandSetLength(word)
+    oEmitDouble(iMov)           %       movl    %eax, %S1
+    oOperandPop %eax
+
+    % Restore temp regs
+    @RestoreTempRegsFromStack   %       popl    %edx .. $eax
+
+    @OperandForceIntoTemp       %       movl    %S1, %T
     oOperandSetLength(byte);    
+  
 
 
 OperandOrd:
