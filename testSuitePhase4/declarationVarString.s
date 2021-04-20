@@ -16,8 +16,10 @@ s18:    .asciz  "hello"
     pushl    %edx
     lea    s18,%eax
     pushl    %eax
+    lea    u+4,%eax
+    pushl    %eax
     call    pttrap101
-    addl    $4,%esp
+    addl    $8,%esp
     popl    %edx
     popl    %ecx
     popl    %ebx

@@ -1,5 +1,5 @@
 Purpose: 
-To test package with a Fun(Procedure) routine inside
+To test package with a Fun(Procedure) routine inside; called out of scope.
 
 Result: 
-The output does not match what is expected but the test was kept to show what it should do
+The output does matches what is expected: compilation error due to function not existing outside of scope. 

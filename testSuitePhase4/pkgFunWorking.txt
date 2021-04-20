@@ -1,0 +1,5 @@
+Purpose: 
+To test package with a Fun(Procedure) routine inside; called in scope.
+
+Result: 
+The output does matches what is expected.
