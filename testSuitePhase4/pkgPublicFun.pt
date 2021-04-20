@@ -5,4 +5,5 @@ pkg foo is
          a = 2;
     end;
 end;
-func;
+var x = 1;
+func(x);
