@@ -1,0 +1,2 @@
+using output;
+public var a = 3;

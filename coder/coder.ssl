@@ -768,6 +768,27 @@ Block:
             oFixPopAddress
                 | tAssignBegin:
             @AssignStmt
+        | tInitialValue:
+            @OperandPushExpression
+            [
+                | tInitEnd:
+                    tLiteralAddress
+                    oOperandPushVariable
+                    [
+                        | tStoreInteger:
+                            oOperandSetLength(word)
+                            oOperandSwap
+                            @OperandAssignIntegerPopPop
+                        | tStoreBoolean:
+                            oOperandSetLength(byte)
+                            oOperandSwap
+                            @OperandAssignBooleanPopPop
+                        | tStoreChar:
+                            oOperandSetLength(byte)
+                            oOperandSwap
+                            @OperandAssignCharPopPop
+                    ]
+            ]
         | tCallBegin:
             @CallStmt
         | tIfBegin:
@@ -788,8 +809,11 @@ Block:
         | *:
             >
     ]};
+<<<<<<< HEAD
     % remove call to statements at end of block as is now already handled
 
+=======
+>>>>>>> phase4TwoThree
 
 
 Routine:

@@ -1,0 +1,6 @@
+using output;
+
+pkg foo is
+    var a : like 1;
+    a = 2;
+end;

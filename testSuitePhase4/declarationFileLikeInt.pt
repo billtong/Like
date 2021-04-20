@@ -1,0 +1,4 @@
+using output;
+
+var a : file like 1;
+a = output;

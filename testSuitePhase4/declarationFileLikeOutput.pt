@@ -1,0 +1,4 @@
+using output;
+
+var a : like output;
+a = output;

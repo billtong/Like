@@ -1,0 +1,5 @@
+using output;
+fun Test (value : like 1) is
+	value = 5;
+
+end;
