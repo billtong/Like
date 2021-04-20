@@ -1,0 +1,5 @@
+Purpose: 
+To test that the Repeat until While Statement works as expected
+
+Result: 
+The output matches what is expected

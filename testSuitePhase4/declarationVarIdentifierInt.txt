@@ -1,0 +1,5 @@
+Purpose: 
+To test that a var can be declared using a var containing an integer
+
+Result: 
+The output matches what is expected 

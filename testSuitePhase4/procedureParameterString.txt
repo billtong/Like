@@ -1,0 +1,5 @@
+Purpose: 
+To test that parameters can be strings
+
+Result: 
+The output matches what is expected 

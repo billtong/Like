@@ -1,0 +1,5 @@
+Purpose: 
+To test that a file of files does not work
+
+Result: 
+The output matches what is expected 

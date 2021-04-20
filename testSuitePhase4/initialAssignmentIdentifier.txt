@@ -1,0 +1,5 @@
+Purpose: 
+To test that a var can be initially assigned to the value in another identifier
+
+Result: 
+The output matches what is expected 

@@ -1,0 +1,5 @@
+Purpose: 
+To test that parameters can be declared as var
+
+Result: 
+The output matches what is expected 
