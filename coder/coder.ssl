@@ -768,7 +768,7 @@ Block:
             oFixPopAddress
                 | tAssignBegin:
             @AssignStmt
-        | tInitialValue:
+        | tInitialValue: %Added for initial values
             @OperandPushExpression
             [
                 | tInitEnd:
@@ -788,7 +788,7 @@ Block:
                             oOperandSwap
                             @OperandAssignCharPopPop
                     ]
-            ]
+            ] %end add
         | tCallBegin:
             @CallStmt
         | tIfBegin:
@@ -809,11 +809,8 @@ Block:
         | *:
             >
     ]};
-<<<<<<< HEAD
     % remove call to statements at end of block as is now already handled
 
-=======
->>>>>>> phase4TwoThree
 
 
 Routine:
